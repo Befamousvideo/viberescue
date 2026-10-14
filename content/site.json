@@ -1,0 +1,541 @@
+{
+ "name": "VibeRescue",
+ "domain": "viberescue.app",
+ "tagline": "Is your vibe-coded app safe to launch?",
+ "color": "#6b3fd4",
+ "updated": "October 14, 2026",
+ "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and an upcoming app check.",
+ "nav": [
+  {
+   "label": "Checklist",
+   "href": "/checklist"
+  },
+  {
+   "label": "Patterns",
+   "href": "/patterns"
+  },
+  {
+   "label": "Waitlist",
+   "href": "/scan"
+  },
+  {
+   "label": "Fix it for me",
+   "href": "/fix-it"
+  }
+ ],
+ "footer": "VibeRescue: security basics for apps built with AI coding tools. Defensive guidance only.",
+ "newsletter": {
+  "title": "Vibe Security Weekly",
+  "blurb": "One email a week with new failure patterns and how to fix them."
+ },
+ "sponsorSlot": "Reach builders who ship with AI coding tools. Limited to devtools, security and hosting sponsors.",
+ "mainCta": {
+  "title": "Get on the VibeRescue waitlist",
+  "text": "App checks aren't available yet. Join the waitlist to hear when they open.",
+  "button": "Join the waitlist",
+  "href": "/scan"
+ },
+ "home": {
+  "h1": "Is your vibe-coded app safe to launch?",
+  "lead": "Apps built fast with AI tools often ship with open databases, leaked keys and unprotected routes. Learn the common failures, check your own app, and fix them.",
+  "buttons": [
+   {
+    "label": "Free 12-point checklist",
+    "href": "/checklist"
+   },
+   {
+    "label": "Join the waitlist",
+    "href": "/scan",
+    "secondary": true
+   }
+  ],
+  "sections": [
+   {
+    "group": "patterns",
+    "title": "Common failure patterns"
+   }
+  ],
+  "faq": [
+   {
+    "q": "What is a vibe-coded app?",
+    "a": "An app built mostly by prompting AI coding tools such as Lovable, Bolt, Cursor, v0 or Replit, often by people who don't write code day to day."
+   },
+   {
+    "q": "Does VibeRescue scan my app today?",
+    "a": "Not yet. We're opening a waitlist first. Checks will only run on apps you own, after you verify ownership and agree to written terms."
+   },
+   {
+    "q": "Can you fix problems for me?",
+    "a": "Yes. Use 'Fix it for me' to ask StorenTech AI for a quote."
+   }
+  ]
+ },
+ "pages": [
+  {
+   "path": "/patterns/supabase-rls-disabled",
+   "group": "patterns",
+   "label": "Pattern",
+   "title": "Row Level Security disabled on Supabase tables",
+   "summary": "Supabase gives your browser a public anon key. That's safe only if Row Level Security (RLS) is on, with policies, for every table that holds user data.",
+   "steps": [
+    "In the Supabase dashboard, open Table Editor and check whether RLS is enabled on each table.",
+    "Run the Security Advisor, which flags tables without RLS.",
+    "Enable RLS on every public-schema table.",
+    "Add policies such as using (auth.uid() = user_id) for select, update and delete, plus a with check for insert.",
+    "Test by querying as a second test user."
+   ],
+   "blocks": [
+    {
+     "h": "Why it matters",
+     "p": [
+      "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Want an expert to check your app?",
+    "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
+    "button": "Join the waitlist",
+    "href": "/scan"
+   }
+  },
+  {
+   "path": "/patterns/secret-keys-in-frontend",
+   "group": "patterns",
+   "label": "Pattern",
+   "title": "API secret keys shipped in your frontend bundle",
+   "summary": "Anything in client-side code is public. Env vars with NEXT_PUBLIC_ or VITE_ prefixes reach the browser, so a secret key stored there is exposed.",
+   "steps": [
+    "Open your own site and go to DevTools → Sources.",
+    "Search for sk_, service_role and secret.",
+    "If you find one, rotate it immediately and assume it has leaked.",
+    "Move the call to a server route and keep secrets in non-public env vars."
+   ],
+   "blocks": [
+    {
+     "h": "Why it matters",
+     "p": [
+      "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Want an expert to check your app?",
+    "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
+    "button": "Join the waitlist",
+    "href": "/scan"
+   }
+  },
+  {
+   "path": "/patterns/stripe-webhook-unverified",
+   "group": "patterns",
+   "label": "Pattern",
+   "title": "Stripe webhooks not verified",
+   "summary": "If your webhook grants access whenever it receives a 'payment succeeded' body, anyone can fake it. Verify the Stripe-Signature header.",
+   "steps": [
+    "Use stripe.webhooks.constructEvent with your endpoint secret.",
+    "Pass the raw request body, not parsed JSON.",
+    "Store event IDs so retries are handled idempotently."
+   ],
+   "blocks": [
+    {
+     "h": "Why it matters",
+     "p": [
+      "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Want an expert to check your app?",
+    "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
+    "button": "Join the waitlist",
+    "href": "/scan"
+   }
+  },
+  {
+   "path": "/patterns/unprotected-api-routes",
+   "group": "patterns",
+   "label": "Pattern",
+   "title": "API routes with no auth check",
+   "summary": "Hiding a button in the UI isn't security. Every server route must check the session and confirm the user owns the record.",
+   "steps": [
+    "Log out of your own app.",
+    "Call your API route directly with curl or a browser.",
+    "If data comes back, the route is open.",
+    "Add server-side auth middleware and an ownership check on every query."
+   ],
+   "blocks": [
+    {
+     "h": "Why it matters",
+     "p": [
+      "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Want an expert to check your app?",
+    "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
+    "button": "Join the waitlist",
+    "href": "/scan"
+   }
+  },
+  {
+   "path": "/patterns/firebase-open-rules",
+   "group": "patterns",
+   "label": "Pattern",
+   "title": "Firebase/Firestore rules left in test mode",
+   "summary": "Test-mode rules allow open reads and writes. Production rules should require auth and match the document owner.",
+   "steps": [
+    "Open the Firebase console and check Firestore and Storage → Rules.",
+    "Look for allow read, write: if true or a time-based test rule.",
+    "Require request.auth != null and match request.auth.uid to the owner.",
+    "Test the rules in the Rules Playground."
+   ],
+   "blocks": [
+    {
+     "h": "Why it matters",
+     "p": [
+      "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Want an expert to check your app?",
+    "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
+    "button": "Join the waitlist",
+    "href": "/scan"
+   }
+  },
+  {
+   "path": "/patterns/public-storage-buckets",
+   "group": "patterns",
+   "label": "Pattern",
+   "title": "User uploads in a public bucket",
+   "summary": "Profile photos may be fine to make public. ID documents, invoices and private files are not.",
+   "steps": [
+    "Check bucket visibility in Supabase Storage, Firebase or S3.",
+    "Move private files to private buckets.",
+    "Serve them through short-lived signed URLs."
+   ],
+   "blocks": [
+    {
+     "h": "Why it matters",
+     "p": [
+      "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Want an expert to check your app?",
+    "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
+    "button": "Join the waitlist",
+    "href": "/scan"
+   }
+  },
+  {
+   "path": "/patterns/no-rate-limiting",
+   "group": "patterns",
+   "label": "Pattern",
+   "title": "No rate limiting on login, signup or AI endpoints",
+   "summary": "Without limits, bots can brute-force logins, spam signups or run up your AI bill.",
+   "steps": [
+    "Add per-IP and per-user rate limits (for example Upstash Ratelimit or your platform's firewall rules).",
+    "Add a CAPTCHA to signup.",
+    "Set hard spending caps with your AI provider."
+   ],
+   "blocks": [
+    {
+     "h": "Why it matters",
+     "p": [
+      "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Want an expert to check your app?",
+    "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
+    "button": "Join the waitlist",
+    "href": "/scan"
+   }
+  },
+  {
+   "path": "/patterns/exposed-env-and-git",
+   "group": "patterns",
+   "label": "Pattern",
+   "title": "Exposed .env or .git on a deployed site",
+   "summary": "Misconfigured hosting can serve /.env or /.git/config to anyone.",
+   "steps": [
+    "Request /.env and /.git/config on your own domain.",
+    "Both should return 404.",
+    "If either loads, remove it from the deploy output and rotate every exposed secret."
+   ],
+   "blocks": [
+    {
+     "h": "Why it matters",
+     "p": [
+      "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Want an expert to check your app?",
+    "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
+    "button": "Join the waitlist",
+    "href": "/scan"
+   }
+  },
+  {
+   "path": "/patterns/vulnerable-dependencies",
+   "group": "patterns",
+   "label": "Pattern",
+   "title": "Outdated packages with known vulnerabilities",
+   "summary": "AI tools add packages quickly and rarely update them.",
+   "steps": [
+    "Run npm audit or osv-scanner on your lockfile.",
+    "Enable Dependabot.",
+    "Upgrade critical issues first."
+   ],
+   "blocks": [
+    {
+     "h": "Why it matters",
+     "p": [
+      "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Want an expert to check your app?",
+    "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
+    "button": "Join the waitlist",
+    "href": "/scan"
+   }
+  },
+  {
+   "path": "/checklist",
+   "group": "patterns",
+   "label": "Free checklist",
+   "title": "Before you launch your vibe-coded app: 12 checks",
+   "summary": "Twelve security checks every app built with Lovable, Bolt, Cursor, v0 or Replit should pass before launch.",
+   "blocks": [
+    {
+     "ol": [
+      "RLS or security rules on every table",
+      "No secret keys in the frontend",
+      "Rotate any key that was ever pasted into chat or committed",
+      "Server-side auth on every API route",
+      "Ownership check on every record",
+      "Verify Stripe webhooks",
+      "Private buckets for private files",
+      "Rate limits and AI spending caps",
+      "Make sure .env and .git aren't served",
+      "npm audit clean of critical issues",
+      "Error messages that don't leak stack traces",
+      "Backups enabled, with a tested restore"
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Not sure you pass?",
+    "text": "Join the waitlist for a VibeRescue check, or ask us to fix it.",
+    "button": "Join the waitlist",
+    "href": "/scan"
+   }
+  }
+ ],
+ "static": [
+  {
+   "path": "/about",
+   "title": "About VibeRescue",
+   "summary": "VibeRescue is an Agentic Business site from StorenTech, researched and maintained by AI agents with human review.",
+   "blocks": [
+    {
+     "p": [
+      "Content is drafted by research agents from public sources, then checked before publishing. Every page shows a last-updated date and links to its sources where facts are stated.",
+      "StorenTech AI builds custom automations and software for businesses. Where a page offers to build something for you, that request goes to StorenTech."
+     ]
+    }
+   ]
+  },
+  {
+   "path": "/methodology",
+   "title": "How we research and update content",
+   "summary": "We collect public questions and examples daily, write answer-first pages, cite vendor documentation, and re-verify pages on a schedule.",
+   "blocks": [
+    {
+     "ul": [
+      "Sources: public forums, vendor help centers and pricing pages, official documentation.",
+      "No prices or statistics are stated without a linked source and date.",
+      "Pages are re-checked regularly; each shows its last-updated date.",
+      "Sponsors never influence editorial content and are always labeled."
+     ]
+    }
+   ]
+  },
+  {
+   "path": "/sponsor",
+   "title": "Sponsor VibeRescue",
+   "summary": "Reach a focused audience through labeled sponsor slots. Every sponsor is reviewed and approved before any payment is taken.",
+   "blocks": [
+    {
+     "h": "Sponsor options (founding pricing)",
+     "ul": [
+      "Monthly sponsor slot — $79/month",
+      "Featured listing — $199"
+     ]
+    },
+    {
+     "p": [
+      "Online checkout is not open yet. To ask about sponsoring, use the contact option once it launches; all sponsors are approved manually."
+     ]
+    }
+   ],
+   "cta": {
+    "title": "Interested in sponsoring?",
+    "text": "Sponsor checkout opens soon. Join the newsletter to be notified.",
+    "button": "Get notified",
+    "href": "/newsletter"
+   }
+  },
+  {
+   "path": "/newsletter",
+   "title": "The VibeRescue newsletter",
+   "summary": "A short weekly email with the newest pages and practical ideas. Free; unsubscribe anytime.",
+   "blocks": [
+    {
+     "p": [
+      "Signups open shortly."
+     ]
+    }
+   ],
+   "cta": false
+  },
+  {
+   "path": "/privacy",
+   "title": "Privacy policy",
+   "summary": "Draft privacy policy pending review. We collect only what you submit and never sell personal information.",
+   "flag": "Draft — pending legal review before launch.",
+   "blocks": [
+    {
+     "ul": [
+      "We collect email addresses only when you subscribe (not yet active).",
+      "We use privacy-friendly analytics.",
+      "We never sell personal information.",
+      "Contact details will be published at launch."
+     ]
+    }
+   ],
+   "cta": false
+  },
+  {
+   "path": "/terms",
+   "title": "Terms of use",
+   "summary": "Draft terms pending review. Content is general information, not professional advice.",
+   "flag": "Draft — pending legal review before launch.",
+   "blocks": [
+    {
+     "p": [
+      "Content is provided for general information and may contain errors. Verify with official vendor documentation before acting. VibeRescue does not currently perform any scans."
+     ]
+    }
+   ],
+   "cta": false
+  },
+  {
+   "path": "/patterns",
+   "title": "Failure pattern library",
+   "summary": "Common security mistakes in apps built with AI coding tools, with defensive self-checks and fixes for your own app.",
+   "blocks": [
+    {
+     "ul": [
+      "Row Level Security disabled on Supabase tables: Supabase gives your browser a public anon key. That's safe only if Row Level Security (RLS) is on, with policies, for every table that holds user data.",
+      "API secret keys shipped in your frontend bundle: Anything in client-side code is public. Env vars with NEXT_PUBLIC_ or VITE_ prefixes reach the browser, so a secret key stored there is exposed.",
+      "Stripe webhooks not verified: If your webhook grants access whenever it receives a 'payment succeeded' body, anyone can fake it. Verify the Stripe-Signature header.",
+      "API routes with no auth check: Hiding a button in the UI isn't security. Every server route must check the session and confirm the user owns the record.",
+      "Firebase/Firestore rules left in test mode: Test-mode rules allow open reads and writes. Production rules should require auth and match the document owner.",
+      "User uploads in a public bucket: Profile photos may be fine to make public. ID documents, invoices and private files are not.",
+      "No rate limiting on login, signup or AI endpoints: Without limits, bots can brute-force logins, spam signups or run up your AI bill.",
+      "Exposed .env or .git on a deployed site: Misconfigured hosting can serve /.env or /.git/config to anyone.",
+      "Outdated packages with known vulnerabilities: AI tools add packages quickly and rarely update them."
+     ]
+    }
+   ]
+  },
+  {
+   "path": "/scan",
+   "title": "VibeRescue app check: join the waitlist",
+   "summary": "Checks are coming soon. Join the waitlist for early access. No scanning happens yet.",
+   "cta": false,
+   "blocks": [
+    {
+     "h": "Planned tiers (not yet available)",
+     "table": [
+      [
+       "Tier",
+       "Planned price",
+       "What's included"
+      ],
+      [
+       "Quick Check",
+       "$49",
+       "Passive checks on a public URL you own and verify"
+      ],
+      [
+       "Full Report",
+       "$149",
+       "Adds read-only review of your repository with your permission"
+      ],
+      [
+       "Re-check",
+       "$29",
+       "Re-run after fixes"
+      ]
+     ]
+    },
+    {
+     "p": [
+      "Before any check runs, you'll need to prove you own the app (DNS record or verification file) and accept a scan authorization agreement. We never test apps on behalf of anyone but their owner."
+     ]
+    }
+   ],
+   "form": {
+    "title": "Join the waitlist",
+    "fields": [
+     "Email",
+     "App platform (Lovable, Bolt, Cursor…)"
+    ],
+    "button": "Waitlist opens soon",
+    "note": "Nothing is scanned. Payment isn't available yet."
+   }
+  },
+  {
+   "path": "/fix-it",
+   "title": "Fix it for me",
+   "summary": "Ask StorenTech AI to fix security and launch issues in your app.",
+   "cta": false,
+   "form": {
+    "title": "Request a fix quote",
+    "fields": [
+     "Name",
+     "Email",
+     "App platform",
+     "What needs fixing"
+    ],
+    "button": "Request opens soon",
+    "note": "The form isn't live yet. Requests will go to StorenTech AI."
+   }
+  },
+  {
+   "path": "/security",
+   "title": "Security disclosure policy",
+   "summary": "How to report a security issue in VibeRescue itself.",
+   "blocks": [
+    {
+     "p": [
+      "A reporting address will be published at launch. Please don't test systems you don't own."
+     ]
+    }
+   ],
+   "cta": false
+  }
+ ]
+}
