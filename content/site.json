@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 15, 2026",
+  "updated": "October 16, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and an upcoming app check.",
   "nav": [
     {
@@ -447,6 +447,70 @@
             "Supabase API keys (publishable vs secret) — https://supabase.com/docs/guides/getting-started/api-keys",
             "Securing Lovable/Bolt apps for production — https://lorikeetsecurity.com/blog/securing-lovable-bolt-apps-production",
             "Vibe-coded app checklist (service_role, RLS, ownership) — https://rivetzco.com/checklist"
+          ]
+        }
+      ],
+      "cta": {
+        "title": "Want an expert to check your app?",
+        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
+        "button": "Join the waitlist",
+        "href": "/scan"
+      }
+    },
+    {
+      "path": "/patterns/verbose-error-messages",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Error messages that leak stack traces, queries or keys",
+      "summary": "AI-generated apps often return raw errors to the browser, exposing file paths, SQL, environment details or even keys. Return a generic message to users and log details server-side.",
+      "steps": [
+        "On your own app, trigger a few errors: a bad ID in a URL, an empty form, a logged-out API call.",
+        "Look at the response body and the browser console: stack traces, SQL text, file paths or env values should not appear.",
+        "Wrap API handlers so users get a short generic message plus a request ID.",
+        "Send full error details to server logs or an error tracker instead.",
+        "Make sure production builds don't run in debug or development mode."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "Detailed errors help attackers map your database and code. OWASP lists improper error handling under security misconfiguration."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Top 10 A05: Security Misconfiguration — https://owasp.org/Top10/A05_2021-Security_Misconfiguration/",
+            "OWASP Error Handling Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html"
+          ]
+        }
+      ],
+      "cta": {
+        "title": "Want an expert to check your app?",
+        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
+        "button": "Join the waitlist",
+        "href": "/scan"
+      }
+    },
+    {
+      "path": "/patterns/missing-security-headers",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Missing security headers on a vibe-coded site",
+      "summary": "Many AI-built sites ship without basic HTTP security headers like Content-Security-Policy, X-Frame-Options or frame-ancestors, and Strict-Transport-Security. Check your own site and add them in your host's config.",
+      "steps": [
+        "Open your own site, then DevTools → Network → the main document → Response Headers.",
+        "Look for Strict-Transport-Security, Content-Security-Policy (with frame-ancestors), X-Content-Type-Options: nosniff and Referrer-Policy.",
+        "Add missing headers in your framework or host config (for example next.config headers() or vercel.json).",
+        "Start CSP in report-only mode, fix what breaks, then enforce it.",
+        "Re-check after every major deploy."
+      ],
+      "blocks": [
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP HTTP Headers Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html",
+            "MDN: Content-Security-Policy — https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy"
           ]
         }
       ],
