@@ -2,6 +2,7 @@ import site from "../../content/site.json";
 import { notFound } from "next/navigation";
 import { Newsletter, Cta, Sponsor, Block } from "../components";
 import { Linked } from "../nav";
+import FixRequestForm from "../FixRequestForm";
 import { allPages, pageAt, childrenOf, matchTitle, Listing, pageDateIso, pageDateLabel } from "../nav";
 const all = allPages;
 const find = (slug) => all().find(p => p.path === "/" + slug.join("/"));
@@ -30,7 +31,8 @@ export default async function Page({ params }) {
     {p.steps && <section><h2>Steps</h2><ol>{p.steps.map((s, i) => <li key={i}><Linked t={s} /></li>)}</ol></section>}
     {(p.blocks || []).filter(b => !(hasKids && (b.ul || b.ol) && !b.p && (b.ul || b.ol).every(t => matchTitle(t)))).map((b, i) => <Block key={i} b={b} />)}
     {hasKids && <Listing path={p.path} />}
-    {p.form && <section className="card"><h2>{p.form.title}</h2>{p.form.fields.map(f => <label key={f}>{f}<input disabled placeholder={f} /></label>)}
+    {p.form && p.form.live === "fix-request" && <section className="card" id="request"><h2>{p.form.title}</h2><FixRequestForm /><p className="muted small">{p.form.note}</p></section>}
+    {p.form && !p.form.live && <section className="card"><h2>{p.form.title}</h2>{p.form.fields.map(f => <label key={f}>{f}<input disabled placeholder={f} /></label>)}
       <button className="btn" type="button" disabled>{p.form.button}</button><p className="muted small">{p.form.note}</p></section>}
     {p.faq && <section><h2>FAQ</h2>{p.faq.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</section>}
     {p.group && <Sponsor />}

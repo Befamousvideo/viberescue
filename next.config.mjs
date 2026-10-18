@@ -1,1 +1,1 @@
-export default { reactStrictMode: true, async redirects() { return [{ source: "/sponsor", destination: "/advertise", permanent: true }]; } };
+export default { reactStrictMode: true, async redirects() { return [{ source: "/sponsor", destination: "/advertise", permanent: true }, { source: "/scan", destination: "/fix-it", permanent: true }]; } };

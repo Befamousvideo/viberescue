@@ -4,7 +4,7 @@
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
   "updated": "October 18, 2026",
-  "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and an upcoming app check.",
+  "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
       "label": "Checklist",
@@ -15,11 +15,7 @@
       "href": "/patterns"
     },
     {
-      "label": "Waitlist",
-      "href": "/scan"
-    },
-    {
-      "label": "Fix it for me",
+      "label": "Get it fixed",
       "href": "/fix-it"
     }
   ],
@@ -30,10 +26,10 @@
   },
   "sponsorSlot": "Reach builders who ship with AI coding tools. Limited to devtools, security and hosting sponsors.",
   "mainCta": {
-    "title": "Get on the VibeRescue waitlist",
-    "text": "App checks aren't available yet. Join the waitlist to hear when they open.",
-    "button": "Join the waitlist",
-    "href": "/scan"
+    "title": "Found a problem you'd rather not fix yourself?",
+    "text": "Tell us what's wrong. A StorenTech engineer reviews your app and replies with a fixed quote, so you know the cost before any work starts.",
+    "button": "Get it fixed by StorenTech",
+    "href": "/fix-it"
   },
   "home": {
     "h1": "Is your vibe-coded app safe to launch?",
@@ -44,8 +40,8 @@
         "href": "/checklist"
       },
       {
-        "label": "Join the waitlist",
-        "href": "/scan",
+        "label": "Get it fixed by StorenTech",
+        "href": "/fix-it",
         "secondary": true
       }
     ],
@@ -61,12 +57,12 @@
         "a": "An app built mostly by prompting AI coding tools such as Lovable, Bolt, Cursor, v0 or Replit, often by people who don't write code day to day."
       },
       {
-        "q": "Does VibeRescue scan my app today?",
-        "a": "Not yet. We're opening a waitlist first. Checks will only run on apps you own, after you verify ownership and agree to written terms."
+        "q": "Does VibeRescue scan my app?",
+        "a": "No. VibeRescue publishes free guides so you can check your own app. If you'd like help, a StorenTech engineer can review the problem you describe and reply with a fixed quote."
       },
       {
         "q": "Can you fix problems for me?",
-        "a": "Yes. Use 'Fix it for me' to ask StorenTech AI for a quote."
+        "a": "Yes. Use 'Get it fixed by StorenTech' to describe the problem. You'll get a fixed quote first, and any work is quoted and agreed separately under StorenTech AI's standard terms."
       }
     ]
   },
@@ -92,12 +88,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-14"
     },
     {
@@ -120,12 +110,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-14"
     },
     {
@@ -147,12 +131,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-14"
     },
     {
@@ -175,12 +153,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-14"
     },
     {
@@ -203,12 +175,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-14"
     },
     {
@@ -230,12 +196,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-14"
     },
     {
@@ -257,12 +217,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-14"
     },
     {
@@ -284,12 +238,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-14"
     },
     {
@@ -311,12 +259,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-14"
     },
     {
@@ -343,12 +285,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Not sure you pass?",
-        "text": "Join the waitlist for a VibeRescue check, or ask us to fix it.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-14"
     },
     {
@@ -381,12 +317,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-15"
     },
     {
@@ -407,8 +337,8 @@
           "h": "Why it matters",
           "p": [
             "Guides on securing Lovable/Bolt apps warn about keys in the client and misconfigured RLS: https://lorikeetsecurity.com/blog/securing-lovable-bolt-apps-production",
-            "A read-only scan of vibe-coded apps reported OpenAI project keys in public JS bundles and, via its ai-js module, flagged 38 apps across platforms with hardcoded API keys in JS bundles (17 of 251 Bolt.host apps / 6.8%; 18 of 67 Vercel AI apps / 26.9%): https://securityscanner.dev/blog/beyond-supabase-rls-five-other-crits",
-            "Self-check your own app only. VibeRescue does not scan third-party apps for you today — join the waitlist if you want a future check on an app you own."
+            "Security Scanner, a scanning vendor, reported in an April 24, 2026 post about its own read-only scan of 1,003 vibe-coded apps that its ai-js module flagged 38 apps with hardcoded API keys in their JS bundles, including 17 of 251 Bolt.host apps (6.8%) and 18 of 67 AI-generated Vercel apps (26.9%). These are the vendor's self-reported figures: https://securityscanner.dev/blog/beyond-supabase-rls-five-other-crits",
+            "Self-check your own app only. If you find a leaked key, rotate it first. If you want help moving the call to a server route, StorenTech can send you a fixed quote."
           ]
         },
         {
@@ -419,12 +349,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist, or ask StorenTech AI to fix it for you.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-15"
     },
     {
@@ -432,13 +356,13 @@
       "group": "patterns",
       "label": "Platform",
       "title": "Lovable + Supabase: security risks to self-check before launch",
-      "summary": "A short hub of the most common Lovable/Supabase failure patterns — RLS, ownership, and secrets in the client — with links to defensive self-checks. Waitlist only; no scanning product yet.",
+      "summary": "A short hub of the most common Lovable/Supabase failure patterns (RLS, ownership, and secrets in the client) with links to defensive self-checks.",
       "steps": [
         "Confirm RLS is enabled and policies exist on every table with user data.",
         "As a second test user, try fetching another user's row id (ownership / IDOR check).",
         "Search your own production JS for sk-, service_role and third-party secrets; rotate anything you find.",
         "Verify API routes check the session and owner before returning data.",
-        "Join the VibeRescue waitlist if you want a future check on an app you own."
+        "If you'd rather not make the fix yourself, ask StorenTech for a fixed quote."
       ],
       "blocks": [
         {
@@ -462,12 +386,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-15"
     },
     {
@@ -498,12 +416,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-16"
     },
     {
@@ -528,12 +440,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-16"
     },
     {
@@ -573,12 +479,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-17"
     },
     {
@@ -617,12 +517,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-17"
     },
     {
@@ -662,12 +556,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-18"
     },
     {
@@ -707,12 +595,6 @@
           ]
         }
       ],
-      "cta": {
-        "title": "Want an expert to check your app?",
-        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
-        "button": "Join the waitlist",
-        "href": "/scan"
-      },
       "updated": "2026-10-18"
     }
   ],
@@ -767,7 +649,7 @@
       "blocks": [
         {
           "ul": [
-            "We collect email addresses only when you subscribe (not yet active).",
+            "We collect your email when you subscribe, and the details you send in a fix request (name, email, phone, app URL, what it's built with and the problem you describe). Fix requests go to StorenTech AI to prepare your quote.",
             "We use privacy-friendly analytics.",
             "We never sell personal information.",
             "Contact details will be published at launch."
@@ -784,7 +666,7 @@
       "blocks": [
         {
           "p": [
-            "Content is provided for general information and may contain errors. Verify with official vendor documentation before acting. VibeRescue does not currently perform any scans."
+            "Content is provided for general information and may contain errors. Verify with official vendor documentation before acting. VibeRescue doesn't test or scan anyone's app. If you ask StorenTech AI to fix something, that work is quoted and agreed separately under StorenTech AI's standard terms."
           ]
         }
       ],
@@ -808,73 +690,37 @@
             "No rate limiting on login, signup or AI endpoints: Without limits, bots can brute-force logins, spam signups or run up your AI bill.",
             "Exposed .env or .git on a deployed site: Misconfigured hosting can serve /.env or /.git/config to anyone.",
             "Outdated packages with known vulnerabilities: AI tools add packages quickly and rarely update them.",
-            "Lovable + Supabase: security risks to self-check before launch: Hub of top Lovable/Supabase patterns with waitlist CTA — no scanning product yet."
+            "Lovable + Supabase: security risks to self-check before launch: Hub of top Lovable/Supabase patterns with self-checks."
           ]
         }
       ]
     },
     {
-      "path": "/scan",
-      "title": "VibeRescue app check: join the waitlist",
-      "summary": "Checks are coming soon. Join the waitlist for early access. No scanning happens yet.",
+      "path": "/fix-it",
+      "title": "Get it fixed by StorenTech",
+      "summary": "Describe what's wrong with your AI-built app. A StorenTech engineer reviews it and replies with a fixed quote, so you know the cost before any work starts.",
       "cta": false,
       "blocks": [
         {
-          "h": "Planned tiers (not yet available)",
-          "table": [
-            [
-              "Tier",
-              "Planned price",
-              "What's included"
-            ],
-            [
-              "Quick Check",
-              "$49",
-              "Passive checks on a public URL you own and verify"
-            ],
-            [
-              "Full Report",
-              "$149",
-              "Adds read-only review of your repository with your permission"
-            ],
-            [
-              "Re-check",
-              "$29",
-              "Re-run after fixes"
-            ]
+          "h": "What you get",
+          "ul": [
+            "A StorenTech engineer (a person, not a bot) reads your request and looks at the app you point us to.",
+            "A fixed quote for the work, so the price doesn't creep.",
+            "A plain-English explanation of what we'd change and why.",
+            "Nothing is changed in your app until you've seen and agreed to the quote."
           ]
         },
         {
+          "h": "What this isn't",
           "p": [
-            "Before any check runs, you'll need to prove you own the app (DNS record or verification file) and accept a scan authorization agreement. We never test apps on behalf of anyone but their owner."
+            "It isn't a security audit, certification or guarantee. No review can promise an app is fully secure. A fix covers the specific issues agreed in your quote. Prefer to do it yourself? Every pattern page has free self-check and fix steps."
           ]
         }
       ],
       "form": {
-        "title": "Join the waitlist",
-        "fields": [
-          "Email",
-          "App platform (Lovable, Bolt, Cursor…)"
-        ],
-        "button": "Waitlist opens soon",
-        "note": "Nothing is scanned. Payment isn't available yet."
-      }
-    },
-    {
-      "path": "/fix-it",
-      "title": "Fix it for me",
-      "summary": "Ask StorenTech AI to fix security and launch issues in your app.",
-      "cta": false,
-      "form": {
-        "title": "Request a fix quote",
-        "fields": [
-          "Name",
-          "Email",
-          "App platform",
-          "What needs fixing"
-        ],
-        "button": "Request opens soon",
-        "note": "The form isn't live yet. Requests will go to StorenTech AI."
+        "live": "fix-request",
+        "title": "Request a fixed quote",
+        "note": "Any work is quoted and agreed separately under StorenTech AI's standard terms. Only request work on apps you own or are authorized to change."
       }
     },
     {
