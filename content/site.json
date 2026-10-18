@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 17, 2026",
+  "updated": "October 18, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and an upcoming app check.",
   "nav": [
     {
@@ -612,7 +612,8 @@
           "h": "Related patterns",
           "ul": [
             "Missing security headers on a vibe-coded site",
-            "API routes with no auth check"
+            "API routes with no auth check",
+            "JWTs or session tokens stored in localStorage"
           ]
         }
       ],
@@ -623,6 +624,96 @@
         "href": "/scan"
       },
       "updated": "2026-10-17"
+    },
+    {
+      "path": "/patterns/jwt-in-localstorage",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "JWTs or session tokens stored in localStorage",
+      "summary": "AI scaffolds often save the JWT in localStorage so the frontend can attach an Authorization header. Any script on your origin can read that storage, so one XSS (or a compromised third-party script) steals the session. Prefer HttpOnly Secure cookies or a backend-for-frontend pattern.",
+      "steps": [
+        "In your own app, open DevTools → Application → Local Storage / Session Storage and look for access tokens, refresh tokens, JWTs or session IDs.",
+        "Search the client bundle for localStorage.setItem, sessionStorage.setItem, or libraries that persist auth to web storage.",
+        "Move authentication to HttpOnly; Secure; SameSite=Strict (or Lax) cookies set by your server, or use a Backend-for-Frontend that holds tokens server-side.",
+        "If you must use bearer tokens in a SPA, keep short-lived access tokens in memory only and put refresh tokens in HttpOnly cookies—not in localStorage.",
+        "Clear any client storage on logout, and enforce idle/absolute timeouts on the server so a stolen token expires quickly.",
+        "Fix XSS first: sanitize HTML, avoid dangerous innerHTML, lock down third-party scripts, and set a Content-Security-Policy—token storage alone does not stop XSS."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP's Session Management Cheat Sheet warns not to store authentication tokens, session IDs, JWTs, refresh tokens or credentials in localStorage or sessionStorage, because any JavaScript on the origin can read them. The OWASP Web Security Testing Guide (WSTG-CLNT-12) lists JWT storage in browser storage as a common client-side risk that raises the impact of XSS."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Session Management Cheat Sheet (HTML5 Web Storage) — https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+            "OWASP WSTG: Testing Browser Storage (WSTG-CLNT-12) — https://wstg.owasp.org/latest/4-Web_Application_Security_Testing/11-Client-side/12-Browser_Storage/"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "API secret keys shipped in your frontend bundle",
+            "CORS that trusts any origin (and sends cookies)",
+            "Missing security headers on a vibe-coded site"
+          ]
+        }
+      ],
+      "cta": {
+        "title": "Want an expert to check your app?",
+        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
+        "button": "Join the waitlist",
+        "href": "/scan"
+      },
+      "updated": "2026-10-18"
+    },
+    {
+      "path": "/patterns/open-redirect-oauth",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Open redirects after login or OAuth callbacks",
+      "summary": "Vibe-coded apps often redirect to a next, return_to or redirect URL from the query string after login or OAuth. If that target is not allowlisted, attackers can bounce users (and OAuth codes) to a phishing site while the link still starts with your domain.",
+      "steps": [
+        "Find post-login and OAuth callback handlers that read next, return_to, redirect, redirect_uri, or url from the query string.",
+        "On your own app, try a callback with an absolute external URL and a protocol-relative //example.com target. Confirm the app does not forward the browser there.",
+        "Allow only relative in-app paths from a fixed list, or absolute URLs whose host matches an exact allowlist—parsed with a real URL parser, not startsWith or contains.",
+        "For OAuth, register exact redirect_uri values with the provider and compare byte-for-byte. Send the same redirect_uri to the token endpoint. Use the state parameter bound to the user session (and PKCE for public clients).",
+        "Remove leftover /go?url= or marketing redirect endpoints that forward arbitrary URLs.",
+        "If you must send users off-site, show an interstitial that displays the full destination before they continue."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "PortSwigger's OAuth guidance says providers should whitelist redirect_uris with strict exact matching, and clients should send redirect_uri to both authorize and token endpoints and use state. OWASP documents how an open redirect on your domain can be chained to steal OAuth authorization codes when redirect_uri checks are too loose."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "PortSwigger Web Security Academy: How to prevent OAuth authentication vulnerabilities — https://portswigger.net/web-security/oauth/preventing",
+            "OWASP: Open Redirect — https://community.owasp.org/attacks/open_redirect"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "JWTs or session tokens stored in localStorage",
+            "CORS that trusts any origin (and sends cookies)",
+            "API routes with no auth check"
+          ]
+        }
+      ],
+      "cta": {
+        "title": "Want an expert to check your app?",
+        "text": "VibeRescue checks are coming soon. Join the waitlist — we only check apps you own, after verification. No scanning product is live yet.",
+        "button": "Join the waitlist",
+        "href": "/scan"
+      },
+      "updated": "2026-10-18"
     }
   ],
   "static": [
