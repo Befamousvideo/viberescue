@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 18, 2026",
+  "updated": "October 19, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -151,6 +151,12 @@
           "p": [
             "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
           ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Mass assignment: users can set fields like role or is_admin"
+          ]
         }
       ],
       "updated": "2026-10-14"
@@ -257,6 +263,12 @@
           "p": [
             "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
           ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "AI-suggested packages that don't exist (slopsquatting)"
+          ]
         }
       ],
       "updated": "2026-10-14"
@@ -313,7 +325,8 @@
           "h": "Related patterns",
           "ul": [
             "Row Level Security disabled on Supabase tables",
-            "API routes with no auth check"
+            "API routes with no auth check",
+            "Mass assignment: users can set fields like role or is_admin"
           ]
         }
       ],
@@ -596,6 +609,85 @@
         }
       ],
       "updated": "2026-10-18"
+    },
+    {
+      "path": "/patterns/mass-assignment",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Mass assignment: users can set fields like role or is_admin",
+      "summary": "AI-generated update endpoints often pass the whole request body straight into the database (for example update(req.body) or a Supabase .update(body)). An attacker adds fields you never showed in the form, such as role, is_admin, plan or owner_id, and the app saves them.",
+      "steps": [
+        "Find every create and update route, server action or edge function, and look for code that spreads or passes the entire request body into an ORM or database call.",
+        "On your own app, send an update request with an extra field (for example \"role\":\"admin\" or \"plan\":\"pro\") and check whether it was saved.",
+        "Replace whole-body binding with an explicit allow-list of the fields the caller may edit, or a dedicated input schema (zod, a DTO) that strips everything else.",
+        "Keep sensitive columns (role, plan, credits, owner or tenant IDs, verified flags) server-controlled only. Set them from the authenticated session or a trusted backend job, never from client input.",
+        "In Supabase or Postgres, back this up with RLS policies and column privileges so a client key can't update protected columns even if app code slips.",
+        "Apply the same rule to responses: return only the fields the client needs, not the whole row."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP's Mass Assignment Cheat Sheet explains that frameworks which auto-bind request parameters into objects let attackers create or overwrite fields the developer never intended, and recommends dedicated input objects and explicit allow-lists rather than relying on a block-list. OWASP's API Security Top 10 (2023) folds mass assignment into API3: Broken Object Property Level Authorization."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Mass Assignment Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html",
+            "OWASP API Security Top 10 2023, API3: Broken Object Property Level Authorization — https://owasp.org/API-Security/editions/2023/en/0xa3-broken-object-property-level-authorization/"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "RLS or auth present, but no ownership check (IDOR)",
+            "API routes with no auth check",
+            "Row Level Security disabled on Supabase tables"
+          ]
+        }
+      ],
+      "updated": "2026-10-19"
+    },
+    {
+      "path": "/patterns/hallucinated-packages",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "AI-suggested packages that don't exist (slopsquatting)",
+      "summary": "Coding assistants sometimes import or tell you to install a package name that doesn't exist. Attackers can register those names with malicious code, so a copy-pasted npm install or pip install pulls malware into your app. Check every unfamiliar dependency before installing it.",
+      "steps": [
+        "Before installing any package an AI suggested, look it up on the registry (npmjs.com or pypi.org). Check that it exists, who publishes it, when it was created, download counts and the linked source repo.",
+        "Be suspicious of very new packages, near-duplicate names of popular libraries, and packages with no repository or documentation.",
+        "Review your package.json or requirements file for dependencies you don't recognize, and remove ones your code doesn't use.",
+        "Commit your lockfile and install with npm ci (or the equivalent) in builds, so dependencies don't silently change between deploys.",
+        "Turn on automated dependency alerts (for example GitHub Dependabot) and run npm audit or pip-audit regularly.",
+        "Use scoped package names for any private packages so a public package with the same name can't be swapped in."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "Researchers studying 16 code-generating LLMs across 576,000 code samples reported that the average share of hallucinated packages was at least 5.2% for commercial models and 21.7% for open-source models, with 205,474 unique hallucinated package names (Spracklen et al., USENIX Security 2025). npm's own threat guide describes typosquatting and dependency confusion, where attackers publish look-alike or same-name packages to trick people into installing them."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "Spracklen et al.: We Have a Package for You! A Comprehensive Analysis of Package Hallucinations by Code Generating LLMs (arXiv) — https://arxiv.org/abs/2406.10279",
+            "USENIX Security 2025 presentation page — https://www.usenix.org/conference/usenixsecurity25/presentation/spracklen",
+            "npm Docs: Threats and Mitigations — https://docs.npmjs.com/threats-and-mitigations"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Outdated packages with known vulnerabilities",
+            "API secret keys shipped in your frontend bundle",
+            "Prompt injection in your app's AI chatbot or AI features"
+          ]
+        }
+      ],
+      "updated": "2026-10-19"
     }
   ],
   "static": [
