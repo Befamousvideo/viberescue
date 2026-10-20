@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 19, 2026",
+  "updated": "October 20, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -155,7 +155,8 @@
         {
           "h": "Related patterns",
           "ul": [
-            "Mass assignment: users can set fields like role or is_admin"
+            "Mass assignment: users can set fields like role or is_admin",
+            "Auth checked only in Next.js middleware (proxy)"
           ]
         }
       ],
@@ -326,7 +327,8 @@
           "ul": [
             "Row Level Security disabled on Supabase tables",
             "API routes with no auth check",
-            "Mass assignment: users can set fields like role or is_admin"
+            "Mass assignment: users can set fields like role or is_admin",
+            "Auth checked only in Next.js middleware (proxy)"
           ]
         }
       ],
@@ -488,7 +490,8 @@
           "ul": [
             "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
             "No rate limiting on login, signup or AI endpoints",
-            "API routes with no auth check"
+            "API routes with no auth check",
+            "Server-side URL fetching that can reach internal services (SSRF)"
           ]
         }
       ],
@@ -604,7 +607,8 @@
           "ul": [
             "JWTs or session tokens stored in localStorage",
             "CORS that trusts any origin (and sends cookies)",
-            "API routes with no auth check"
+            "API routes with no auth check",
+            "Server-side URL fetching that can reach internal services (SSRF)"
           ]
         }
       ],
@@ -688,6 +692,90 @@
         }
       ],
       "updated": "2026-10-19"
+    },
+    {
+      "path": "/patterns/middleware-only-auth",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Auth checked only in Next.js middleware (proxy)",
+      "seoTitle": "Next.js middleware-only auth: why one gate isn't enough",
+      "summary": "Many AI-built Next.js apps protect pages with one middleware.ts (now proxy.ts) redirect and never check the session again in API routes, server actions or data fetching. If that single gate is skipped or misconfigured, as it was in the 2025 CVE-2025-29927 bypass, every protected route and its data is exposed.",
+      "steps": [
+        "Check your Next.js version (npm ls next). CVE-2025-29927 is fixed in 12.3.5, 13.5.9, 14.2.25 and 15.2.3. If you're on an older release in those lines, upgrade.",
+        "Open middleware.ts or proxy.ts and list the routes it protects. Read the matcher closely: a common pattern excludes /api, so your API routes may never pass through it at all.",
+        "For every protected page, route handler and server action, confirm it checks the session itself (for example a verifySession() helper in a data access layer) and that the user is allowed to touch that record.",
+        "Test it while logged out: call each API route and server action directly (curl, or your browser's network tab) and make sure you get 401 or 403, not data.",
+        "Self-hosting outside Vercel and can't upgrade yet? The advisory's workaround is to block outside requests that carry the x-middleware-subrequest header before they reach the app.",
+        "Keep middleware or proxy for fast redirects only. Treat it as a convenience, not your security boundary."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "The Next.js authentication guide says Proxy \"should not be your only line of defense\" and that most security checks should run as close to your data source as possible. It recommends a data access layer and says to treat server actions and route handlers like public API endpoints. Next.js also notes that the middleware file convention is deprecated and has been renamed to proxy.",
+            "GitHub advisory GHSA-f82v-jwr5-mffw (CVE-2025-29927, rated critical, CVSS 9.1) showed it was possible to bypass authorization in a Next.js app when the check happens in middleware. The advisory says deployments hosted on Vercel were automatically protected; self-hosted apps needed the patch."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "GitHub Security Advisory GHSA-f82v-jwr5-mffw: Authorization Bypass in Next.js Middleware — https://github.com/vercel/next.js/security/advisories/GHSA-f82v-jwr5-mffw",
+            "NVD: CVE-2025-29927 — https://nvd.nist.gov/vuln/detail/CVE-2025-29927",
+            "Next.js Docs: Authentication guide — https://nextjs.org/docs/app/guides/authentication",
+            "Next.js Docs: proxy.js file convention — https://nextjs.org/docs/app/api-reference/file-conventions/proxy"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "API routes with no auth check",
+            "RLS or auth present, but no ownership check (IDOR)",
+            "Mass assignment: users can set fields like role or is_admin"
+          ]
+        }
+      ],
+      "updated": "2026-10-20"
+    },
+    {
+      "path": "/patterns/ssrf-url-fetch",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Server-side URL fetching that can reach internal services (SSRF)",
+      "seoTitle": "SSRF in vibe-coded apps: URL imports, previews, webhooks",
+      "summary": "Features like \"import from URL\", link previews, avatar-from-URL, webhooks, or an AI tool that fetches a page make your server request whatever URL a user supplies. Without checks, an attacker can point it at localhost, your private network or the cloud metadata address (169.254.169.254) and read what comes back.",
+      "steps": [
+        "Find every server-side fetch, axios or similar call, and every AI tool or agent action, where the URL comes from user input: forms, chat messages, webhook settings, document or image imports.",
+        "Where you can, use an allow-list of the hosts you expect (for example only your storage bucket or Google Drive), and build the request yourself instead of accepting a full URL.",
+        "If you must accept any public URL: allow only http and https, resolve the hostname, reject private, loopback, link-local and metadata addresses (127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.169.254, ::1, fc00::/7, fe80::/10), and connect to the exact IP you checked so DNS rebinding can't swap it.",
+        "Turn off automatic redirect following in your HTTP client, or re-check every hop.",
+        "Never send the raw response back to the user. Return only what the feature needs (a title and image for a preview, say), with a timeout and a size limit.",
+        "On cloud servers, use the provider's hardened metadata service (for example AWS IMDSv2) and limit outbound network access where your host allows it."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP's API Security Top 10 (2023) lists Server Side Request Forgery as API7. It says webhooks, fetching files from URLs, custom SSO and URL previews make SSRF more common, and that cloud and container management endpoints on well-known paths make it more dangerous. OWASP's SSRF Prevention Cheat Sheet advises against accepting complete URLs from users, recommends allow-lists, says to disable redirect following, and warns that checking a domain once doesn't stop DNS rebinding.",
+            "The same rules apply to any AI feature that fetches a URL on a user's behalf. Text in a chat or document can steer the AI to request an internal address, so put these checks in the fetch tool itself, not in the prompt."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP API Security Top 10 2023, API7: Server Side Request Forgery — https://owasp.org/API-Security/editions/2023/en/0xa7-server-side-request-forgery/",
+            "OWASP Server Side Request Forgery Prevention Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Prompt injection in your app's AI chatbot or AI features",
+            "Open redirects after login or OAuth callbacks",
+            "API routes with no auth check"
+          ]
+        }
+      ],
+      "updated": "2026-10-20"
     }
   ],
   "static": [
