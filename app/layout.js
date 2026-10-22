@@ -2,16 +2,17 @@ import "./globals.css";
 import Script from "next/script";
 import site from "../content/site.json";
 import { ctaAttrs, gaMeasurementId } from "../lib/analytics.mjs";
-import { jsonLdHtml, organizationWebsiteGraph } from "../lib/seo.mjs";
+import { jsonLdHtml, organizationWebsiteGraph, shareImage } from "../lib/seo.mjs";
 import AnalyticsClicks from "./AnalyticsClicks";
 const homeTitle = `${site.name} — ${site.tagline}`;
+const image = shareImage(homeTitle);
 export const metadata = {
   metadataBase: new URL(`https://${site.domain}`),
   title: { default: homeTitle, template: `%s | ${site.name}` },
   description: site.description,
   alternates: { canonical: "/", types: { "application/rss+xml": "/rss.xml", "text/plain": "/llms.txt" } },
-  openGraph: { siteName: site.name, type: "website", locale: "en_US", url: "/", title: homeTitle, description: site.description },
-  twitter: { card: "summary", title: homeTitle, description: site.description },
+  openGraph: { siteName: site.name, type: "website", locale: "en_US", url: "/", title: homeTitle, description: site.description, images: [image] },
+  twitter: { card: "summary_large_image", title: homeTitle, description: site.description, images: [image] },
 };
 export default function RootLayout({ children }) {
   const gaId = gaMeasurementId();

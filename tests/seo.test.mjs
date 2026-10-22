@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { metaDesc, organizationWebsiteGraph, faqPage, buildSitemap, buildRobots, pageMeta, jsonLdHtml } from "../lib/seo.mjs";
+import { metaDesc, organizationWebsiteGraph, faqPage, buildSitemap, buildRobots, pageMeta, jsonLdHtml, shareImage } from "../lib/seo.mjs";
 import { buildLlmsText } from "../lib/llms.mjs";
 
 const site = JSON.parse(readFileSync(new URL("../content/site.json", import.meta.url), "utf8"));
@@ -52,17 +52,33 @@ test("sitemap and robots use the production domain", () => {
 });
 
 test("page metadata includes canonical, open graph, and twitter", () => {
-  const meta = pageMeta({ title: "Advertise", description: "Advertise on VibeRescue.", path: "/advertise", siteName: site.name });
+  const alt = `${site.name} — ${site.tagline}`;
+  const meta = pageMeta({ title: "Advertise", description: "Advertise on VibeRescue.", path: "/advertise", siteName: site.name, imageAlt: alt });
   assert.equal(meta.title, "Advertise");
   assert.equal(meta.alternates.canonical, "/advertise");
   assert.equal(meta.openGraph.title, `Advertise | ${site.name}`);
   assert.equal(meta.openGraph.url, "/advertise");
   assert.equal(meta.openGraph.description, "Advertise on VibeRescue.");
-  assert.equal(meta.twitter.card, "summary");
+  assert.deepEqual(meta.openGraph.images, [shareImage(alt)]);
+  assert.equal(meta.twitter.card, "summary_large_image");
   assert.equal(meta.twitter.title, meta.openGraph.title);
   assert.equal(meta.twitter.description, meta.description);
-  const hidden = pageMeta({ title: "Thanks", description: "Thanks.", path: "/advertise/thanks", siteName: site.name, index: false });
+  assert.deepEqual(meta.twitter.images, meta.openGraph.images);
+  const hidden = pageMeta({ title: "Thanks", description: "Thanks.", path: "/advertise/thanks", siteName: site.name, imageAlt: alt, index: false });
   assert.deepEqual(hidden.robots, { index: false });
+});
+
+test("default share image is a 1200x630 png using the existing tagline", () => {
+  const png = readFileSync(new URL("../public/og.png", import.meta.url));
+  assert.equal(png.subarray(1, 4).toString("ascii"), "PNG");
+  assert.equal(png.readUInt32BE(16), 1200);
+  assert.equal(png.readUInt32BE(20), 630);
+  const card = readFileSync(new URL("../scripts/write-og.mjs", import.meta.url), "utf8");
+  assert.match(card, /site\.name/);
+  assert.match(card, /site\.tagline/);
+  assert.match(card, /site\.color/);
+  assert.match(card, /#fafaf7/);
+  assert.match(card, /#1a1a1a/);
 });
 
 test("llms.txt summarizes existing copy and adds no contact details or new metrics", () => {

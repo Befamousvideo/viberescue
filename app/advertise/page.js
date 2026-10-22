@@ -2,7 +2,7 @@ import site from "../../content/site.json";
 import AdOrderForm from "../AdOrderForm";
 import { PLANS, CATEGORIES } from "../ads-lib";
 import { pageMeta } from "../../lib/seo.mjs";
-export const metadata = pageMeta({ title: "Advertise", description: `Advertise on ${site.name}: labeled, reviewed ads with simple founding pricing.`, path: "/advertise", siteName: site.name });
+export const metadata = pageMeta({ title: "Advertise", description: `Advertise on ${site.name}: labeled, reviewed ads with simple founding pricing.`, path: "/advertise", siteName: site.name, imageAlt: `${site.name} — ${site.tagline}` });
 export default function Advertise() {
   const plans = Object.values(PLANS);
   return (<article>

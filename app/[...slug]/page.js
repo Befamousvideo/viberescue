@@ -12,7 +12,7 @@ export function generateStaticParams() { return all().map(p => ({ slug: p.path.s
 export async function generateMetadata({ params }) {
   const p = find((await params).slug); if (!p) return {};
   const t = p.seoTitle || p.title;
-  return pageMeta({ title: t, description: metaDesc(p.summary), path: p.path, siteName: site.name, type: "article" });
+  return pageMeta({ title: t, description: metaDesc(p.summary), path: p.path, siteName: site.name, imageAlt: `${site.name} — ${site.tagline}`, type: "article" });
 }
 export default async function Page({ params }) {
   const p = find((await params).slug); if (!p) notFound();

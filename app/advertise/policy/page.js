@@ -2,7 +2,7 @@ import site from "../../../content/site.json";
 import { competitorText } from "../../ads-lib";
 import { ctaAttrs } from "../../../lib/analytics.mjs";
 import { pageMeta } from "../../../lib/seo.mjs";
-export const metadata = pageMeta({ title: "Ad Policy", description: `What ${site.name} will and won't advertise.`, path: "/advertise/policy", siteName: site.name });
+export const metadata = pageMeta({ title: "Ad Policy", description: `What ${site.name} will and won't advertise.`, path: "/advertise/policy", siteName: site.name, imageAlt: `${site.name} — ${site.tagline}` });
 export default function Policy() {
   return (<article>
     <p className="crumbs"><a href="/">Home</a> / <a href="/advertise">Advertise</a></p>
