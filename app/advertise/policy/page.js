@@ -1,6 +1,8 @@
 import site from "../../../content/site.json";
 import { competitorText } from "../../ads-lib";
-export const metadata = { title: "Ad Policy", description: `What ${site.name} will and won't advertise.`, alternates: { canonical: "/advertise/policy" } };
+import { ctaAttrs } from "../../../lib/analytics.mjs";
+import { pageMeta } from "../../../lib/seo.mjs";
+export const metadata = pageMeta({ title: "Ad Policy", description: `What ${site.name} will and won't advertise.`, path: "/advertise/policy", siteName: site.name });
 export default function Policy() {
   return (<article>
     <p className="crumbs"><a href="/">Home</a> / <a href="/advertise">Advertise</a></p>
@@ -24,6 +26,6 @@ export default function Policy() {
       <li>If we remove a running ad, we refund the unused portion of your 30 days.</li>
       <li>Ads you cancel after they start running aren't refunded.</li></ul></section>
     <p className="muted small">Questions? Reply to any email from us. This policy may be updated; the version at the time you order applies to your run.</p>
-    <p><a className="btn" href="/advertise">Back to Advertise</a></p>
+    <p><a className="btn" href="/advertise" {...ctaAttrs("Back to Advertise", "ad-policy")}>Back to Advertise</a></p>
   </article>);
 }

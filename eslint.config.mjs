@@ -1,0 +1,41 @@
+export default [
+  {
+    ignores: [".next/**", "node_modules/**", "tsconfig.tsbuildinfo"],
+  },
+  {
+    files: ["**/*.{js,mjs}"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      parserOptions: { ecmaFeatures: { jsx: true } },
+      globals: {
+        window: "readonly",
+        document: "readonly",
+        location: "readonly",
+        navigator: "readonly",
+        console: "readonly",
+        process: "readonly",
+        fetch: "readonly",
+        URL: "readonly",
+        URLSearchParams: "readonly",
+        Response: "readonly",
+        Request: "readonly",
+        FormData: "readonly",
+        Buffer: "readonly",
+        setTimeout: "readonly",
+        clearTimeout: "readonly",
+        setInterval: "readonly",
+        clearInterval: "readonly",
+        HTMLElement: "readonly",
+        Element: "readonly",
+        MouseEvent: "readonly",
+      },
+    },
+    rules: {
+      "no-unused-vars": ["error", { args: "none", caughtErrors: "none", varsIgnorePattern: "^_" }],
+      "no-undef": "error",
+      "no-empty": ["error", { allowEmptyCatch: true }],
+      "no-constant-condition": "error",
+    },
+  },
+];

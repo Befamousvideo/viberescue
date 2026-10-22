@@ -2,6 +2,7 @@ import site from "../content/site.json";
 import NewsletterForm from "./NewsletterForm";
 import HouseAd from "./HouseAd";
 import { Li, Linked } from "./nav";
+import { ctaAttrs } from "../lib/analytics.mjs";
 export function Newsletter() {
   return (
     <section className="card nl" id="newsletter">
@@ -13,7 +14,7 @@ export function Newsletter() {
 }
 export function Cta({ cta }) {
   if (!cta) return null;
-  return (<section className="card cta"><h2>{cta.title}</h2><p>{cta.text}</p><a className="btn" href={cta.href}>{cta.button}</a></section>);
+  return (<section className="card cta"><h2>{cta.title}</h2><p>{cta.text}</p><a className="btn" href={cta.href} {...ctaAttrs(cta.button, "cta")}>{cta.button}</a></section>);
 }
 export function Sponsor() {
   return <HouseAd />;

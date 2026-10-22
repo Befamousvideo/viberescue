@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { trackGenerateLead } from "../lib/analytics.mjs";
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 const STACKS = ["Lovable", "Bolt", "Cursor", "Replit", "v0", "Other"];
 export default function FixRequestForm() {
@@ -28,7 +29,7 @@ export default function FixRequestForm() {
           turnstile: SITE_KEY && window.turnstile && tsId.current != null ? window.turnstile.getResponse(tsId.current) : undefined,
           consent: f.get("consent") === "on", website: f.get("website"), source: window.location.pathname }) });
       const j = await r.json().catch(() => ({}));
-      if (r.ok && j.ok) setState("done"); else { setState("error"); setMsg(j.error || "Something went wrong. Please try again."); if (SITE_KEY && window.turnstile && tsId.current != null) window.turnstile.reset(tsId.current); }
+      if (r.ok && j.ok) { trackGenerateLead("fix_request"); setState("done"); } else { setState("error"); setMsg(j.error || "Something went wrong. Please try again."); if (SITE_KEY && window.turnstile && tsId.current != null) window.turnstile.reset(tsId.current); }
     } catch { setState("error"); setMsg("Network error. Please try again."); }
   }
   if (state === "done") return (<p className="nl-success" role="status"><strong>Thanks, your request is in.</strong> We've emailed you a confirmation. A StorenTech engineer will review what you sent and reply with a fixed quote.</p>);
