@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 21, 2026",
+  "updated": "October 22, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -228,6 +228,12 @@
           "p": [
             "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
           ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Password reset flows that leak accounts or trust the Host header"
+          ]
         }
       ],
       "updated": "2026-10-14"
@@ -370,7 +376,8 @@
           ]
         }
       ],
-      "updated": "2026-10-15"
+      "updated": "2026-10-15",
+      "seoTitle": "OpenAI, Stripe or Resend secret keys in client JavaScript"
     },
     {
       "path": "/platforms/lovable",
@@ -407,7 +414,8 @@
           ]
         }
       ],
-      "updated": "2026-10-15"
+      "updated": "2026-10-15",
+      "seoTitle": "Lovable + Supabase security risks to check before launch"
     },
     {
       "path": "/patterns/verbose-error-messages",
@@ -434,6 +442,12 @@
           "p": [
             "OWASP Top 10 A05: Security Misconfiguration — https://owasp.org/Top10/A05_2021-Security_Misconfiguration/",
             "OWASP Error Handling Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "SQL built from strings in raw queries (SQL injection)"
           ]
         }
       ],
@@ -621,7 +635,8 @@
             "JWTs or session tokens stored in localStorage",
             "CORS that trusts any origin (and sends cookies)",
             "API routes with no auth check",
-            "Server-side URL fetching that can reach internal services (SSRF)"
+            "Server-side URL fetching that can reach internal services (SSRF)",
+            "Password reset flows that leak accounts or trust the Host header"
           ]
         }
       ],
@@ -660,7 +675,8 @@
           "ul": [
             "RLS or auth present, but no ownership check (IDOR)",
             "API routes with no auth check",
-            "Row Level Security disabled on Supabase tables"
+            "Row Level Security disabled on Supabase tables",
+            "SQL built from strings in raw queries (SQL injection)"
           ]
         }
       ],
@@ -878,6 +894,92 @@
         }
       ],
       "updated": "2026-10-21"
+    },
+    {
+      "path": "/patterns/sql-injection-raw-queries",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "SQL built from strings in raw queries (SQL injection)",
+      "seoTitle": "SQL injection in vibe-coded apps: raw queries and sql.raw",
+      "summary": "ORMs protect you until the AI reaches for a raw query. Search, sorting and report features in AI-built apps often glue user input into SQL with $queryRawUnsafe, Prisma.raw, Drizzle's sql.raw or a Postgres function that runs EXECUTE on a concatenated string. Any of those can let a visitor read or change data they shouldn't.",
+      "steps": [
+        "Search the code for $queryRawUnsafe, $executeRawUnsafe, Prisma.raw, sql.raw, .query(` with ${ inside, string concatenation around SELECT/UPDATE/DELETE, and in SQL migrations, EXECUTE inside plpgsql functions.",
+        "Where you can, replace the raw query with normal ORM calls (findMany, where, orderBy). Prisma's docs say the ideal way to avoid SQL injection is to use the ORM's model queries.",
+        "If you need raw SQL, pass values as parameters: Prisma's tagged-template $queryRaw`... ${value}` or Drizzle's sql`... ${value}`, which send prepared statements. Never wrap user input in Prisma.raw or sql.raw.",
+        "Column names, sort direction and table names can't be parameters. Map them through an allow-list in code (for example, sort must be one of \"created_at\" or \"price\", direction must be \"asc\" or \"desc\").",
+        "In Postgres functions you call through Supabase rpc(), use EXECUTE ... USING for values and format() with %I for identifiers, instead of building the string with ||.",
+        "Run the database user with the least privilege the app needs, and test each search, filter and sort box with a quote character to see whether it errors."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "Prisma's documentation says the methods with \"Unsafe\" in the name are at significant risk of SQL injection, and that even $queryRaw becomes vulnerable if you build the query text from strings or misuse Prisma.raw. Drizzle's docs describe sql.raw() as a way to include unescaped raw strings in a query.",
+            "OWASP's SQL Injection Prevention Cheat Sheet lists prepared statements with parameterized queries as the first defense, allow-list input validation for things like table names, and least privilege as an additional defense. Injection is A05 in the OWASP Top 10:2025, which says 100% of the applications it looked at were tested for some form of injection."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "Prisma Docs: Raw queries (SQL injection prevention) — https://www.prisma.io/docs/orm/prisma-client/using-raw-sql/raw-queries",
+            "Drizzle ORM Docs: Magic sql operator (sql.raw) — https://orm.drizzle.team/docs/sql",
+            "PostgreSQL Docs: PL/pgSQL basic statements (Executing Dynamic Commands) — https://www.postgresql.org/docs/current/plpgsql-statements.html",
+            "OWASP SQL Injection Prevention Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html",
+            "OWASP Top 10:2025, A05 Injection — https://owasp.org/Top10/2025/A05_2025-Injection/"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Mass assignment: users can set fields like role or is_admin",
+            "Row Level Security disabled on Supabase tables",
+            "Error messages that leak stack traces, queries or keys"
+          ]
+        }
+      ],
+      "updated": "2026-10-22"
+    },
+    {
+      "path": "/patterns/password-reset-flaws",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Password reset flows that leak accounts or trust the Host header",
+      "seoTitle": "Password reset security in vibe-coded apps: what to check",
+      "summary": "Home-made \"forgot password\" flows in AI-built apps often reveal which emails have accounts, use reset links that never expire or can be reused, build the reset link from the request's Host header, or redirect to any URL after the reset. Each one can help someone take over an account.",
+      "steps": [
+        "Ask for a reset with a real email and a fake one. The message and the response time should be the same for both.",
+        "Reset tokens must come from a secure random generator, be long, be stored safely (hashed), work only once, and expire. Request two resets and check the first link stops working.",
+        "Build the reset link from a fixed site URL in your config, never from the incoming Host header. OWASP warns this enables Host header injection.",
+        "On Supabase, call resetPasswordForEmail with a redirectTo that's on your project's Redirect URLs allow list, and use the exact production path rather than a broad wildcard.",
+        "Add rate limits per account and per IP to the reset request, and add Referrer-Policy: no-referrer on the reset page so the token doesn't leak to other sites.",
+        "After a reset, send a \"your password was changed\" email, don't log the user in automatically, and offer to sign out other sessions."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP's Forgot Password Cheat Sheet calls password reset a common source of vulnerabilities, such as user enumeration. It recommends a consistent message and response time for existing and non-existing accounts, random, long, single-use tokens that expire, reset URLs that are hard-coded or checked against trusted domains, rate limiting, and asking whether to invalidate existing sessions.",
+            "Supabase's docs say redirect URLs must be on your allow list, and recommend setting the exact redirect path for your site URL in production even though wildcards are handy for local development and preview URLs."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Forgot Password Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html",
+            "Supabase Docs: Redirect URLs — https://supabase.com/docs/guides/auth/redirect-urls",
+            "Supabase Docs: resetPasswordForEmail (JavaScript) — https://supabase.com/docs/reference/javascript/auth-resetpasswordforemail"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Open redirects after login or OAuth callbacks",
+            "No rate limiting on login, signup or AI endpoints",
+            "JWTs or session tokens stored in localStorage"
+          ]
+        }
+      ],
+      "updated": "2026-10-22"
     }
   ],
   "static": [

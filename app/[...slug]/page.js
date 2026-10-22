@@ -21,7 +21,7 @@ export default async function Page({ params }) {
   const url = `https://${site.domain}${p.path}`;
   const parts = p.path.slice(1).split("/");
   const ld = [{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: site.name, item: `https://${site.domain}/` }, ...parts.map((x, i) => ({ "@type": "ListItem", position: i + 2, name: i === parts.length - 1 ? p.title : x, item: `https://${site.domain}/${parts.slice(0, i + 1).join("/")}` }))] }];
-  if (p.steps) ld.push({ "@context": "https://schema.org", "@type": "HowTo", name: p.title, description: p.summary, step: p.steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, text: s })) });
+  if (p.steps) ld.push({ "@context": "https://schema.org", "@type": "HowTo", name: p.title, description: p.summary, ...(p.updated ? { dateModified: p.updated } : {}), step: p.steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, text: s })) });
   else if (p.group) ld.push({ "@context": "https://schema.org", "@type": "Article", headline: p.title, description: p.summary, dateModified: pageDateIso(p), mainEntityOfPage: url, publisher: { "@type": "Organization", name: site.name } });
   if (p.faq) ld.push({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: p.faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) });
   return (<article>
