@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { trackGenerateLead } from "../lib/analytics.mjs";
 export default function NewsletterForm() {
   const [state, setState] = useState("idle");
   const [msg, setMsg] = useState("");
@@ -11,7 +12,7 @@ export default function NewsletterForm() {
       const r = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: f.get("email"), website: f.get("website"), source: window.location.pathname }) });
       const j = await r.json().catch(() => ({}));
-      if (r.ok && j.ok) { setState("done"); } else { setState("error"); setMsg(j.error || "Something went wrong. Please try again."); }
+      if (r.ok && j.ok) { trackGenerateLead("newsletter"); setState("done"); } else { setState("error"); setMsg(j.error || "Something went wrong. Please try again."); }
     } catch { setState("error"); setMsg("Network error. Please try again."); }
   }
   if (state === "done") return (<p className="nl-success" role="status"><strong>You're on the list!</strong> Thanks for signing up. We'll never sell your email.</p>);

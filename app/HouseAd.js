@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { BRANDS, SELF } from "./network";
+import { ctaAttrs } from "../lib/analytics.mjs";
 export default function HouseAd() {
   const path = usePathname() || "/";
   const [paid, setPaid] = useState(null);
@@ -17,6 +18,6 @@ export default function HouseAd() {
     <div className="netpick-row">{ad.img && <img src={ad.img} alt="" width="120" height="63" className="netpick-img" />}<div>
       <strong className="netpick-h">{ad.h}</strong>
       <p>{ad.line} <span className="muted small">— {ad.name}</span></p>
-      <a className="btn" href={ad.href} rel="sponsored noopener">{ad.btn} →</a></div></div>
+      <a className="btn" href={ad.href} rel="sponsored noopener" {...ctaAttrs(ad.btn, "sponsor")}>{ad.btn} →</a></div></div>
   </aside>);
 }
