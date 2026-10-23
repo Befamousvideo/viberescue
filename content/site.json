@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 22, 2026",
+  "updated": "October 23, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -156,7 +156,9 @@
           "h": "Related patterns",
           "ul": [
             "Mass assignment: users can set fields like role or is_admin",
-            "Auth checked only in Next.js middleware (proxy)"
+            "Auth checked only in Next.js middleware (proxy)",
+            "Cron and webhook-style job endpoints anyone can trigger",
+            "Server Actions with no auth check inside them"
           ]
         }
       ],
@@ -232,7 +234,8 @@
         {
           "h": "Related patterns",
           "ul": [
-            "Password reset flows that leak accounts or trust the Host header"
+            "Password reset flows that leak accounts or trust the Host header",
+            "Cron and webhook-style job endpoints anyone can trigger"
           ]
         }
       ],
@@ -759,7 +762,8 @@
           "ul": [
             "API routes with no auth check",
             "RLS or auth present, but no ownership check (IDOR)",
-            "Mass assignment: users can set fields like role or is_admin"
+            "Mass assignment: users can set fields like role or is_admin",
+            "Server Actions with no auth check inside them"
           ]
         }
       ],
@@ -980,6 +984,90 @@
         }
       ],
       "updated": "2026-10-22"
+    },
+    {
+      "path": "/patterns/unprotected-cron-endpoints",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Cron and webhook-style job endpoints anyone can trigger",
+      "seoTitle": "Unprotected cron endpoints on Vercel: add CRON_SECRET",
+      "summary": "AI-built apps often run scheduled jobs (send digests, charge renewals, sync data, clean up records) from a public URL like /api/cron/daily. If the route doesn't check a secret, anyone who finds the URL can run the job as often as they like: spamming your users, burning API credits or repeating payments.",
+      "steps": [
+        "List every scheduled job: vercel.json \"crons\" entries, Supabase pg_cron or scheduled Edge Functions, GitHub Actions schedules, and any external pinger calling your app.",
+        "On Vercel, add a CRON_SECRET environment variable (Vercel recommends a random string of at least 16 characters). Vercel then sends it as an Authorization: Bearer header when it calls your cron job.",
+        "At the top of each job route, compare the Authorization header to Bearer + CRON_SECRET and return 401 if it doesn't match, before any work happens.",
+        "For Supabase scheduled functions, keep the key or token in Supabase Vault as its docs show, not hard-coded in the SQL, and check it in the function.",
+        "Make each job safe to run twice or to skip a run. Vercel's docs say cron delivery is best effort: a scheduled run can occasionally be missed or invoked more than once, and a long job can overlap with the next one. Use a lock or a \"last processed\" marker.",
+        "Rename any job URL that has already been shared or logged, and rotate the secret if it ever appeared in client code or a public repo."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "A cron route is just an HTTP endpoint. Vercel's cron documentation says to secure it with CRON_SECRET and check the Authorization header in your function. Without that check, the job is as public as your homepage."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "Vercel Docs: Managing Cron Jobs (Securing cron jobs, idempotency, concurrency) — https://vercel.com/docs/cron-jobs/manage-cron-jobs",
+            "Supabase Docs: Scheduling Edge Functions — https://supabase.com/docs/guides/functions/schedule-functions"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "API routes with no auth check",
+            "No rate limiting on login, signup or AI endpoints",
+            "Auth checked only in Next.js middleware (proxy)"
+          ]
+        }
+      ],
+      "updated": "2026-10-23"
+    },
+    {
+      "path": "/patterns/server-actions-without-auth",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Server Actions with no auth check inside them",
+      "seoTitle": "Next.js Server Actions security: check auth inside each action",
+      "summary": "In Next.js apps, AI tools often put the login check on the page and assume the Server Actions on that page are protected too. They're not. The Next.js docs say a Server Action can be called with a direct POST request, so every action has to check who the user is and what they're allowed to change.",
+      "steps": [
+        "Search for \"use server\" and list every exported action: create, update, delete, invite, checkout, admin tools.",
+        "At the top of each action, get the current user from the session on the server and return an error if there isn't one. Don't trust a userId passed in from the form.",
+        "Then check authorization: does this user own the record, or have the role, for this specific change?",
+        "Validate the input (for example with a schema) and only update the fields you expect.",
+        "Return only what the UI needs, not full database rows. Next.js also warns that values captured in closures inside actions are sent to the client and back, so don't capture secrets.",
+        "Rate limit sensitive actions such as sending email, inviting users or calling AI models.",
+        "Test it: sign in as a regular user and replay an admin action's request with a different ID. It should fail."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "The Next.js data security guide says Server Actions are reachable by direct POST requests even when not imported elsewhere, and that a page-level auth check doesn't extend to the actions defined in it. OWASP lists broken function level authorization (API5:2023) as a top API risk: regular users reaching admin functions because the server never checks."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "Next.js Docs: Data Security (Server Actions) — https://nextjs.org/docs/app/guides/data-security",
+            "Next.js Docs: Authentication — https://nextjs.org/docs/app/guides/authentication",
+            "OWASP API Security Top 10 2023, API5 Broken Function Level Authorization — https://owasp.org/API-Security/editions/2023/en/0xa5-broken-function-level-authorization/",
+            "OWASP Authorization Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Auth checked only in Next.js middleware (proxy)",
+            "API routes with no auth check",
+            "Mass assignment: users can set fields like role or is_admin",
+            "No rate limiting on login, signup or AI endpoints"
+          ]
+        }
+      ],
+      "updated": "2026-10-23"
     }
   ],
   "static": [
