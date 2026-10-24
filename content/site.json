@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 23, 2026",
+  "updated": "October 24, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -85,6 +85,12 @@
           "h": "Why it matters",
           "p": [
             "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Supabase SECURITY DEFINER functions any visitor can call"
           ]
         }
       ],
@@ -343,7 +349,8 @@
             "Row Level Security disabled on Supabase tables",
             "API routes with no auth check",
             "Mass assignment: users can set fields like role or is_admin",
-            "Auth checked only in Next.js middleware (proxy)"
+            "Auth checked only in Next.js middleware (proxy)",
+            "Supabase SECURITY DEFINER functions any visitor can call"
           ]
         }
       ],
@@ -979,7 +986,8 @@
           "ul": [
             "Open redirects after login or OAuth callbacks",
             "No rate limiting on login, signup or AI endpoints",
-            "JWTs or session tokens stored in localStorage"
+            "JWTs or session tokens stored in localStorage",
+            "Passwords stored in plain text or with fast hashes"
           ]
         }
       ],
@@ -1068,6 +1076,88 @@
         }
       ],
       "updated": "2026-10-23"
+    },
+    {
+      "path": "/patterns/security-definer-functions-open-to-anon",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Supabase SECURITY DEFINER functions any visitor can call",
+      "seoTitle": "Supabase security definer functions: revoke execute from anon",
+      "summary": "AI tools often \"fix\" a Row Level Security error by wrapping the query in a Postgres function marked security definer. Supabase's docs say that function runs as its creator (usually postgres, which bypasses RLS) and that any role can call it by default, including anon. So one rpc() call from a logged-out visitor can return everyone's data.",
+      "steps": [
+        "In the Supabase dashboard, open Advisors and look for the lints \"anon security definer function executable\" (0028) and \"authenticated security definer function executable\" (0029).",
+        "List every function with security definer in your migrations or SQL editor history. Ask: does this really need to bypass RLS? Supabase recommends security invoker, which is the default.",
+        "Switch functions that don't need elevated rights to security invoker so your RLS policies apply.",
+        "For functions that must stay security definer: set search_path = '' and name the schema for every table (public.orders), as Supabase's docs require.",
+        "Inside the function, check ownership (for example compare the row's user_id to auth.uid()). Supabase notes that an execute grant controls who can call the function, not which rows they get back.",
+        "Revoke execute from public and anon (and from authenticated where it isn't needed), then grant it only to the roles that need it. Change default privileges so new functions aren't callable by everyone.",
+        "Test it: call the function with the anon key and no session, then as a second signed-in user. Neither should see someone else's rows."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "Supabase's database functions guide says a security definer function can return rows the caller isn't allowed to read, that functions created in the dashboard or by migrations are owned by postgres (which bypasses RLS), and that any role, including anon, can call a function by default. Pinning the search_path doesn't change who can call it. Turning RLS on for your tables doesn't help if a function quietly goes around it."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "Supabase Docs: Database functions (Secure a database function, Function privileges) — https://supabase.com/docs/guides/database/functions",
+            "Supabase Docs: Database advisors (lints 0028 and 0029) — https://supabase.com/docs/guides/database/database-advisors"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Row Level Security disabled on Supabase tables",
+            "RLS or auth present, but no ownership check (IDOR)",
+            "API routes with no auth check"
+          ]
+        }
+      ],
+      "updated": "2026-10-24"
+    },
+    {
+      "path": "/patterns/weak-password-storage",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Passwords stored in plain text or with fast hashes",
+      "seoTitle": "Password hashing for vibe-coded apps: Argon2id, not SHA-256",
+      "summary": "When an AI tool builds custom login instead of using an auth provider, it sometimes saves passwords as plain text, encrypts them with a key stored next to them, or hashes them with a fast hash like SHA-256 or MD5. If the database leaks, those passwords can be read or cracked quickly, and users who reuse passwords get hurt elsewhere too.",
+      "steps": [
+        "Search the code for where users sign up and change passwords. Look for the column the password goes into and what happens to it first.",
+        "Best fix: use your platform's auth (Supabase Auth, Firebase Auth, Clerk, Auth.js with a provider) so you never store passwords yourself.",
+        "If you must store them, use Argon2id with at least the OWASP minimum settings (19 MiB memory, 2 iterations, 1 degree of parallelism), or scrypt. Use bcrypt only in legacy systems, with a work factor of 10 or more, and note its 72-byte input limit.",
+        "Use the hashing library's built-in random salt per password. Never write your own hashing scheme.",
+        "Never encrypt passwords so they can be decrypted, and never log them or send them in emails.",
+        "Upgrade old hashes: when a user next signs in successfully, re-hash their password with the new algorithm. For plaintext or unsalted fast hashes, force a password reset.",
+        "If plaintext or weakly hashed passwords were ever exposed in a backup, log or repo, treat it as a breach: reset passwords and tell users as your legal obligations require."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "The OWASP Password Storage Cheat Sheet says passwords must be protected with strong, slow hashing algorithms such as Argon2id, bcrypt or PBKDF2, each with a unique salt, and that fast hashes such as SHA-256 aren't suitable because attackers can make huge numbers of guesses quickly. OWASP Top 10:2025 lists Cryptographic Failures (A04) and Authentication Failures (A07) among the most critical web app risks."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Cheat Sheet Series: Password Storage Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html",
+            "OWASP Top 10:2025 — https://owasp.org/Top10/2025/"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Password reset flows that leak accounts or trust the Host header",
+            "No rate limiting on login, signup or AI endpoints",
+            "Exposed .env or .git on a deployed site"
+          ]
+        }
+      ],
+      "updated": "2026-10-24"
     }
   ],
   "static": [
