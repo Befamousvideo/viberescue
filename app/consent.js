@@ -60,6 +60,9 @@ export function setStoredConsent(choice) {
   writeCookie(value);
   applyGoogleConsentMode(value);
   window.dispatchEvent(new CustomEvent("vr-consent-change", { detail: { consent: value } }));
+  if (value === CONSENT_ACCEPTED) {
+    import("./load-ga4").then(({ loadGoogleAnalytics }) => loadGoogleAnalytics());
+  }
 }
 
 export function hasAnalyticsConsent() {
