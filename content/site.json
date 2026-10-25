@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 24, 2026",
+  "updated": "October 25, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -605,7 +605,8 @@
           "ul": [
             "API secret keys shipped in your frontend bundle",
             "CORS that trusts any origin (and sends cookies)",
-            "Missing security headers on a vibe-coded site"
+            "Missing security headers on a vibe-coded site",
+            "JWTs decoded but never verified"
           ]
         }
       ],
@@ -770,7 +771,8 @@
             "API routes with no auth check",
             "RLS or auth present, but no ownership check (IDOR)",
             "Mass assignment: users can set fields like role or is_admin",
-            "Server Actions with no auth check inside them"
+            "Server Actions with no auth check inside them",
+            "JWTs decoded but never verified"
           ]
         }
       ],
@@ -987,7 +989,8 @@
             "Open redirects after login or OAuth callbacks",
             "No rate limiting on login, signup or AI endpoints",
             "JWTs or session tokens stored in localStorage",
-            "Passwords stored in plain text or with fast hashes"
+            "Passwords stored in plain text or with fast hashes",
+            "Tokens and IDs generated with Math.random()"
           ]
         }
       ],
@@ -1153,11 +1156,98 @@
           "ul": [
             "Password reset flows that leak accounts or trust the Host header",
             "No rate limiting on login, signup or AI endpoints",
-            "Exposed .env or .git on a deployed site"
+            "Exposed .env or .git on a deployed site",
+            "Tokens and IDs generated with Math.random()"
           ]
         }
       ],
       "updated": "2026-10-24"
+    },
+    {
+      "path": "/patterns/jwt-decoded-not-verified",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "JWTs decoded but never verified",
+      "seoTitle": "JWT decode vs verify: why decoded tokens can't be trusted",
+      "summary": "AI-generated auth code often reads the user ID or role straight out of a JWT with a decode function and never checks the signature. Decoding only reads the token; anyone can create a token that says role: admin. The jsonwebtoken and jose docs both say their decode helpers don't validate the signature, and Supabase warns not to trust getSession() in server code for the same reason.",
+      "steps": [
+        "Search your code for jwt.decode(, decodeJwt(, jwt_decode(, atob( on token parts, and Buffer.from(token.split('.')[1]. Any of these feeding an auth decision is a red flag.",
+        "Replace them with a verifying call: jwt.verify() in jsonwebtoken, jwtVerify() in jose, or your auth provider's server helper.",
+        "Pin the accepted algorithm list (for example algorithms: ['RS256'] or ['HS256']) so a token can't choose none or switch algorithms.",
+        "Check exp, and check iss and aud match your app, as OWASP and RFC 8725 recommend.",
+        "On Supabase, use supabase.auth.getClaims() (or getUser()) to protect server routes and pages, not getSession().",
+        "For HMAC-signed tokens, use a long random secret kept server-side, and rotate it if it was ever in client code or a repo.",
+        "Test it: change one character in a valid token's payload and confirm every protected route returns 401."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP's JSON Web Token Cheat Sheet warns about tokens using the none algorithm, algorithm confusion and missing signature checks, and recommends validating issuer, audience and expiry. RFC 8725 (JWT Best Current Practices) says libraries must let callers specify allowed algorithms and must not use any others. MITRE classifies the underlying flaw as CWE-347, Improper Verification of Cryptographic Signature. A JWT's payload is only base64url-encoded, so trusting a decoded but unverified token lets anyone sign themselves in as any user."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Cheat Sheet Series: JSON Web Token Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet.html",
+            "IETF RFC 8725: JSON Web Token Best Current Practices — https://www.rfc-editor.org/rfc/rfc8725",
+            "auth0/node-jsonwebtoken README (jwt.decode does not verify the signature) — https://github.com/auth0/node-jsonwebtoken",
+            "panva/jose: decodeJwt (decodes without validating) — https://github.com/panva/jose/blob/main/docs/util/decode_jwt/functions/decodeJwt.md",
+            "Supabase: Setting up Server-Side Auth for Next.js (use getClaims, never trust getSession in server code) — https://supabase.com/docs/guides/auth/server-side/nextjs",
+            "MITRE CWE-347: Improper Verification of Cryptographic Signature — https://cwe.mitre.org/data/definitions/347.html"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "JWTs or session tokens stored in localStorage",
+            "Auth checked only in Next.js middleware (proxy)",
+            "API routes with no auth check"
+          ]
+        }
+      ],
+      "updated": "2026-10-25"
+    },
+    {
+      "path": "/patterns/insecure-random-tokens",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Tokens and IDs generated with Math.random()",
+      "seoTitle": "Math.random() for tokens: use crypto.randomBytes or randomUUID",
+      "summary": "Vibe-coded apps often build password reset tokens, invite codes, API keys or session IDs with Math.random() or Date.now(). MDN says Math.random() does not provide cryptographically secure random numbers and shouldn't be used for anything security-related, so these values can be guessed or predicted.",
+      "steps": [
+        "Search the codebase for Math.random(, Date.now() used in IDs or tokens, and homemade generators like Math.random().toString(36).",
+        "For anything that grants access (reset links, magic links, invite codes, API keys, session IDs, file share links), switch to crypto.randomBytes(32).toString('hex'), crypto.randomUUID() or crypto.randomInt() in Node, or crypto.getRandomValues() in the browser.",
+        "Use at least 128 bits of randomness for tokens, store only a hash of long-lived tokens, and give reset or invite tokens a short expiry and single use.",
+        "Invalidate tokens already issued by the old generator: expire open reset links and invites, and rotate API keys.",
+        "Leave Math.random() for things that don't matter for security, like shuffling a UI list."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MDN states that Math.random() does not provide cryptographically secure random numbers and points to the Web Crypto API's getRandomValues() instead. The OWASP Cryptographic Storage Cheat Sheet says pseudo-random generators must not be used for security-critical values such as session IDs, CSRF tokens or password reset tokens, and lists Math.random() as unsafe in Node.js, recommending crypto.randomBytes(), crypto.randomInt() and crypto.randomUUID(). MITRE tracks this as CWE-338, Use of Cryptographically Weak PRNG."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MDN Web Docs: Math.random() — https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random",
+            "OWASP Cheat Sheet Series: Cryptographic Storage Cheat Sheet (Secure Random Number Generation) — https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html",
+            "Node.js documentation: Crypto (randomBytes, randomInt, randomUUID) — https://nodejs.org/api/crypto.html",
+            "MITRE CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator — https://cwe.mitre.org/data/definitions/338.html"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Password reset flows that leak accounts or trust the Host header",
+            "Passwords stored in plain text or with fast hashes",
+            "API secret keys shipped in your frontend bundle"
+          ]
+        }
+      ],
+      "updated": "2026-10-25"
     }
   ],
   "static": [
