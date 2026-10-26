@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 25, 2026",
+  "updated": "October 26, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -113,6 +113,12 @@
           "h": "Why it matters",
           "p": [
             "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Production source maps that publish your app's original source code"
           ]
         }
       ],
@@ -263,6 +269,13 @@
           "h": "Why it matters",
           "p": [
             "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Production source maps that publish your app's original source code",
+            "File paths built from user input (path traversal)"
           ]
         }
       ],
@@ -457,7 +470,8 @@
         {
           "h": "Related patterns",
           "ul": [
-            "SQL built from strings in raw queries (SQL injection)"
+            "SQL built from strings in raw queries (SQL injection)",
+            "Production source maps that publish your app's original source code"
           ]
         }
       ],
@@ -814,7 +828,8 @@
             "Prompt injection in your app's AI chatbot or AI features",
             "Open redirects after login or OAuth callbacks",
             "API routes with no auth check",
-            "File uploads with no type, size or name checks"
+            "File uploads with no type, size or name checks",
+            "File paths built from user input (path traversal)"
           ]
         }
       ],
@@ -902,7 +917,8 @@
           "ul": [
             "User uploads in a public bucket",
             "No rate limiting on login, signup or AI endpoints",
-            "Rendering user or AI output as raw HTML (XSS)"
+            "Rendering user or AI output as raw HTML (XSS)",
+            "File paths built from user input (path traversal)"
           ]
         }
       ],
@@ -1248,6 +1264,105 @@
         }
       ],
       "updated": "2026-10-25"
+    },
+    {
+      "path": "/patterns/production-source-maps",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Production source maps that publish your app's original source code",
+      "seoTitle": "Public source maps in production: how to check and turn them off",
+      "summary": "Source maps translate minified JavaScript back into your original files. Next.js and Vite both leave them off for production builds by default, but AI-generated configs often switch them on (productionBrowserSourceMaps: true or build.sourcemap: true) to make errors easier to debug. Then anyone can open your site's original client-side source, comments and all, in their browser.",
+      "steps": [
+        "Open your live site, open the browser's developer tools, and look in the Sources panel for your original folder names (src/, app/, components/). If you can read your own unminified code, maps are public.",
+        "Or request a bundle URL with .map added (for example /_next/static/chunks/<file>.js.map). A 200 response with JSON means the map is being served.",
+        "In Next.js, remove productionBrowserSourceMaps: true from next.config. In Vite, set build.sourcemap to false, or 'hidden' if you need maps for an error tracker.",
+        "If you use Sentry or a similar tool, upload maps to it during the build and delete them from the deployed output instead of serving them publicly.",
+        "Search your client code for anything that should never have been there (API keys, internal URLs, admin routes, TODOs about security). Source maps make these easy to find, and minification alone doesn't hide them.",
+        "Rotate any secret you find in client code. Once it has been served, assume it has been copied."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "The Next.js docs say production source maps are disabled by default to prevent leaking your source to the client, and that once enabled, Next.js automatically serves the .map files next to your JavaScript. Vite's build.sourcemap option defaults to false, and its 'hidden' setting generates maps without linking them from the bundle. Public maps hand attackers a readable copy of your front-end logic, including any client-side secrets, hidden routes and comments. MITRE classifies the underlying weakness as CWE-540, Inclusion of Sensitive Information in Source Code. Turning maps off isn't a fix for secrets in client code, though: anything shipped to the browser is readable either way, so secrets belong on the server."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "Next.js docs: productionBrowserSourceMaps — https://nextjs.org/docs/app/api-reference/config/next-config-js/productionBrowserSourceMaps",
+            "Vite docs: Build options (build.sourcemap) — https://vite.dev/config/build-options",
+            "Sentry docs: Source maps for JavaScript — https://docs.sentry.io/platforms/javascript/sourcemaps/",
+            "MITRE CWE-540: Inclusion of Sensitive Information in Source Code — https://cwe.mitre.org/data/definitions/540.html"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "API secret keys shipped in your frontend bundle",
+            "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
+            "Exposed .env or .git on a deployed site",
+            "Error messages that leak stack traces, queries or keys"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/devtools-source-code.webp",
+        "alt": "A developer at a desk at night looking at a monitor showing a web page beside a developer tools panel full of source code",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-10-26"
+    },
+    {
+      "path": "/patterns/path-traversal-file-access",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "File paths built from user input (path traversal)",
+      "seoTitle": "Path traversal in Node and Next.js routes: ../ in filenames",
+      "summary": "Download, image, export and \"read a file\" routes often take a filename from the URL and join it to a folder, like path.join('uploads', req.query.file). If the user sends ../../.env instead, the server can read files far outside that folder. OWASP calls this path traversal, and it's one of the most common ways config files and secrets leak.",
+      "steps": [
+        "Search your code for fs.readFile, fs.createReadStream, res.sendFile, path.join and path.resolve where any part of the path comes from req.query, req.params, request bodies, form data or an AI tool call.",
+        "Best fix: don't accept file paths at all. Store files under random IDs, look the ID up in your database, and read the stored path from there after checking that the user owns the file.",
+        "If you must accept a name, allowlist it: only letters, numbers, dashes and one known extension, and reject anything containing /, \\ or ..",
+        "Then resolve the full path with path.resolve(baseDir, name) and confirm it still starts with your base folder plus a path separator before opening it. Reject it if not.",
+        "Don't try to strip ../ with a find-and-replace. Encoded and nested variants (%2e%2e%2f, ....//) get past simple filters.",
+        "Test it: request ../package.json, %2e%2e%2fpackage.json and an absolute path like /etc/passwd. Each should return 400 or 404, never file contents.",
+        "Keep secrets out of files the app can read where possible, and run the app with the least file access it needs."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP describes path traversal as accessing files and directories stored outside the intended folder by manipulating variables that reference files with dot-dot-slash sequences and their variations, and notes that encoded forms can bypass naive filters. MITRE tracks it as CWE-22, Improper Limitation of a Pathname to a Restricted Directory, and recommends allowlist input validation and canonicalizing paths before checking them. The Node.js path docs explain that path.join and path.resolve normalize .. segments, so joining untrusted input to a base folder doesn't keep the result inside that folder. A single vulnerable route can expose .env files, source code and other users' uploads."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP: Path Traversal — https://owasp.org/www-community/attacks/Path_Traversal",
+            "MITRE CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') — https://cwe.mitre.org/data/definitions/22.html",
+            "Node.js documentation: Path (path.join, path.resolve) — https://nodejs.org/api/path.html",
+            "OWASP Cheat Sheet Series: Input Validation Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "File uploads with no type, size or name checks",
+            "Exposed .env or .git on a deployed site",
+            "Server-side URL fetching that can reach internal services (SSRF)",
+            "User uploads in a public bucket"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/filing-cabinets-open-drawer.webp",
+        "alt": "A long records room lined with metal filing cabinets, one drawer pulled open to show folders inside",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-10-26"
     }
   ],
   "static": [
