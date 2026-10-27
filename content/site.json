@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 26, 2026",
+  "updated": "October 27, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -580,7 +580,8 @@
           "ul": [
             "Missing security headers on a vibe-coded site",
             "API routes with no auth check",
-            "JWTs or session tokens stored in localStorage"
+            "JWTs or session tokens stored in localStorage",
+            "Cookie-based login with no CSRF protection on state-changing requests"
           ]
         }
       ],
@@ -620,7 +621,8 @@
             "API secret keys shipped in your frontend bundle",
             "CORS that trusts any origin (and sends cookies)",
             "Missing security headers on a vibe-coded site",
-            "JWTs decoded but never verified"
+            "JWTs decoded but never verified",
+            "Cookie-based login with no CSRF protection on state-changing requests"
           ]
         }
       ],
@@ -874,7 +876,8 @@
           "ul": [
             "Prompt injection in your app's AI chatbot or AI features",
             "Missing security headers on a vibe-coded site",
-            "JWTs or session tokens stored in localStorage"
+            "JWTs or session tokens stored in localStorage",
+            "Cookie-based login with no CSRF protection on state-changing requests"
           ]
         }
       ],
@@ -1090,7 +1093,8 @@
             "Auth checked only in Next.js middleware (proxy)",
             "API routes with no auth check",
             "Mass assignment: users can set fields like role or is_admin",
-            "No rate limiting on login, signup or AI endpoints"
+            "No rate limiting on login, signup or AI endpoints",
+            "Cookie-based login with no CSRF protection on state-changing requests"
           ]
         }
       ],
@@ -1363,6 +1367,56 @@
         "h": 720
       },
       "updated": "2026-10-26"
+    },
+    {
+      "path": "/patterns/missing-csrf-protection",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Cookie-based login with no CSRF protection on state-changing requests",
+      "seoTitle": "CSRF in Next.js and Express apps: GET handlers, SameSite and Origin checks",
+      "summary": "If your app logs users in with a cookie, the browser sends that cookie with every request to your site, including ones triggered by someone else's page. Without a CSRF defense, a malicious site can make a logged-in user's browser change their email, delete data or make a purchase. AI-built apps often miss this on custom API routes, especially ones that change data on a GET request.",
+      "steps": [
+        "List every route that changes something: updates, deletes, payments, settings, invites. Make sure none of them run on GET. Move them to POST, PUT, PATCH or DELETE.",
+        "Use your framework's built-in protection first. Next.js Server Actions only accept POST and compare the Origin header to the Host (or X-Forwarded-Host) header; if you sit behind a proxy, set serverActions.allowedOrigins instead of turning the check off.",
+        "For custom API routes (Route Handlers, Express, etc.) that use cookie sessions, add a check: reject state-changing requests where Sec-Fetch-Site is cross-site, and when that header is missing, require a matching Origin header or a valid CSRF token.",
+        "If you use tokens, use a framework-supported synchronizer token or a signed double-submit cookie tied to the session. Never put the token in the URL or logs.",
+        "Set session cookies with SameSite=Lax or Strict, Secure and HttpOnly, and prefer the __Host- prefix. Treat this as extra protection, not the only one.",
+        "Test it: from a page on a different origin, submit a form that POSTs to one of your routes while logged in. The request should be rejected.",
+        "Fix any XSS first, too. OWASP warns that cross-site scripting can defeat every CSRF defense."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP says a CSRF attack tricks an authenticated user's browser into performing an unwanted action on a trusted site, and that it works because browsers automatically include cookies, including session cookies. The attacker can do anything the victim is allowed to do, such as change a password or make a purchase. OWASP recommends using built-in framework protection first, never using GET for state-changing operations, and treating SameSite cookies as defense in depth, since SameSite=Lax still sends cookies on top-level GET navigations. The Next.js data security guide says Server Actions are invoked only with POST and check that the Origin matches the Host, which blocks most CSRF for Server Actions. Custom routes don't get that check automatically. MITRE tracks this weakness as CWE-352, Cross-Site Request Forgery."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Cheat Sheet Series: Cross-Site Request Forgery Prevention Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+            "Next.js docs: Data Security (Server Actions, allowed origins) — https://nextjs.org/docs/app/guides/data-security",
+            "MITRE CWE-352: Cross-Site Request Forgery (CSRF) — https://cwe.mitre.org/data/definitions/352.html"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "CORS that trusts any origin (and sends cookies)",
+            "Server Actions with no auth check inside them",
+            "JWTs or session tokens stored in localStorage",
+            "Rendering user or AI output as raw HTML (XSS)",
+            "API routes with no auth check"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/missing-csrf-protection.webp",
+        "alt": "A laptop on a dark desk at night showing an account settings form, with a code editor on a monitor behind it and a coffee mug beside it",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-10-27"
     }
   ],
   "static": [
