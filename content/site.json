@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 27, 2026",
+  "updated": "October 28, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -247,7 +247,8 @@
           "h": "Related patterns",
           "ul": [
             "Password reset flows that leak accounts or trust the Host header",
-            "Cron and webhook-style job endpoints anyone can trigger"
+            "Cron and webhook-style job endpoints anyone can trigger",
+            "Login and signup messages that reveal which accounts exist (account enumeration)"
           ]
         }
       ],
@@ -471,7 +472,8 @@
           "h": "Related patterns",
           "ul": [
             "SQL built from strings in raw queries (SQL injection)",
-            "Production source maps that publish your app's original source code"
+            "Production source maps that publish your app's original source code",
+            "Login and signup messages that reveal which accounts exist (account enumeration)"
           ]
         }
       ],
@@ -1009,7 +1011,8 @@
             "No rate limiting on login, signup or AI endpoints",
             "JWTs or session tokens stored in localStorage",
             "Passwords stored in plain text or with fast hashes",
-            "Tokens and IDs generated with Math.random()"
+            "Tokens and IDs generated with Math.random()",
+            "Login and signup messages that reveal which accounts exist (account enumeration)"
           ]
         }
       ],
@@ -1177,7 +1180,8 @@
             "Password reset flows that leak accounts or trust the Host header",
             "No rate limiting on login, signup or AI endpoints",
             "Exposed .env or .git on a deployed site",
-            "Tokens and IDs generated with Math.random()"
+            "Tokens and IDs generated with Math.random()",
+            "Login and signup messages that reveal which accounts exist (account enumeration)"
           ]
         }
       ],
@@ -1417,6 +1421,55 @@
         "h": 720
       },
       "updated": "2026-10-27"
+    },
+    {
+      "path": "/patterns/account-enumeration",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Login and signup messages that reveal which accounts exist (account enumeration)",
+      "seoTitle": "Account enumeration in login and signup: messages, status codes and timing",
+      "summary": "AI-generated auth code often gives helpful but leaky answers: \"No account with that email\" on login, \"Email already registered\" on signup, a 404 for unknown users and a 401 for a wrong password, or a login that answers instantly for unknown emails and slowly for real ones. Each lets anyone check which emails have accounts in your app, which feeds phishing and password-guessing attacks.",
+      "steps": [
+        "Test it yourself: try logging in with a real account and a wrong password, then with an email that doesn't exist. Compare the message, the HTTP status code and the response body in your browser's network tab.",
+        "Return one generic login failure for both cases, for example \"Invalid email or password\", with the same status code and response shape.",
+        "Keep timing similar: when the user isn't found, still run a password hash comparison (against a dummy hash) instead of returning early.",
+        "On signup, don't say the email is taken. Show \"Check your email to continue\" and send the existing user a notice or sign-in link instead of a new-account email.",
+        "Apply the same rule to password reset and \"resend verification\" endpoints (see our password reset page).",
+        "Add rate limiting and bot protection on login, signup and reset, since generic messages alone don't stop high-volume guessing.",
+        "Check your auth provider's settings. Some hosted auth tools have their own option to protect against enumeration; turn it on if available."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP's Authentication Cheat Sheet says login, password recovery and account creation should respond with generic messages, whether or not the user ID or password is correct, and notes that different HTTP status codes or a faster \"quick exit\" for unknown users can still reveal whether an account exists. It recommends protections against automated attacks, such as rate limiting and CAPTCHA, alongside generic responses. MITRE tracks the timing and response differences as CWE-203 (Observable Discrepancy) and CWE-204 (Observable Response Discrepancy). A confirmed list of your users' emails makes targeted phishing and credential stuffing easier."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Cheat Sheet Series: Authentication Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+            "MITRE CWE-204: Observable Response Discrepancy — https://cwe.mitre.org/data/definitions/204.html",
+            "MITRE CWE-203: Observable Discrepancy — https://cwe.mitre.org/data/definitions/203.html"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Password reset flows that leak accounts or trust the Host header",
+            "No rate limiting on login, signup or AI endpoints",
+            "Error messages that leak stack traces, queries or keys",
+            "Passwords stored in plain text or with fast hashes"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/account-enumeration.webp",
+        "alt": "A developer at night in front of two monitors, one showing a simple email and password login form and the other a code editor, in a dim blue-lit room",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-10-28"
     }
   ],
   "static": [
