@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 28, 2026",
+  "updated": "October 29, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -118,7 +118,8 @@
         {
           "h": "Related patterns",
           "ul": [
-            "Production source maps that publish your app's original source code"
+            "Production source maps that publish your app's original source code",
+            "Passwords, tokens and personal data written to your logs"
           ]
         }
       ],
@@ -276,7 +277,8 @@
           "h": "Related patterns",
           "ul": [
             "Production source maps that publish your app's original source code",
-            "File paths built from user input (path traversal)"
+            "File paths built from user input (path traversal)",
+            "Passwords, tokens and personal data written to your logs"
           ]
         }
       ],
@@ -473,7 +475,8 @@
           "ul": [
             "SQL built from strings in raw queries (SQL injection)",
             "Production source maps that publish your app's original source code",
-            "Login and signup messages that reveal which accounts exist (account enumeration)"
+            "Login and signup messages that reveal which accounts exist (account enumeration)",
+            "Passwords, tokens and personal data written to your logs"
           ]
         }
       ],
@@ -1310,7 +1313,8 @@
             "API secret keys shipped in your frontend bundle",
             "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
             "Exposed .env or .git on a deployed site",
-            "Error messages that leak stack traces, queries or keys"
+            "Error messages that leak stack traces, queries or keys",
+            "Passwords, tokens and personal data written to your logs"
           ]
         }
       ],
@@ -1470,6 +1474,54 @@
         "h": 720
       },
       "updated": "2026-10-28"
+    },
+    {
+      "path": "/patterns/sensitive-data-in-logs",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Passwords, tokens and personal data written to your logs",
+      "seoTitle": "Sensitive data in logs (CWE-532): passwords, tokens and PII in console.log and server logs",
+      "summary": "AI-written code loves to debug with console.log(req.body), print the whole user object, or log the full request headers. In production that sends passwords, session cookies, API keys, Stripe events and customers' personal data into your hosting provider's logs, your error tracker and anyone with dashboard access. Logs are kept for a long time and shared widely, so a leak there is quiet and lasting.",
+      "steps": [
+        "Search your code for console.log, console.error, print and logger calls that output whole objects: req.body, req.headers, user, session, process.env, payment or webhook events.",
+        "Open your host's log viewer (and any error tracker) and search recent logs for words like password, token, authorization, cookie, secret, apikey and sk_. Anything you find has already leaked.",
+        "Replace whole-object logging with a short list of safe fields, such as user ID, route, status code and duration.",
+        "Use a logger with redaction (structured JSON logs) and add redact paths for authorization headers, cookies, passwords, tokens, card data and personal fields.",
+        "Turn off debug logging in production with a log-level setting, and remove leftover debug log files before deploying.",
+        "If secrets did reach your logs, rotate those keys and tokens, then delete or expire the affected logs where your provider allows it.",
+        "Limit who can read production logs and error reports, and never store log files in a web-accessible folder."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE tracks this as CWE-532 (Insertion of Sensitive Information into Log File) and its first mitigation is simple: don't write secrets into log files. It also recommends removing debug log files before deploying to production, protecting log files from unauthorized access and switching configuration from debug to production settings. OWASP's Logging Cheat Sheet lists data that usually shouldn't be logged directly, including session IDs, access tokens, passwords, database connection strings, encryption keys, payment card data and sensitive personal information, and says it should be removed, masked, hashed or encrypted. It also warns against exposing logs in web-accessible locations and recommends restricting who can access them."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-532: Insertion of Sensitive Information into Log File — https://cwe.mitre.org/data/definitions/532.html",
+            "OWASP Cheat Sheet Series: Logging Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html"
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Error messages that leak stack traces, queries or keys",
+            "API secret keys shipped in your frontend bundle",
+            "Exposed .env or .git on a deployed site",
+            "Production source maps that publish your app's original source code"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/sensitive-data-in-logs.webp",
+        "alt": "A developer at night watching a large monitor full of scrolling server log lines, with a laptop and a coffee mug on the desk and city lights through the window",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-10-29"
     }
   ],
   "static": [
