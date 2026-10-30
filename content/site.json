@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 29, 2026",
+  "updated": "October 30, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -627,7 +627,8 @@
             "CORS that trusts any origin (and sends cookies)",
             "Missing security headers on a vibe-coded site",
             "JWTs decoded but never verified",
-            "Cookie-based login with no CSRF protection on state-changing requests"
+            "Cookie-based login with no CSRF protection on state-changing requests",
+            "Sessions that stay valid after logout, password change or timeout"
           ]
         }
       ],
@@ -793,7 +794,8 @@
             "RLS or auth present, but no ownership check (IDOR)",
             "Mass assignment: users can set fields like role or is_admin",
             "Server Actions with no auth check inside them",
-            "JWTs decoded but never verified"
+            "JWTs decoded but never verified",
+            "Sessions that stay valid after logout, password change or timeout"
           ]
         }
       ],
@@ -1015,7 +1017,8 @@
             "JWTs or session tokens stored in localStorage",
             "Passwords stored in plain text or with fast hashes",
             "Tokens and IDs generated with Math.random()",
-            "Login and signup messages that reveal which accounts exist (account enumeration)"
+            "Login and signup messages that reveal which accounts exist (account enumeration)",
+            "Sessions that stay valid after logout, password change or timeout"
           ]
         }
       ],
@@ -1270,7 +1273,8 @@
           "ul": [
             "Password reset flows that leak accounts or trust the Host header",
             "Passwords stored in plain text or with fast hashes",
-            "API secret keys shipped in your frontend bundle"
+            "API secret keys shipped in your frontend bundle",
+            "Sessions that stay valid after logout, password change or timeout"
           ]
         }
       ],
@@ -1414,7 +1418,8 @@
             "Server Actions with no auth check inside them",
             "JWTs or session tokens stored in localStorage",
             "Rendering user or AI output as raw HTML (XSS)",
-            "API routes with no auth check"
+            "API routes with no auth check",
+            "Sessions that stay valid after logout, password change or timeout"
           ]
         }
       ],
@@ -1522,6 +1527,56 @@
         "h": 720
       },
       "updated": "2026-10-29"
+    },
+    {
+      "path": "/patterns/sessions-not-invalidated",
+      "group": "patterns",
+      "label": "Failure pattern",
+      "title": "Sessions that stay valid after logout, password change or timeout",
+      "seoTitle": "Improper session invalidation (CWE-1464): logout, password change and timeouts that don't end sessions",
+      "summary": "AI-built apps often \"log out\" by deleting a cookie or token in the browser and redirecting to the home page. The session itself is never ended on the server, so anyone who copied that token (from a shared computer, a leaked log or an XSS bug) can keep using it. The same happens when a user changes their password or an admin removes access but old sessions keep working, or when tokens never expire at all.",
+      "steps": [
+        "Test it: log in, copy your session cookie or token, log out, then replay a request with the copied value (curl or your browser dev tools). If it still works, sessions aren't invalidated.",
+        "Repeat the test after a password change, an email change and an admin disabling the account. Old sessions should stop working in each case.",
+        "End sessions on the server at logout: delete the session record or revoke the token, not just the cookie.",
+        "Enforce an idle timeout and an absolute timeout on the server, sized to how sensitive the app is.",
+        "Issue a new session ID after login and after any privilege change, such as a role switch or password change.",
+        "Require users to sign in again after password or email changes and account recovery, and give them a way to see and sign out of their other active sessions.",
+        "On logout, send Clear-Site-Data, and mark pages with sensitive data Cache-Control: no-store. Keep session cookies Secure, HttpOnly and SameSite."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE tracks this as CWE-1464 (Improper Session Invalidation), added in CWE 5.0 on October 28, 2026, which replaces the deprecated CWE-613. Its child entries cover sessions that survive logout (CWE-1465) and sessions that survive a credential change (CWE-1466). MITRE's mitigation is to invalidate sessions on the server for all security-relevant events and not rely on the client to delete them, and its detection advice is to test that a session can no longer be used afterward. OWASP's Session Management Cheat Sheet says expiration must be enforced on the server, that deleting a cookie in the browser doesn't invalidate a copy someone else holds, and that apps should use both idle and absolute timeouts. It notes common idle timeouts of 2 to 5 minutes for high-value apps and 15 to 30 minutes for low-risk ones, and absolute timeouts of 4 to 8 hours for apps used through a full office day. It also warns that browser-close events can't reliably log users out."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-1464: Improper Session Invalidation — https://cwe.mitre.org/data/definitions/1464.html",
+            "OWASP Cheat Sheet Series: Session Management Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+            "Checked at the source on October 30, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "JWTs or session tokens stored in localStorage",
+            "Password reset flows that leak accounts or trust the Host header",
+            "Tokens and IDs generated with Math.random()",
+            "Cookie-based login with no CSRF protection on state-changing requests",
+            "Auth checked only in Next.js middleware (proxy)"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/sessions-not-invalidated.webp",
+        "alt": "A laptop left open and signed in on a library table next to a coffee cup, while its owner walks away with a backpack in the background",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-10-30"
     }
   ],
   "static": [
