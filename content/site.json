@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 30, 2026",
+  "updated": "October 31, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -142,6 +142,12 @@
           "p": [
             "This is a common failure pattern in apps built quickly with AI coding tools. The steps above check your own app only. Never test apps you don't own."
           ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Checkout prices, totals and discounts taken from the browser"
+          ]
         }
       ],
       "updated": "2026-10-14"
@@ -171,7 +177,8 @@
             "Mass assignment: users can set fields like role or is_admin",
             "Auth checked only in Next.js middleware (proxy)",
             "Cron and webhook-style job endpoints anyone can trigger",
-            "Server Actions with no auth check inside them"
+            "Server Actions with no auth check inside them",
+            "Checkout prices, totals and discounts taken from the browser"
           ]
         }
       ],
@@ -709,7 +716,8 @@
             "RLS or auth present, but no ownership check (IDOR)",
             "API routes with no auth check",
             "Row Level Security disabled on Supabase tables",
-            "SQL built from strings in raw queries (SQL injection)"
+            "SQL built from strings in raw queries (SQL injection)",
+            "Checkout prices, totals and discounts taken from the browser"
           ]
         }
       ],
@@ -1103,7 +1111,8 @@
             "API routes with no auth check",
             "Mass assignment: users can set fields like role or is_admin",
             "No rate limiting on login, signup or AI endpoints",
-            "Cookie-based login with no CSRF protection on state-changing requests"
+            "Cookie-based login with no CSRF protection on state-changing requests",
+            "Checkout prices, totals and discounts taken from the browser"
           ]
         }
       ],
@@ -1577,6 +1586,56 @@
         "h": 720
       },
       "updated": "2026-10-30"
+    },
+    {
+      "path": "/patterns/client-trusted-prices",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Checkout prices, totals and discounts taken from the browser",
+      "seoTitle": "Client-side price tampering in AI-built checkouts: fix trusted prices, totals and coupons (CWE-602)",
+      "summary": "AI-generated checkouts often send the cart from the browser straight to the payment step: item prices, quantities, the total and the coupon discount all come from client code. Anyone can edit that request in dev tools and pay $1 for a $100 order, stack a coupon that should be blocked, or set a negative quantity. Hiding a field or disabling a button doesn't help, because the server never re-checks.",
+      "steps": [
+        "Test it: add an item, open dev tools, and replay the checkout request with a lower price, a changed total, a quantity of 0 or -1, or a coupon that shouldn't apply. If the payment page or order shows your edited numbers, the server trusts the browser.",
+        "Send only product IDs, quantities and coupon codes from the browser. Never send prices, totals or discount amounts.",
+        "On the server, look up each price from your database or use predefined Stripe Price IDs, then calculate the total yourself.",
+        "Validate quantities (whole numbers, at least 1, within stock and per-order limits) and check every coupon rule on the server: expiry, minimum spend, eligible items and one use per customer.",
+        "Create the Stripe Checkout Session on the server. Only use inline price_data for truly dynamic prices, and compute those on the server too.",
+        "Fulfill orders from a verified Stripe webhook, not the success page. Retrieve the session with line items, check payment_status, and make fulfillment safe to run twice.",
+        "Compare what was paid with what you expected before shipping or granting access, and alert on mismatches."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE tracks this as CWE-602 (Client-Side Enforcement of Server-Side Security), updated in CWE 5.0 on October 28, 2026. It describes software that relies on the client to enforce protections, which attackers bypass by changing the client or sending requests directly. MITRE's mitigation is to repeat every client-side check on the server, and it lists CVE-2024-50653 as an example, where a coupon-use limit was only enforced in the front end. It maps to OWASP Top 10 2025 A06 Insecure Design. Stripe's own quickstart creates Checkout Sessions on the server and says you'll typically use a predefined Price ID, with price_data for dynamic pricing. Stripe's fulfillment guide says webhooks are required for fulfillment, because customers aren't guaranteed to reach your success page, and that fulfillment should check payment_status and handle being called more than once."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-602: Client-Side Enforcement of Server-Side Security — https://cwe.mitre.org/data/definitions/602.html",
+            "Stripe Docs: Payments quickstart (Checkout Sessions) — https://docs.stripe.com/payments/quickstart",
+            "Stripe Docs: Fulfill orders — https://docs.stripe.com/checkout/fulfillment",
+            "Checked at the source on October 31, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Stripe webhooks not verified",
+            "Mass assignment: users can set fields like role or is_admin",
+            "API routes with no auth check",
+            "Server Actions with no auth check inside them"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/client-trusted-prices.webp",
+        "alt": "A developer's desk at night with a monitor showing an online checkout page and order total above an open browser developer tools panel, next to a second screen of code",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-10-31"
     }
   ],
   "static": [
