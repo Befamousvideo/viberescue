@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "October 31, 2026",
+  "updated": "November 1, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -554,7 +554,8 @@
             "No rate limiting on login, signup or AI endpoints",
             "API routes with no auth check",
             "Server-side URL fetching that can reach internal services (SSRF)",
-            "Rendering user or AI output as raw HTML (XSS)"
+            "Rendering user or AI output as raw HTML (XSS)",
+            "Running AI or user output with eval, exec or new Function (code injection)"
           ]
         }
       ],
@@ -892,7 +893,8 @@
             "Prompt injection in your app's AI chatbot or AI features",
             "Missing security headers on a vibe-coded site",
             "JWTs or session tokens stored in localStorage",
-            "Cookie-based login with no CSRF protection on state-changing requests"
+            "Cookie-based login with no CSRF protection on state-changing requests",
+            "Running AI or user output with eval, exec or new Function (code injection)"
           ]
         }
       ],
@@ -980,7 +982,8 @@
           "ul": [
             "Mass assignment: users can set fields like role or is_admin",
             "Row Level Security disabled on Supabase tables",
-            "Error messages that leak stack traces, queries or keys"
+            "Error messages that leak stack traces, queries or keys",
+            "Running AI or user output with eval, exec or new Function (code injection)"
           ]
         }
       ],
@@ -1636,6 +1639,54 @@
         "h": 720
       },
       "updated": "2026-10-31"
+    },
+    {
+      "path": "/patterns/eval-ai-output",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Running AI or user output with eval, exec or new Function (code injection)",
+      "seoTitle": "eval() on AI or user output in vibe-coded apps: code injection risk and fix (CWE-95, OWASP LLM05)",
+      "summary": "AI-built apps sometimes take text from a model or a form and run it as code: eval() to compute a formula, new Function() to apply a \"rule\", exec() or a shell call to run a generated script. It works in the demo. But anyone who can influence that text, including through prompt injection, can make your server run their code. The fix is to never execute generated text, and to turn it into data you check instead.",
+      "steps": [
+        "Search your code for eval(, new Function(, setTimeout or setInterval with a string, vm.runInContext, child_process exec, Python exec( and eval(, and subprocess calls with shell=True.",
+        "For each hit, trace where the string comes from. If any part comes from a user, a URL, a file upload, a database field users can edit, or an AI model's response, treat it as attacker-controlled.",
+        "Refactor so the code doesn't need eval at all. Ask the model for structured output (JSON with a fixed schema), then map it to a short list of actions your code already knows how to do.",
+        "Validate every value against an allowlist: expected type, length and range, and reject anything else. Don't rely on blocking \"bad\" words.",
+        "If you need math or formulas, use a safe expression parser that only supports the operations you allow, not a language interpreter. In Python, ast.literal_eval parses literals without running code, but limit input size.",
+        "Never pass model output to a shell. If you must run a program, call it with fixed arguments and pass values as separate parameters.",
+        "Give the AI feature the least access possible, and log what it outputs so unusual responses stand out."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE tracks this as CWE-95 (Improper Neutralization of Directives in Dynamically Evaluated Code, also called Eval Injection): software takes input from an upstream component and uses it in a dynamic evaluation call like eval without neutralizing code syntax. MITRE lists consequences including reading data and files, bypassing protections and executing unauthorized code, and notes injected actions are often unlogged. Its first mitigation is to refactor so eval isn't needed at all. OWASP's LLM05:2025 Improper Output Handling names this exact case as a common example: LLM output entered directly into a system shell or a function like exec or eval, resulting in remote code execution. OWASP says to treat the model like any other user, with a zero-trust approach, and validate its responses before they reach backend functions."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection') — https://cwe.mitre.org/data/definitions/95.html",
+            "OWASP GenAI Security Project: LLM05:2025 Improper Output Handling — https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/",
+            "Checked at the source on November 1, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Prompt injection in your app's AI chatbot or AI features",
+            "Rendering user or AI output as raw HTML (XSS)",
+            "SQL built from strings in raw queries (SQL injection)"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/eval-ai-output.webp",
+        "alt": "A developer's monitor at night showing a code editor with one highlighted line and a red warning badge, beside an AI assistant chat panel, with a coffee mug and an open notebook on the desk",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-01"
     }
   ],
   "static": [
