@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 1, 2026",
+  "updated": "November 2, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -256,7 +256,8 @@
           "ul": [
             "Password reset flows that leak accounts or trust the Host header",
             "Cron and webhook-style job endpoints anyone can trigger",
-            "Login and signup messages that reveal which accounts exist (account enumeration)"
+            "Login and signup messages that reveal which accounts exist (account enumeration)",
+            "Regex denial of service (ReDoS): one crafted input that freezes your app"
           ]
         }
       ],
@@ -312,7 +313,8 @@
         {
           "h": "Related patterns",
           "ul": [
-            "AI-suggested packages that don't exist (slopsquatting)"
+            "AI-suggested packages that don't exist (slopsquatting)",
+            "Regex denial of service (ReDoS): one crafted input that freezes your app"
           ]
         }
       ],
@@ -1676,7 +1678,8 @@
           "ul": [
             "Prompt injection in your app's AI chatbot or AI features",
             "Rendering user or AI output as raw HTML (XSS)",
-            "SQL built from strings in raw queries (SQL injection)"
+            "SQL built from strings in raw queries (SQL injection)",
+            "Regex denial of service (ReDoS): one crafted input that freezes your app"
           ]
         }
       ],
@@ -1687,6 +1690,54 @@
         "h": 720
       },
       "updated": "2026-11-01"
+    },
+    {
+      "path": "/patterns/regex-denial-of-service",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Regex denial of service (ReDoS): one crafted input that freezes your app",
+      "seoTitle": "ReDoS in vibe-coded apps: catastrophic regex backtracking and how to fix it (CWE-1333)",
+      "summary": "AI-generated code loves regular expressions for checking emails, URLs, phone numbers and passwords. Some of those patterns, especially ones with a repeated group inside another repeat, can take exponentially longer on a carefully crafted input. One request can pin your server's CPU, and in Node.js that blocks every other user at the same time. It's also a risk when your app builds a regex from text the user typed.",
+      "steps": [
+        "Search your code for regexes used on user input: new RegExp(, .test(, .match(, .replace( and validation libraries' custom patterns, on both the server and in API routes.",
+        "Look for the risky shape OWASP calls an \"evil regex\": a group with repetition that contains repetition or overlapping alternatives, such as (a+)+, ([a-zA-Z]+)* or (a|aa)+.",
+        "Never build a regex from user input. If users need to search, escape their text or use plain string methods like includes() instead.",
+        "Limit input length before any regex runs. An email field doesn't need 10,000 characters.",
+        "Rewrite risky patterns without nested quantifiers, or use a well-tested validation library instead of a hand-made pattern.",
+        "Where possible, use a regex engine without backtracking (for example RE2-based libraries) for untrusted input, or set backtracking or time limits in your runtime.",
+        "Add rate limiting so one client can't send these inputs over and over, and keep dependencies updated, since ReDoS bugs are often fixed in library releases."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE tracks this as CWE-1333 (Inefficient Regular Expression Complexity): a regular expression whose worst-case complexity is inefficient and possibly exponential. MITRE lists the impact as denial of service through CPU consumption, with high likelihood, because attackers can craft inputs that cause excessive backtracking. Its mitigations are to use regexes that don't backtrack (for example by removing nested quantifiers), set backtracking limits, avoid running regexes on untrusted input, and limit input length. OWASP's ReDoS page explains that most regex engines try every possible path when a match fails, gives examples like ^(a+)+$ where each extra character doubles the work, and warns that if a regex itself is built from user input, an attacker can inject an evil pattern."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-1333: Inefficient Regular Expression Complexity — https://cwe.mitre.org/data/definitions/1333.html",
+            "OWASP: Regular expression Denial of Service - ReDoS — https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS",
+            "Checked at the source on November 2, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "No rate limiting on login, signup or AI endpoints",
+            "Running AI or user output with eval, exec or new Function (code injection)",
+            "Outdated packages with known vulnerabilities"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/regex-denial-of-service.webp",
+        "alt": "A developer's desk at night with one monitor showing a code editor with a long regular expression and a second monitor showing a server CPU graph spiking to 100 percent in red",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-02"
     }
   ],
   "static": [
