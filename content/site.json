@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 2, 2026",
+  "updated": "November 3, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -178,7 +178,8 @@
             "Auth checked only in Next.js middleware (proxy)",
             "Cron and webhook-style job endpoints anyone can trigger",
             "Server Actions with no auth check inside them",
-            "Checkout prices, totals and discounts taken from the browser"
+            "Checkout prices, totals and discounts taken from the browser",
+            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data"
           ]
         }
       ],
@@ -720,7 +721,8 @@
             "API routes with no auth check",
             "Row Level Security disabled on Supabase tables",
             "SQL built from strings in raw queries (SQL injection)",
-            "Checkout prices, totals and discounts taken from the browser"
+            "Checkout prices, totals and discounts taken from the browser",
+            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data"
           ]
         }
       ],
@@ -806,7 +808,8 @@
             "Mass assignment: users can set fields like role or is_admin",
             "Server Actions with no auth check inside them",
             "JWTs decoded but never verified",
-            "Sessions that stay valid after logout, password change or timeout"
+            "Sessions that stay valid after logout, password change or timeout",
+            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data"
           ]
         }
       ],
@@ -1580,7 +1583,8 @@
             "Password reset flows that leak accounts or trust the Host header",
             "Tokens and IDs generated with Math.random()",
             "Cookie-based login with no CSRF protection on state-changing requests",
-            "Auth checked only in Next.js middleware (proxy)"
+            "Auth checked only in Next.js middleware (proxy)",
+            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data"
           ]
         }
       ],
@@ -1738,6 +1742,55 @@
         "h": 720
       },
       "updated": "2026-11-02"
+    },
+    {
+      "path": "/patterns/idor-user-controlled-keys",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
+      "seoTitle": "IDOR in vibe-coded apps: user-controlled keys and how to fix them (CWE-639)",
+      "summary": "AI coding tools often generate routes like /orders/123 or /users/45 that look up a record by an ID from the URL. If the server returns that record without checking that it belongs to the signed-in user, anyone who is logged in can change the number and read or change someone else's data. That pattern is called insecure direct object reference (IDOR), and MITRE tracks the core issue as CWE-639.",
+      "steps": [
+        "Search your generated app for routes and API handlers that take an id, uuid, slug or filename from the URL, query string, hidden form field or JSON body.",
+        "For each one, open the server code that loads the record. Confirm it checks ownership or permission against the authenticated user from the session or token, not from a client-supplied userId field.",
+        "Prefer scoped lookups such as \"find this order where id = X and owner = currentUser\" instead of \"find order X\" alone.",
+        "Stop trusting a userId (or role) sent from the browser. Take the user identity only from your auth layer after verification.",
+        "As defense in depth, prefer opaque IDs (UUIDs) over sequential integers, but still enforce object-level checks—unguessable IDs are not a substitute for authorization.",
+        "Test while logged in as user A: copy an object ID that belongs to user B into the URL or request body and confirm the server returns 403 or 404, not B's data.",
+        "Repeat the swap test for read, update, delete and export endpoints that accept object references."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE CWE-639 (Authorization Bypass Through User-Controlled Key) describes systems that let one user reach another user's record by changing the key that identifies it. Common consequences include bypassing access control and horizontal privilege escalation. OWASP's IDOR prevention cheat sheet says an IDOR needs an object, a reference to it, and a missing object-level authorization check, and that complex IDs still need access control if someone obtains another user's URL."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-639: Authorization Bypass Through User-Controlled Key — https://cwe.mitre.org/data/definitions/639.html",
+            "OWASP Cheat Sheet: Insecure Direct Object Reference Prevention — https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html",
+            "Checked at the source on November 3, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "API routes with no auth check",
+            "Mass assignment: users can set fields like role or is_admin",
+            "Auth checked only in Next.js middleware (proxy)",
+            "Sessions that stay valid after logout, password change or timeout"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/idor-user-controlled-keys.webp",
+        "alt": "A developer looking worried at a laptop browser URL bar with a numeric user id highlighted, with two different printed user profile cards on the desk",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-03"
     }
   ],
   "static": [
