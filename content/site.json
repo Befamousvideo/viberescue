@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 3, 2026",
+  "updated": "November 4, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -119,7 +119,8 @@
           "h": "Related patterns",
           "ul": [
             "Production source maps that publish your app's original source code",
-            "Passwords, tokens and personal data written to your logs"
+            "Passwords, tokens and personal data written to your logs",
+            "Hard-coded credentials left in vibe-coded apps"
           ]
         }
       ],
@@ -179,7 +180,8 @@
             "Cron and webhook-style job endpoints anyone can trigger",
             "Server Actions with no auth check inside them",
             "Checkout prices, totals and discounts taken from the browser",
-            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data"
+            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
+            "Hard-coded credentials left in vibe-coded apps"
           ]
         }
       ],
@@ -287,7 +289,8 @@
           "ul": [
             "Production source maps that publish your app's original source code",
             "File paths built from user input (path traversal)",
-            "Passwords, tokens and personal data written to your logs"
+            "Passwords, tokens and personal data written to your logs",
+            "Hard-coded credentials left in vibe-coded apps"
           ]
         }
       ],
@@ -408,7 +411,8 @@
           "h": "Related patterns",
           "ul": [
             "API secret keys shipped in your frontend bundle",
-            "Exposed .env or .git on a deployed site"
+            "Exposed .env or .git on a deployed site",
+            "Hard-coded credentials left in vibe-coded apps"
           ]
         }
       ],
@@ -1204,7 +1208,8 @@
             "No rate limiting on login, signup or AI endpoints",
             "Exposed .env or .git on a deployed site",
             "Tokens and IDs generated with Math.random()",
-            "Login and signup messages that reveal which accounts exist (account enumeration)"
+            "Login and signup messages that reveal which accounts exist (account enumeration)",
+            "Hard-coded credentials left in vibe-coded apps"
           ]
         }
       ],
@@ -1791,6 +1796,56 @@
         "h": 720
       },
       "updated": "2026-11-03"
+    },
+    {
+      "path": "/patterns/hardcoded-credentials",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Hard-coded credentials left in vibe-coded apps",
+      "seoTitle": "Hard-coded credentials in vibe-coded apps: find and fix them (CWE-798)",
+      "summary": "AI coding tools often paste a default admin password, API key or database password straight into source files so the demo “just works.” MITRE calls that CWE-798 (Use of Hard-coded Credentials). Anyone who can read the repo, a client bundle or a leaked .env can reuse the same secret across every install. Move secrets out of code, rotate anything that was committed, and require a unique password on first login.",
+      "steps": [
+        "Search the generated project for password, apiKey, api_key, secret, token, Bearer, PRIVATE_KEY, connectionString and similar names in source, config, Dockerfiles and CI files.",
+        "Treat any credential that appears as a string literal in code, or that is the same for every deploy, as compromised. Rotate it at the provider (database, Stripe, OpenAI, admin account) before you ship a fix.",
+        "For inbound logins: remove hard-coded admin users. Use a first-login flow that forces a unique strong password, or create accounts only through your auth provider.",
+        "For outbound connections (DB, APIs): load credentials from environment variables or a secrets manager at runtime. Do not commit .env files with real values.",
+        "Confirm .env, credentials.json and key files are listed in .gitignore and are not present in git history for the current branch. If they were committed, rotate and scrub per your host’s docs.",
+        "Add a pre-commit or CI secret scan so new hard-coded keys fail the build.",
+        "Retest: with the old hard-coded value, login or API calls should fail; with the rotated secret from the environment, they should succeed only for authorized callers."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE CWE-798 describes products that contain hard-coded passwords or cryptographic keys for inbound authentication or outbound connections. Consequences include bypassing access control and large-scale compromise when the same default password ships in every install. CWE maps this weakness into OWASP Top Ten 2021 category A07 (Identification and Authentication Failures). OWASP’s Secrets Management Cheat Sheet says organizations commonly hard-code API keys and database credentials in source and config, and recommends centralizing secrets, least-privilege access, rotation and keeping secrets out of code."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-798: Use of Hard-coded Credentials — https://cwe.mitre.org/data/definitions/798.html",
+            "OWASP Cheat Sheet: Secrets Management — https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+            "Checked at the source on November 4, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "API secret keys shipped in your frontend bundle",
+            "Exposed .env or .git on a deployed site",
+            "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
+            "Passwords stored in plain text or with fast hashes",
+            "API routes with no auth check"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/hardcoded-credentials.webp",
+        "alt": "A developer looking concerned at a laptop code editor with a password line masked by asterisks and a sticky note that says rotate secrets",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-04"
     }
   ],
   "static": [
