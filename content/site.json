@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 4, 2026",
+  "updated": "November 5, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -181,7 +181,8 @@
             "Server Actions with no auth check inside them",
             "Checkout prices, totals and discounts taken from the browser",
             "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
-            "Hard-coded credentials left in vibe-coded apps"
+            "Hard-coded credentials left in vibe-coded apps",
+            "OS command injection from unsanitized shell calls"
           ]
         }
       ],
@@ -562,7 +563,8 @@
             "API routes with no auth check",
             "Server-side URL fetching that can reach internal services (SSRF)",
             "Rendering user or AI output as raw HTML (XSS)",
-            "Running AI or user output with eval, exec or new Function (code injection)"
+            "Running AI or user output with eval, exec or new Function (code injection)",
+            "OS command injection from unsanitized shell calls"
           ]
         }
       ],
@@ -992,7 +994,8 @@
             "Mass assignment: users can set fields like role or is_admin",
             "Row Level Security disabled on Supabase tables",
             "Error messages that leak stack traces, queries or keys",
-            "Running AI or user output with eval, exec or new Function (code injection)"
+            "Running AI or user output with eval, exec or new Function (code injection)",
+            "OS command injection from unsanitized shell calls"
           ]
         }
       ],
@@ -1688,7 +1691,8 @@
             "Prompt injection in your app's AI chatbot or AI features",
             "Rendering user or AI output as raw HTML (XSS)",
             "SQL built from strings in raw queries (SQL injection)",
-            "Regex denial of service (ReDoS): one crafted input that freezes your app"
+            "Regex denial of service (ReDoS): one crafted input that freezes your app",
+            "OS command injection from unsanitized shell calls"
           ]
         }
       ],
@@ -1835,7 +1839,8 @@
             "Exposed .env or .git on a deployed site",
             "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
             "Passwords stored in plain text or with fast hashes",
-            "API routes with no auth check"
+            "API routes with no auth check",
+            "OS command injection from unsanitized shell calls"
           ]
         }
       ],
@@ -1846,6 +1851,57 @@
         "h": 720
       },
       "updated": "2026-11-04"
+    },
+    {
+      "path": "/patterns/os-command-injection",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "OS command injection from unsanitized shell calls",
+      "seoTitle": "OS command injection in vibe-coded apps: stop shelling out on user input (CWE-78)",
+      "summary": "AI coding tools often “solve” file conversion, image processing or deploy hooks by calling a shell with string-built commands. If any part of that string comes from a user, upload filename or webhook body, attackers can append extra OS commands. MITRE calls that CWE-78 (Improper Neutralization of Special Elements used in an OS Command). Prefer library APIs over shells, pass arguments as arrays, and never concatenate untrusted input into a command line.",
+      "steps": [
+        "Search the generated project for child_process.exec, execSync, spawn with shell:true, os.system, subprocess with shell=True, Runtime.exec that builds a string, backticks in Ruby/PHP, and similar “run this command” helpers.",
+        "For each hit, list every value that ends up in the command string: request params, uploaded filenames, env overrides from clients, AI-generated paths, webhook payloads.",
+        "Replace shelling out with a native library or SDK when possible (image libraries, zip libraries, cloud SDKs) so no OS shell is involved.",
+        "If you must run an external binary, use an argv array / spawn without a shell, keep the executable path hard-coded, and pass user data only as separate arguments—never via string concatenation or shell interpolation.",
+        "Validate and constrain arguments: allowlists for subcommands and flags, reject path traversal and shell metacharacters, and keep working directories fixed.",
+        "Run the process with least privilege (dedicated service user, no unnecessary network or filesystem rights) and capture exit codes without reflecting raw stderr to clients.",
+        "Add a regression test or CI check that refuses builds containing shell:true / shell=True / exec(string) patterns on request-handling paths.",
+        "Retest defensively: confirm trusted inputs still work through the safe API path, and that previously string-built shell calls no longer exist on those routes."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE CWE-78 covers software that constructs an operating system command using externally influenced input without neutralizing special elements. The result can be execution of unintended commands with the privileges of the vulnerable process. OWASP’s OS Command Injection Defense Cheat Sheet recommends avoiding OS commands when a library API exists, and when a command is unavoidable, separating arguments from the program name and never building a shell string from untrusted data. This maps to injection-class failures in the OWASP Top Ten (A03:2021 Injection)."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-78: Improper Neutralization of Special Elements used in an OS Command — https://cwe.mitre.org/data/definitions/78.html",
+            "OWASP Cheat Sheet: OS Command Injection Defense — https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html",
+            "Checked at the source on November 5, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "SQL built from strings in raw queries (SQL injection)",
+            "Running AI or user output with eval, exec or new Function (code injection)",
+            "Prompt injection in your app's AI chatbot or AI features",
+            "API routes with no auth check",
+            "Hard-coded credentials left in vibe-coded apps"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/os-command-injection.webp",
+        "alt": "A developer at a desk reviewing code on a laptop with a sticky note that says never pass user input to shell, soft office lighting, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-05"
     }
   ],
   "static": [
