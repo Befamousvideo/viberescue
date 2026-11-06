@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 5, 2026",
+  "updated": "November 6, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -564,7 +564,8 @@
             "Server-side URL fetching that can reach internal services (SSRF)",
             "Rendering user or AI output as raw HTML (XSS)",
             "Running AI or user output with eval, exec or new Function (code injection)",
-            "OS command injection from unsanitized shell calls"
+            "OS command injection from unsanitized shell calls",
+            "Server-side template injection from unsanitized template strings"
           ]
         }
       ],
@@ -905,7 +906,8 @@
             "Missing security headers on a vibe-coded site",
             "JWTs or session tokens stored in localStorage",
             "Cookie-based login with no CSRF protection on state-changing requests",
-            "Running AI or user output with eval, exec or new Function (code injection)"
+            "Running AI or user output with eval, exec or new Function (code injection)",
+            "Server-side template injection from unsanitized template strings"
           ]
         }
       ],
@@ -995,7 +997,8 @@
             "Row Level Security disabled on Supabase tables",
             "Error messages that leak stack traces, queries or keys",
             "Running AI or user output with eval, exec or new Function (code injection)",
-            "OS command injection from unsanitized shell calls"
+            "OS command injection from unsanitized shell calls",
+            "Server-side template injection from unsanitized template strings"
           ]
         }
       ],
@@ -1692,7 +1695,8 @@
             "Rendering user or AI output as raw HTML (XSS)",
             "SQL built from strings in raw queries (SQL injection)",
             "Regex denial of service (ReDoS): one crafted input that freezes your app",
-            "OS command injection from unsanitized shell calls"
+            "OS command injection from unsanitized shell calls",
+            "Server-side template injection from unsanitized template strings"
           ]
         }
       ],
@@ -1891,7 +1895,8 @@
             "Running AI or user output with eval, exec or new Function (code injection)",
             "Prompt injection in your app's AI chatbot or AI features",
             "API routes with no auth check",
-            "Hard-coded credentials left in vibe-coded apps"
+            "Hard-coded credentials left in vibe-coded apps",
+            "Server-side template injection from unsanitized template strings"
           ]
         }
       ],
@@ -1902,6 +1907,57 @@
         "h": 720
       },
       "updated": "2026-11-05"
+    },
+    {
+      "path": "/patterns/server-side-template-injection",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Server-side template injection from unsanitized template strings",
+      "seoTitle": "Server-side template injection in vibe-coded apps: never concatenate user input into templates (CWE-1336)",
+      "summary": "AI coding tools often “fix” personalized emails, PDFs or dashboards by building a template string and feeding it to render_template_string, Template(), from_string or similar. If any part of that template source comes from a user, attacker-controlled template syntax can run on the server. MITRE calls improper handling of template engine syntax CWE-1336. Pass user data only as named variables into a fixed template, never as concatenated template source.",
+      "steps": [
+        "Search the generated project for render_template_string, Jinja2 Environment.from_string / Template(, Twig createTemplate, Liquid.parse on a request string, Handlebars.compile on user input, EJS/Pug compile of request bodies, and any “template = userText + …” patterns before a render call.",
+        "For each hit, separate the fixed template file or constant from the data. User names, order details and AI output belong in a context/dict of variables—not spliced into the template source.",
+        "Rewrite so the template source is a checked-in file or hard-coded string you control. Pass untrusted values only as named parameters (for example name=user.name).",
+        "Prefer logic-less or strictly sandboxed engines when possible. Disable dangerous features (eval-like filters, includes of arbitrary paths, Python/JS expression execution) unless you truly need them.",
+        "If end users must author templates (email builders, report designers), run that engine in a hardened sandbox with a tight allowlist of tags/filters, resource limits and no filesystem or network access from the template.",
+        "Map template names from an allowlist (id → filename) instead of letting clients choose a path or raw template body.",
+        "Add a CI or code-review check that fails on render_template_string / from_string / compile(request…) in request-handling code paths.",
+        "Retest: legitimate personalization still works with variables; previously string-built templates no longer accept template syntax from input."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE CWE-1336 covers products that use a template engine without properly handling special elements in syntax, which can lead to injection. OWASP’s Server-Side Template Injection Prevention Cheat Sheet stresses keeping untrusted data out of the template source, using sandboxes carefully when users must write templates, and treating SSTI as part of the broader injection class. In OWASP Top Ten terms this sits with A03:2021 Injection—alongside SQL injection, OS command injection and unsafe HTML rendering."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine — https://cwe.mitre.org/data/definitions/1336.html",
+            "OWASP Cheat Sheet: Server-Side Template Injection Prevention — https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Template_Injection_Prevention_Cheat_Sheet.html",
+            "Checked at the source on November 6, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Running AI or user output with eval, exec or new Function (code injection)",
+            "Prompt injection in your app's AI chatbot or AI features",
+            "Rendering user or AI output as raw HTML (XSS)",
+            "SQL built from strings in raw queries (SQL injection)",
+            "OS command injection from unsanitized shell calls"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/server-side-template-injection.webp",
+        "alt": "A developer at a desk reviewing template code on a laptop with a sticky note that says never concatenate user input into templates, soft office lighting, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-06"
     }
   ],
   "static": [
