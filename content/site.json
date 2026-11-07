@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 6, 2026",
+  "updated": "November 7, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -147,11 +147,13 @@
         {
           "h": "Related patterns",
           "ul": [
-            "Checkout prices, totals and discounts taken from the browser"
+            "Checkout prices, totals and discounts taken from the browser",
+            "Race conditions let one coupon, gift card or credit be used twice"
           ]
         }
       ],
-      "updated": "2026-10-14"
+      "updated": "2026-11-07",
+      "seoTitle": "Unverified Stripe webhooks: check the Stripe-Signature header"
     },
     {
       "path": "/patterns/unprotected-api-routes",
@@ -261,7 +263,8 @@
             "Password reset flows that leak accounts or trust the Host header",
             "Cron and webhook-style job endpoints anyone can trigger",
             "Login and signup messages that reveal which accounts exist (account enumeration)",
-            "Regex denial of service (ReDoS): one crafted input that freezes your app"
+            "Regex denial of service (ReDoS): one crafted input that freezes your app",
+            "Race conditions let one coupon, gift card or credit be used twice"
           ]
         }
       ],
@@ -302,7 +305,7 @@
       "group": "patterns",
       "label": "Pattern",
       "title": "Outdated packages with known vulnerabilities",
-      "summary": "AI tools add packages quickly and rarely update them.",
+      "summary": "AI tools add packages quickly and rarely update them. Old versions can carry publicly known vulnerabilities that attackers look for. Run your package manager’s audit (for example npm audit), turn on automated dependency update pull requests, and upgrade or replace packages with known issues.",
       "steps": [
         "Run npm audit or osv-scanner on your lockfile.",
         "Enable Dependabot.",
@@ -319,11 +322,13 @@
           "h": "Related patterns",
           "ul": [
             "AI-suggested packages that don't exist (slopsquatting)",
-            "Regex denial of service (ReDoS): one crafted input that freezes your app"
+            "Regex denial of service (ReDoS): one crafted input that freezes your app",
+            "Prototype pollution from deep-merging user JSON into objects"
           ]
         }
       ],
-      "updated": "2026-10-14"
+      "updated": "2026-11-07",
+      "seoTitle": "Outdated packages with known vulnerabilities in AI-built apps"
     },
     {
       "path": "/checklist",
@@ -729,7 +734,9 @@
             "Row Level Security disabled on Supabase tables",
             "SQL built from strings in raw queries (SQL injection)",
             "Checkout prices, totals and discounts taken from the browser",
-            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data"
+            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
+            "Race conditions let one coupon, gift card or credit be used twice",
+            "Prototype pollution from deep-merging user JSON into objects"
           ]
         }
       ],
@@ -769,7 +776,8 @@
           "ul": [
             "Outdated packages with known vulnerabilities",
             "API secret keys shipped in your frontend bundle",
-            "Prompt injection in your app's AI chatbot or AI features"
+            "Prompt injection in your app's AI chatbot or AI features",
+            "Prototype pollution from deep-merging user JSON into objects"
           ]
         }
       ],
@@ -1044,7 +1052,8 @@
             "Passwords stored in plain text or with fast hashes",
             "Tokens and IDs generated with Math.random()",
             "Login and signup messages that reveal which accounts exist (account enumeration)",
-            "Sessions that stay valid after logout, password change or timeout"
+            "Sessions that stay valid after logout, password change or timeout",
+            "Race conditions let one coupon, gift card or credit be used twice"
           ]
         }
       ],
@@ -1645,7 +1654,8 @@
             "Stripe webhooks not verified",
             "Mass assignment: users can set fields like role or is_admin",
             "API routes with no auth check",
-            "Server Actions with no auth check inside them"
+            "Server Actions with no auth check inside them",
+            "Race conditions let one coupon, gift card or credit be used twice"
           ]
         }
       ],
@@ -1696,7 +1706,8 @@
             "SQL built from strings in raw queries (SQL injection)",
             "Regex denial of service (ReDoS): one crafted input that freezes your app",
             "OS command injection from unsanitized shell calls",
-            "Server-side template injection from unsanitized template strings"
+            "Server-side template injection from unsanitized template strings",
+            "Prototype pollution from deep-merging user JSON into objects"
           ]
         }
       ],
@@ -1793,7 +1804,8 @@
             "API routes with no auth check",
             "Mass assignment: users can set fields like role or is_admin",
             "Auth checked only in Next.js middleware (proxy)",
-            "Sessions that stay valid after logout, password change or timeout"
+            "Sessions that stay valid after logout, password change or timeout",
+            "Race conditions let one coupon, gift card or credit be used twice"
           ]
         }
       ],
@@ -1947,7 +1959,8 @@
             "Prompt injection in your app's AI chatbot or AI features",
             "Rendering user or AI output as raw HTML (XSS)",
             "SQL built from strings in raw queries (SQL injection)",
-            "OS command injection from unsanitized shell calls"
+            "OS command injection from unsanitized shell calls",
+            "Prototype pollution from deep-merging user JSON into objects"
           ]
         }
       ],
@@ -1958,6 +1971,114 @@
         "h": 720
       },
       "updated": "2026-11-06"
+    },
+    {
+      "path": "/patterns/race-condition-limit-overrun",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Race conditions let one coupon, gift card or credit be used twice",
+      "seoTitle": "Race conditions: double-redeemed coupons and credits (CWE-362)",
+      "summary": "AI-generated checkout, credits and referral code usually works in three steps: check the code hasn’t been used, apply it, then mark it used. Send the same request twice at the same moment and both checks can pass before either write lands—so a one-time coupon, gift card balance or free AI credit gets used twice or more. MITRE files this under CWE-362; PortSwigger calls it a limit-overrun race. The fix is to make the check and the update one atomic database operation.",
+      "steps": [
+        "List every “only once” or “only up to X” rule in the app: one-time coupons, gift card and store-credit balances, free-trial or AI credit counters, referral bonuses, inventory for limited drops, votes and ratings, and withdrawal or payout limits.",
+        "For each, find the code. The risky shape is read-then-write: SELECT (or ORM find) to check the limit, some application logic, then a separate UPDATE or save().",
+        "Replace it with one conditional write the database enforces—for example UPDATE coupons SET used_at = now() WHERE code = $1 AND used_at IS NULL RETURNING id—and only apply the discount if a row came back.",
+        "For balances, decrement in the same statement with a guard (… SET balance = balance - $amt WHERE id = $id AND balance >= $amt), or wrap the read and write in a transaction that locks the row (SELECT … FOR UPDATE in PostgreSQL).",
+        "Add database constraints as a backstop: a UNIQUE index on (coupon_id, user_id) or on redemption records, and CHECK (balance >= 0).",
+        "Don’t use session variables, in-memory flags or a client-side “disabled” button to enforce the limit—they don’t stop parallel requests.",
+        "For payment and credit-granting endpoints, accept an idempotency key so retries and double-clicks are processed once (Stripe’s API supports idempotent requests).",
+        "Retest in staging by firing 20–30 identical requests in parallel at the redeem endpoint. Exactly one should succeed."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE CWE-362 describes code that relies on exclusive access to a shared resource while a timing window lets another thread change it. PortSwigger’s Web Security Academy shows how a one-time discount code can be claimed many times inside a fraction-of-a-second race window, and lists gift cards, ratings, balance withdrawals and rate limits as common targets. Its prevention advice: make state changes on sensitive endpoints atomic using the datastore’s concurrency features, use uniqueness constraints as defense in depth, and don’t use one storage layer (such as sessions) to secure another."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization — https://cwe.mitre.org/data/definitions/362.html",
+            "PortSwigger Web Security Academy: Race conditions — https://portswigger.net/web-security/race-conditions",
+            "PostgreSQL documentation: Explicit locking — https://www.postgresql.org/docs/current/explicit-locking.html",
+            "Stripe API reference: Idempotent requests — https://docs.stripe.com/api/idempotent_requests",
+            "Checked at the source on November 7, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Checkout prices, totals and discounts taken from the browser",
+            "No rate limiting on login, signup or AI endpoints",
+            "Stripe webhooks not verified",
+            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
+            "Mass assignment: users can set fields like role or is_admin",
+            "Password reset flows that leak accounts or trust the Host header"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/race-condition-limit-overrun.webp",
+        "alt": "A developer at a night-time desk with two monitors of code and a database table, a gift card and paper coupon beside the keyboard and a sticky note on the monitor, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-07"
+    },
+    {
+      "path": "/patterns/prototype-pollution",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Prototype pollution from deep-merging user JSON into objects",
+      "seoTitle": "Prototype pollution from unsafe deep merge in JavaScript (CWE-1321)",
+      "summary": "AI coding tools love a quick deepMerge(), setByPath() or recursive “apply settings” helper that copies a user’s JSON into an options or config object. If keys like __proto__, constructor or prototype aren’t blocked, an attacker can add properties to every object in the Node.js process—an isAdmin flag that suddenly reads true, a crashed server, or worse when a library trusts those properties. MITRE tracks this as CWE-1321.",
+      "steps": [
+        "Search the project for hand-written merge, clone, extend, defaultsDeep, set-by-path and “apply patch” helpers, plus any loop that does target[key] = source[key] over request JSON, query strings or form data.",
+        "In each, skip or reject the keys __proto__, constructor and prototype at every level—or better, rebuild the object from an allowlist of expected fields.",
+        "Validate request bodies with a strict schema (Zod, Joi, Ajv, Pydantic-style) that rejects unknown keys, so arbitrary nested keys never reach merge code.",
+        "Use Map or Set for user-keyed lookups instead of plain objects, and create plain dictionaries with Object.create(null) so they have no prototype to pollute.",
+        "Avoid authorization checks that read a property that might come from the prototype (if (user.isAdmin)); use Object.hasOwn(user, 'isAdmin') or explicit fields from your database.",
+        "Update merge and query-string libraries: prototype pollution has been reported in popular helpers, and fixes ship in newer versions. Run npm audit and check advisories.",
+        "As defense in depth on Node.js servers, consider starting with --disable-proto=delete, and test that your dependencies still work.",
+        "Retest: send {\"__proto__\":{\"polluted\":true}} and a constructor.prototype variant to every JSON endpoint, then confirm ({}).polluted is still undefined on the server."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE CWE-1321 notes the weakness is often found in code that assigns object attributes from user input or merges and clones objects recursively, and lists real CVEs in object-merging and set-by-path helpers. OWASP’s Prototype Pollution Prevention Cheat Sheet recommends Map/Set, prototype-less objects via Object.create(null), carefully tested freezing of built-in prototypes, and Node’s --disable-proto flag as a defense-in-depth measure. PortSwigger’s Web Security Academy covers both server-side and client-side variants."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-1321: Improperly Controlled Modification of Object Prototype Attributes — https://cwe.mitre.org/data/definitions/1321.html",
+            "OWASP Cheat Sheet: Prototype Pollution Prevention — https://cheatsheetseries.owasp.org/cheatsheets/Prototype_Pollution_Prevention_Cheat_Sheet.html",
+            "PortSwigger Web Security Academy: Prototype pollution — https://portswigger.net/web-security/prototype-pollution",
+            "MDN Web Docs: JavaScript prototype pollution — https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/Prototype_pollution",
+            "Node.js documentation: Command-line options (--disable-proto) — https://nodejs.org/api/cli.html",
+            "Checked at the source on November 7, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Mass assignment: users can set fields like role or is_admin",
+            "Running AI or user output with eval, exec or new Function (code injection)",
+            "Server-side template injection from unsanitized template strings",
+            "Outdated packages with known vulnerabilities",
+            "AI-suggested packages that don't exist (slopsquatting)"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/prototype-pollution.webp",
+        "alt": "A developer at a standing desk reviewing JavaScript on a laptop beside a printed object-tree diagram with one branch circled in red, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-07"
     }
   ],
   "static": [
