@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 7, 2026",
+  "updated": "November 8, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -120,7 +120,8 @@
           "ul": [
             "Production source maps that publish your app's original source code",
             "Passwords, tokens and personal data written to your logs",
-            "Hard-coded credentials left in vibe-coded apps"
+            "Hard-coded credentials left in vibe-coded apps",
+            "Debug or preview mode left on in production"
           ]
         }
       ],
@@ -184,7 +185,8 @@
             "Checkout prices, totals and discounts taken from the browser",
             "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
             "Hard-coded credentials left in vibe-coded apps",
-            "OS command injection from unsanitized shell calls"
+            "OS command injection from unsanitized shell calls",
+            "Debug or preview mode left on in production"
           ]
         }
       ],
@@ -294,7 +296,8 @@
             "Production source maps that publish your app's original source code",
             "File paths built from user input (path traversal)",
             "Passwords, tokens and personal data written to your logs",
-            "Hard-coded credentials left in vibe-coded apps"
+            "Hard-coded credentials left in vibe-coded apps",
+            "Debug or preview mode left on in production"
           ]
         }
       ],
@@ -323,7 +326,8 @@
           "ul": [
             "AI-suggested packages that don't exist (slopsquatting)",
             "Regex denial of service (ReDoS): one crafted input that freezes your app",
-            "Prototype pollution from deep-merging user JSON into objects"
+            "Prototype pollution from deep-merging user JSON into objects",
+            "Deserializing untrusted data (pickle, unserialize or Java objects)"
           ]
         }
       ],
@@ -496,7 +500,8 @@
             "SQL built from strings in raw queries (SQL injection)",
             "Production source maps that publish your app's original source code",
             "Login and signup messages that reveal which accounts exist (account enumeration)",
-            "Passwords, tokens and personal data written to your logs"
+            "Passwords, tokens and personal data written to your logs",
+            "Debug or preview mode left on in production"
           ]
         }
       ],
@@ -570,7 +575,8 @@
             "Rendering user or AI output as raw HTML (XSS)",
             "Running AI or user output with eval, exec or new Function (code injection)",
             "OS command injection from unsanitized shell calls",
-            "Server-side template injection from unsanitized template strings"
+            "Server-side template injection from unsanitized template strings",
+            "Deserializing untrusted data (pickle, unserialize or Java objects)"
           ]
         }
       ],
@@ -777,7 +783,8 @@
             "Outdated packages with known vulnerabilities",
             "API secret keys shipped in your frontend bundle",
             "Prompt injection in your app's AI chatbot or AI features",
-            "Prototype pollution from deep-merging user JSON into objects"
+            "Prototype pollution from deep-merging user JSON into objects",
+            "Deserializing untrusted data (pickle, unserialize or Java objects)"
           ]
         }
       ],
@@ -915,7 +922,8 @@
             "JWTs or session tokens stored in localStorage",
             "Cookie-based login with no CSRF protection on state-changing requests",
             "Running AI or user output with eval, exec or new Function (code injection)",
-            "Server-side template injection from unsanitized template strings"
+            "Server-side template injection from unsanitized template strings",
+            "Deserializing untrusted data (pickle, unserialize or Java objects)"
           ]
         }
       ],
@@ -959,7 +967,8 @@
             "User uploads in a public bucket",
             "No rate limiting on login, signup or AI endpoints",
             "Rendering user or AI output as raw HTML (XSS)",
-            "File paths built from user input (path traversal)"
+            "File paths built from user input (path traversal)",
+            "Deserializing untrusted data (pickle, unserialize or Java objects)"
           ]
         }
       ],
@@ -1355,7 +1364,8 @@
             "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
             "Exposed .env or .git on a deployed site",
             "Error messages that leak stack traces, queries or keys",
-            "Passwords, tokens and personal data written to your logs"
+            "Passwords, tokens and personal data written to your logs",
+            "Debug or preview mode left on in production"
           ]
         }
       ],
@@ -1553,7 +1563,8 @@
             "Error messages that leak stack traces, queries or keys",
             "API secret keys shipped in your frontend bundle",
             "Exposed .env or .git on a deployed site",
-            "Production source maps that publish your app's original source code"
+            "Production source maps that publish your app's original source code",
+            "Debug or preview mode left on in production"
           ]
         }
       ],
@@ -1707,7 +1718,8 @@
             "Regex denial of service (ReDoS): one crafted input that freezes your app",
             "OS command injection from unsanitized shell calls",
             "Server-side template injection from unsanitized template strings",
-            "Prototype pollution from deep-merging user JSON into objects"
+            "Prototype pollution from deep-merging user JSON into objects",
+            "Deserializing untrusted data (pickle, unserialize or Java objects)"
           ]
         }
       ],
@@ -1856,7 +1868,8 @@
             "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
             "Passwords stored in plain text or with fast hashes",
             "API routes with no auth check",
-            "OS command injection from unsanitized shell calls"
+            "OS command injection from unsanitized shell calls",
+            "Debug or preview mode left on in production"
           ]
         }
       ],
@@ -1960,7 +1973,8 @@
             "Rendering user or AI output as raw HTML (XSS)",
             "SQL built from strings in raw queries (SQL injection)",
             "OS command injection from unsanitized shell calls",
-            "Prototype pollution from deep-merging user JSON into objects"
+            "Prototype pollution from deep-merging user JSON into objects",
+            "Deserializing untrusted data (pickle, unserialize or Java objects)"
           ]
         }
       ],
@@ -2079,6 +2093,113 @@
         "h": 720
       },
       "updated": "2026-11-07"
+    },
+    {
+      "path": "/patterns/insecure-deserialization",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Deserializing untrusted data (pickle, unserialize or Java objects)",
+      "seoTitle": "Insecure deserialization in vibe-coded apps (CWE-502)",
+      "summary": "AI coding tools will happily load a file, cookie or request body with Python pickle, PHP unserialize, Java ObjectInputStream or a similar native serializer. Those formats can reconstruct objects—and run code—while they load. MITRE files this as CWE-502, Deserialization of Untrusted Data. Python’s own docs say the pickle module is not secure and you should only unpickle data you trust. The fix is to stop deserializing untrusted input that way and use a data-only format such as JSON plus a schema.",
+      "steps": [
+        "Search the project for native deserializers on data you did not create yourself: pickle.loads, pickle.load, cPickle, cloudpickle, PHP unserialize, Java ObjectInputStream.readObject, Ruby Marshal.load, YAML load (the unsafe kind), node-serialize and similar helpers, and any “restore session from cookie” or “load this uploaded model file” path.",
+        "For each match, ask whether the bytes can come from a user upload, a request, a cookie, a query string or a file on disk that someone else can replace. If yes, do not run the native deserializer on it.",
+        "Replace those loads with a data-only format. JSON (or another text format you parse into plain fields) plus a strict schema (Zod, Joi, Ajv, Pydantic-style) is the usual path. Rebuild a new object from allowlisted fields instead of resurrecting whatever class name arrived in the payload.",
+        "If you must accept a serialized blob you produced yourself (for example a signed job payload), HMAC or otherwise sign it before it leaves the server and reject anything with a bad signature—CWE-502 and the OWASP Deserialization Cheat Sheet both describe signing as a way to detect tampering. Signing does not make pickle safe against a stolen key.",
+        "Do not accept uploaded .pkl, serialized Java, or similar model/session files from end users into the same process that serves the website. If a feature needs those files, isolate the loader and treat the file as untrusted.",
+        "Trim libraries you do not need. CWE-502 notes that “gadget” classes sitting unused in dependencies can still be reached during unsafe deserialization; an allowlist of expected types is a backstop, not a complete fix.",
+        "Retest by confirming the old deserializer is gone from request, cookie and upload paths, and that unexpected JSON fields are rejected by your schema."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "CWE-502 describes deserializing untrusted data without making sure the result is valid. Consequences range from changed application data to resource-exhaustion and, depending on the objects involved, running unintended code (MITRE’s examples include Python pickle and PHP unserialize). Python’s pickle documentation warns that malicious pickle data can execute arbitrary code during unpickling, and recommends HMAC if you need to detect tampering plus JSON when you are processing untrusted data. The OWASP Deserialization Cheat Sheet’s language-agnostic guidance is to prefer alternative data formats and, if you deserialize, only deserialize signed data. This page is about finding and removing that pattern in your own app—not about attacking anyone else’s."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-502: Deserialization of Untrusted Data — https://cwe.mitre.org/data/definitions/502.html",
+            "OWASP Cheat Sheet: Deserialization — https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html",
+            "Python documentation: pickle — https://docs.python.org/3/library/pickle.html",
+            "Checked at the source on November 8, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Running AI or user output with eval, exec or new Function (code injection)",
+            "File uploads with no type, size or name checks",
+            "Prompt injection in your app's AI chatbot or AI features",
+            "Outdated packages with known vulnerabilities",
+            "AI-suggested packages that don't exist (slopsquatting)",
+            "Rendering user or AI output as raw HTML (XSS)",
+            "Server-side template injection from unsanitized template strings"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/insecure-deserialization.webp",
+        "alt": "A developer at a night-time desk studying blurred code on an unbranded monitor, with a notebook, coffee mug and USB drive on the desk and a sticky note marked with a red circle, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-08"
+    },
+    {
+      "path": "/patterns/debug-mode-in-production",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Debug or preview mode left on in production",
+      "seoTitle": "Debug mode left on in production: Django, Flask and more (CWE-489)",
+      "summary": "AI-generated apps often ship with Django DEBUG = True, Flask’s debugger, a development server, or an open preview playground still turned on. That leftover debug code is CWE-489. Django’s deployment checklist says you must never enable debug in production because error pages leak source excerpts, local variables, settings and installed libraries. Flask’s docs say not to run the development server or built-in debugger in production—the debugger can execute Python from the browser. Turn debug off, serve the production build, and keep verbose diagnostics in server-side logs.",
+      "steps": [
+        "Search configuration and startup code for debug flags: DEBUG = True, app.run(debug=True), flask run --debug, NODE_ENV=development, Next.js next dev used as the production command, Express error handlers that dump stacks, an open GraphQL or API playground, profiler or __debug__ routes, and preview or staging middleware that is reachable on the live hostname.",
+        "Set production so debug is off and cannot be flipped from a public request. In Django, DEBUG = False and a non-empty ALLOWED_HOSTS (Django will not run without ALLOWED_HOSTS when debug is off). Load the flag from an environment variable that is false in production.",
+        "Do not run the framework’s development server on the public site. Use the production server your platform expects (for example a WSGI/ASGI server for Django or Flask, or next start / the host’s production build for Next.js).",
+        "Confirm Flask/Werkzeug’s interactive debugger is off. Flask’s documentation warns that the debugger allows executing Python from the browser and that its PIN is not something to rely on for security.",
+        "Close extra debug surfaces: verbose error pages (see the related pattern on leaking stack traces), source maps on the production hostname, unauthenticated preview or GraphiQL/Swagger UIs, and any “debug toolbar” package.",
+        "Keep detailed errors in server logs or an error-tracking tool that only your team can see—not in the response sent to users.",
+        "Retest by triggering a harmless error on production-like settings and confirming the user sees a generic message, not a traceback, source excerpt or debugger."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "CWE-489, Active Debug Code (also called leftover debug code), is when a product is released with debugging code still enabled. MITRE notes it can lead to bypassing protections, reading application data or gaining privileges, depending on what the debug features expose. Django’s official deployment checklist is direct: never enable debug in production, because it leaks lots of information about your project. Flask’s debugging guide is equally direct: do not run the development server or enable the built-in debugger in production. The OWASP Django Security Cheat Sheet likewise treats turning DEBUG off as a production requirement. This is a configuration mistake to find in your own deployment, not a reason to probe someone else’s site."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-489: Active Debug Code — https://cwe.mitre.org/data/definitions/489.html",
+            "Django documentation: Deployment checklist — https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/",
+            "Flask documentation: Debugging Application Errors — https://flask.palletsprojects.com/en/stable/debugging/",
+            "OWASP Cheat Sheet: Django Security — https://cheatsheetseries.owasp.org/cheatsheets/Django_Security_Cheat_Sheet.html",
+            "Checked at the source on November 8, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Error messages that leak stack traces, queries or keys",
+            "Exposed .env or .git on a deployed site",
+            "Production source maps that publish your app's original source code",
+            "API routes with no auth check",
+            "API secret keys shipped in your frontend bundle",
+            "Passwords, tokens and personal data written to your logs",
+            "Hard-coded credentials left in vibe-coded apps"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/debug-mode-in-production.webp",
+        "alt": "A concerned developer in a small office looking at a laptop with a blurred settings panel and a bright red toggle switch, a server rack softly out of focus behind him, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-08"
     }
   ],
   "static": [
