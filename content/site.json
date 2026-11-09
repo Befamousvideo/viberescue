@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 8, 2026",
+  "updated": "November 9, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -327,11 +327,12 @@
             "AI-suggested packages that don't exist (slopsquatting)",
             "Regex denial of service (ReDoS): one crafted input that freezes your app",
             "Prototype pollution from deep-merging user JSON into objects",
-            "Deserializing untrusted data (pickle, unserialize or Java objects)"
+            "Deserializing untrusted data (pickle, unserialize or Java objects)",
+            "XML parsers that resolve external entities (XXE)"
           ]
         }
       ],
-      "updated": "2026-11-07",
+      "updated": "2026-11-09",
       "seoTitle": "Outdated packages with known vulnerabilities in AI-built apps"
     },
     {
@@ -531,11 +532,12 @@
         {
           "h": "Related patterns",
           "ul": [
-            "Rendering user or AI output as raw HTML (XSS)"
+            "Rendering user or AI output as raw HTML (XSS)",
+            "Session cookies missing Secure, HttpOnly or SameSite"
           ]
         }
       ],
-      "updated": "2026-10-16"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/prompt-injection-ai-features",
@@ -615,11 +617,12 @@
             "Missing security headers on a vibe-coded site",
             "API routes with no auth check",
             "JWTs or session tokens stored in localStorage",
-            "Cookie-based login with no CSRF protection on state-changing requests"
+            "Cookie-based login with no CSRF protection on state-changing requests",
+            "Session cookies missing Secure, HttpOnly or SameSite"
           ]
         }
       ],
-      "updated": "2026-10-17"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/jwt-in-localstorage",
@@ -657,11 +660,12 @@
             "Missing security headers on a vibe-coded site",
             "JWTs decoded but never verified",
             "Cookie-based login with no CSRF protection on state-changing requests",
-            "Sessions that stay valid after logout, password change or timeout"
+            "Sessions that stay valid after logout, password change or timeout",
+            "Session cookies missing Secure, HttpOnly or SameSite"
           ]
         }
       ],
-      "updated": "2026-10-18"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/open-redirect-oauth",
@@ -874,11 +878,12 @@
             "Open redirects after login or OAuth callbacks",
             "API routes with no auth check",
             "File uploads with no type, size or name checks",
-            "File paths built from user input (path traversal)"
+            "File paths built from user input (path traversal)",
+            "XML parsers that resolve external entities (XXE)"
           ]
         }
       ],
-      "updated": "2026-10-20"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/unsafe-html-rendering",
@@ -923,11 +928,12 @@
             "Cookie-based login with no CSRF protection on state-changing requests",
             "Running AI or user output with eval, exec or new Function (code injection)",
             "Server-side template injection from unsanitized template strings",
-            "Deserializing untrusted data (pickle, unserialize or Java objects)"
+            "Deserializing untrusted data (pickle, unserialize or Java objects)",
+            "Session cookies missing Secure, HttpOnly or SameSite"
           ]
         }
       ],
-      "updated": "2026-10-21"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/unrestricted-file-uploads",
@@ -968,11 +974,12 @@
             "No rate limiting on login, signup or AI endpoints",
             "Rendering user or AI output as raw HTML (XSS)",
             "File paths built from user input (path traversal)",
-            "Deserializing untrusted data (pickle, unserialize or Java objects)"
+            "Deserializing untrusted data (pickle, unserialize or Java objects)",
+            "XML parsers that resolve external entities (XXE)"
           ]
         }
       ],
-      "updated": "2026-10-21"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/sql-injection-raw-queries",
@@ -1415,7 +1422,8 @@
             "File uploads with no type, size or name checks",
             "Exposed .env or .git on a deployed site",
             "Server-side URL fetching that can reach internal services (SSRF)",
-            "User uploads in a public bucket"
+            "User uploads in a public bucket",
+            "XML parsers that resolve external entities (XXE)"
           ]
         }
       ],
@@ -1425,7 +1433,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-10-26"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/missing-csrf-protection",
@@ -1466,7 +1474,8 @@
             "JWTs or session tokens stored in localStorage",
             "Rendering user or AI output as raw HTML (XSS)",
             "API routes with no auth check",
-            "Sessions that stay valid after logout, password change or timeout"
+            "Sessions that stay valid after logout, password change or timeout",
+            "Session cookies missing Secure, HttpOnly or SameSite"
           ]
         }
       ],
@@ -1476,7 +1485,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-10-27"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/account-enumeration",
@@ -1581,7 +1590,7 @@
       "group": "patterns",
       "label": "Failure pattern",
       "title": "Sessions that stay valid after logout, password change or timeout",
-      "seoTitle": "Improper session invalidation (CWE-1464): logout, password change and timeouts that don't end sessions",
+      "seoTitle": "Sessions that survive logout or password change (CWE-1464)",
       "summary": "AI-built apps often \"log out\" by deleting a cookie or token in the browser and redirecting to the home page. The session itself is never ended on the server, so anyone who copied that token (from a shared computer, a leaked log or an XSS bug) can keep using it. The same happens when a user changes their password or an admin removes access but old sessions keep working, or when tokens never expire at all.",
       "steps": [
         "Test it: log in, copy your session cookie or token, log out, then replay a request with the copied value (curl or your browser dev tools). If it still works, sessions aren't invalidated.",
@@ -1615,7 +1624,8 @@
             "Tokens and IDs generated with Math.random()",
             "Cookie-based login with no CSRF protection on state-changing requests",
             "Auth checked only in Next.js middleware (proxy)",
-            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data"
+            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
+            "Session cookies missing Secure, HttpOnly or SameSite"
           ]
         }
       ],
@@ -1625,14 +1635,14 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-10-30"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/client-trusted-prices",
       "group": "patterns",
       "label": "Pattern",
       "title": "Checkout prices, totals and discounts taken from the browser",
-      "seoTitle": "Client-side price tampering in AI-built checkouts: fix trusted prices, totals and coupons (CWE-602)",
+      "seoTitle": "Client-side price tampering in AI-built checkouts (CWE-602)",
       "summary": "AI-generated checkouts often send the cart from the browser straight to the payment step: item prices, quantities, the total and the coupon discount all come from client code. Anyone can edit that request in dev tools and pay $1 for a $100 order, stack a coupon that should be blocked, or set a negative quantity. Hiding a field or disabling a button doesn't help, because the server never re-checks.",
       "steps": [
         "Test it: add an item, open dev tools, and replay the checkout request with a lower price, a changed total, a quantity of 0 or -1, or a coupon that shouldn't apply. If the payment page or order shows your edited numbers, the server trusts the browser.",
@@ -1676,14 +1686,14 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-10-31"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/eval-ai-output",
       "group": "patterns",
       "label": "Pattern",
       "title": "Running AI or user output with eval, exec or new Function (code injection)",
-      "seoTitle": "eval() on AI or user output in vibe-coded apps: code injection risk and fix (CWE-95, OWASP LLM05)",
+      "seoTitle": "eval() on AI or user output: code injection fix (CWE-95)",
       "summary": "AI-built apps sometimes take text from a model or a form and run it as code: eval() to compute a formula, new Function() to apply a \"rule\", exec() or a shell call to run a generated script. It works in the demo. But anyone who can influence that text, including through prompt injection, can make your server run their code. The fix is to never execute generated text, and to turn it into data you check instead.",
       "steps": [
         "Search your code for eval(, new Function(, setTimeout or setInterval with a string, vm.runInContext, child_process exec, Python exec( and eval(, and subprocess calls with shell=True.",
@@ -1729,7 +1739,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-01"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/regex-denial-of-service",
@@ -1767,7 +1777,8 @@
           "ul": [
             "No rate limiting on login, signup or AI endpoints",
             "Running AI or user output with eval, exec or new Function (code injection)",
-            "Outdated packages with known vulnerabilities"
+            "Outdated packages with known vulnerabilities",
+            "XML parsers that resolve external entities (XXE)"
           ]
         }
       ],
@@ -1777,7 +1788,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-02"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/idor-user-controlled-keys",
@@ -1938,7 +1949,7 @@
       "group": "patterns",
       "label": "Pattern",
       "title": "Server-side template injection from unsanitized template strings",
-      "seoTitle": "Server-side template injection in vibe-coded apps: never concatenate user input into templates (CWE-1336)",
+      "seoTitle": "Server-side template injection in vibe-coded apps (CWE-1336)",
       "summary": "AI coding tools often “fix” personalized emails, PDFs or dashboards by building a template string and feeding it to render_template_string, Template(), from_string or similar. If any part of that template source comes from a user, attacker-controlled template syntax can run on the server. MITRE calls improper handling of template engine syntax CWE-1336. Pass user data only as named variables into a fixed template, never as concatenated template source.",
       "steps": [
         "Search the generated project for render_template_string, Jinja2 Environment.from_string / Template(, Twig createTemplate, Liquid.parse on a request string, Handlebars.compile on user input, EJS/Pug compile of request bodies, and any “template = userText + …” patterns before a render call.",
@@ -1984,7 +1995,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-06"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/race-condition-limit-overrun",
@@ -2135,7 +2146,8 @@
             "Outdated packages with known vulnerabilities",
             "AI-suggested packages that don't exist (slopsquatting)",
             "Rendering user or AI output as raw HTML (XSS)",
-            "Server-side template injection from unsanitized template strings"
+            "Server-side template injection from unsanitized template strings",
+            "XML parsers that resolve external entities (XXE)"
           ]
         }
       ],
@@ -2145,7 +2157,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-08"
+      "updated": "2026-11-09"
     },
     {
       "path": "/patterns/debug-mode-in-production",
@@ -2200,6 +2212,114 @@
         "h": 720
       },
       "updated": "2026-11-08"
+    },
+    {
+      "path": "/patterns/insecure-cookie-flags",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Session cookies missing Secure, HttpOnly or SameSite",
+      "seoTitle": "Session cookie flags: Secure, HttpOnly, SameSite (CWE-614, 1004)",
+      "summary": "AI-generated login code often sets a session cookie with a bare res.cookie() or Set-Cookie call and no security attributes. Without Secure the browser can send it over plain HTTP (CWE-614); without HttpOnly any script on the page can read it (CWE-1004); without an explicit SameSite it may ride along on cross-site requests (CWE-1275). OWASP’s Session Management Cheat Sheet treats Secure and HttpOnly as mandatory for session IDs and says to set SameSite=Strict or Lax explicitly.",
+      "steps": [
+        "Log in to your own app, open DevTools → Application (or Storage) → Cookies, and look at every cookie that identifies a user: session IDs, auth tokens, refresh tokens. Check the Secure, HttpOnly and SameSite columns, plus Domain and Path.",
+        "Search the code for where those cookies are set: res.cookie, cookies().set in Next.js, Set-Cookie headers, session middleware options (express-session, iron-session, NextAuth/Auth.js), and any document.cookie writes in the frontend.",
+        "Set Secure on every session cookie so it is only sent over HTTPS. OWASP notes that forcing HTTPS on the site is not enough by itself if the cookie lacks Secure.",
+        "Set HttpOnly so JavaScript cannot read the cookie through document.cookie. If the frontend “needs” to read the token, that is a design smell—move the auth check to the server instead.",
+        "Set SameSite explicitly: Strict where it does not break your flows, otherwise Lax. Only use SameSite=None when a cross-site flow truly needs it, and then always with Secure. Keep CSRF tokens or Origin checks too—OWASP calls SameSite defense in depth, not a replacement.",
+        "Narrow the scope: leave Domain unset unless subdomains must share the cookie, and consider the __Host- name prefix for session cookies (it requires Secure, Path=/ and no Domain). MDN notes that browsers without prefix support do not enforce those guarantees.",
+        "Stop setting auth cookies from client-side JavaScript; set them in the server response. Then log out and back in and recheck the attributes in DevTools on the production domain."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "Session cookies are the keys to a logged-in account. MITRE files missing Secure on sensitive HTTPS cookies as CWE-614, missing HttpOnly on cookies holding sensitive data as CWE-1004, and a missing or insecure SameSite value as CWE-1275. OWASP’s Session Management Cheat Sheet explains the practical effect: without Secure, an attacker on the network can trick the browser into sending the session ID over plain HTTP; without HttpOnly, one cross-site scripting bug can read the session ID; and SameSite limits when the browser attaches the cookie to cross-site requests. MDN’s Set-Cookie reference documents each attribute and the cookie name prefixes. This page is for checking and fixing cookies on an app you own."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-614: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute — https://cwe.mitre.org/data/definitions/614.html",
+            "MITRE CWE-1004: Sensitive Cookie Without 'HttpOnly' Flag — https://cwe.mitre.org/data/definitions/1004.html",
+            "MITRE CWE-1275: Sensitive Cookie with Improper SameSite Attribute — https://cwe.mitre.org/data/definitions/1275.html",
+            "OWASP Cheat Sheet: Session Management — https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+            "MDN: Set-Cookie header — https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie",
+            "Checked at the source on November 9, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "JWTs or session tokens stored in localStorage",
+            "Cookie-based login with no CSRF protection on state-changing requests",
+            "Sessions that stay valid after logout, password change or timeout",
+            "CORS that trusts any origin (and sends cookies)",
+            "Missing security headers on a vibe-coded site",
+            "Rendering user or AI output as raw HTML (XSS)"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/insecure-cookie-flags.webp",
+        "alt": "A developer at a night-time desk studying browser developer tools on an unbranded monitor with blurred panels, a small cookie sticker on the bezel and a padlock keychain beside the keyboard, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-09"
+    },
+    {
+      "path": "/patterns/xml-external-entities-xxe",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "XML parsers that resolve external entities (XXE)",
+      "seoTitle": "XXE in vibe-coded apps: XML, SVG and DOCX parsing (CWE-611)",
+      "summary": "If your app parses XML you did not write—an uploaded SVG, a DOCX or XLSX import, a SAML response, an RSS feed, a SOAP or XML API—an AI-written parser setup may still honor DOCTYPE declarations and external entities. MITRE calls this CWE-611. OWASP’s XXE Prevention Cheat Sheet says it can expose local files, cause server-side request forgery (SSRF) or exhaust resources. The fix is to reject DTDs where possible and turn off external entity and external DTD loading in every parser that sees untrusted XML.",
+      "steps": [
+        "List every place the server parses XML from outside: file uploads (SVG, DOCX, XLSX, ODT and other zip-of-XML formats), SAML or SSO responses, RSS or sitemap imports, payment or shipping XML APIs, and any ‘import from XML’ feature an AI tool added.",
+        "For each one, find the parser and its options. Look for settings that expand entities, load external DTDs or enable XInclude (for example libxml2’s NOENT and DTDLOAD options or similar flags in other libraries) and turn them off.",
+        "Follow OWASP’s general rule: disable DTDs entirely when you can and reject any document with a DOCTYPE. If you truly need DTDs, disable external entity resolution and external DTD loading and limit entity expansion.",
+        "In Python, follow the standard library’s XML security guidance and use the defusedxml parsing functions for untrusted XML, with forbid_dtd=True where available. In PHP, OWASP’s current guidance is to install an external-entity loader callback that returns null and not to enable LIBXML_NOENT or LIBXML_DTDLOAD for untrusted input. For Java, use the parser-specific settings in the cheat sheet.",
+        "Treat a missing or unsupported security setting as a failure, not a warning: if the library cannot be hardened, do not feed it untrusted XML.",
+        "If you only need to display uploaded SVGs, consider not parsing them server-side at all, or convert them to a raster image in an isolated worker. Keep file-size limits in place, since XXE fixes do not stop every XML denial-of-service problem.",
+        "Retest by uploading a small XML or SVG file of your own that contains a DOCTYPE and confirm your app rejects it or ignores the entity."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "CWE-611 (Improper Restriction of XML External Entity Reference) describes processing XML that can contain entities whose URIs resolve to documents outside the intended sphere of control, so the product embeds the wrong documents into its output. OWASP’s XML External Entity Prevention Cheat Sheet lists the consequences—local file exposure, SSRF and resource exhaustion—and gives parser-by-parser settings. XXE is also part of the misconfiguration family in the OWASP Top 10. Many modern libraries are safer by default, but an AI suggestion that copies an old example or flips an “expand entities” option can switch the risk back on. This page is about finding and turning off that behavior in your own app."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-611: Improper Restriction of XML External Entity Reference — https://cwe.mitre.org/data/definitions/611.html",
+            "OWASP Cheat Sheet: XML External Entity Prevention — https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html",
+            "OWASP Top 10 2025: A02 Security Misconfiguration — https://owasp.org/Top10/2025/A02_2025-Security_Misconfiguration/",
+            "Python documentation: XML processing modules (XML security) — https://docs.python.org/3/library/xml.html",
+            "defusedxml on PyPI — https://pypi.org/project/defusedxml/",
+            "Checked at the source on November 9, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Server-side URL fetching that can reach internal services (SSRF)",
+            "File uploads with no type, size or name checks",
+            "File paths built from user input (path traversal)",
+            "Deserializing untrusted data (pickle, unserialize or Java objects)",
+            "Outdated packages with known vulnerabilities",
+            "Regex denial of service (ReDoS): one crafted input that freezes your app"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/xml-external-entities-xxe.webp",
+        "alt": "A developer at a sunny desk marking up a printed page of blurred angle-bracket markup with a red pen, an unbranded laptop, a stack of papers and a USB drive beside him, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-09"
     }
   ],
   "static": [
