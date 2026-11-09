@@ -35,8 +35,8 @@ export default function FixRequestForm() {
   const busy = state === "loading";
   return (<form className="brf" onSubmit={onSubmit}>
     <label>Name<input name="name" required maxLength={120} autoComplete="name" disabled={busy} /></label>
-    <label>Email<input type="email" name="email" required maxLength={254} autoComplete="email" placeholder="you@example.com" disabled={busy} /></label>
-    <label>Phone<input type="tel" name="phone" required maxLength={40} autoComplete="tel" placeholder="(949) 555-1234" disabled={busy} /></label>
+    <label>Email<input type="email" name="email" required maxLength={254} autoComplete="email" disabled={busy} /></label>
+    <label>Phone<input type="tel" name="phone" required maxLength={40} autoComplete="tel" disabled={busy} /></label>
     <label>App URL<input type="url" name="appUrl" required maxLength={300} placeholder="https://your-app.example.com" disabled={busy} /></label>
     <label>Built with<select name="stack" required defaultValue="" disabled={busy}><option value="" disabled>Choose one</option>{STACKS.map(x => <option key={x}>{x}</option>)}</select></label>
     <label>What's going wrong?<textarea name="problem" required rows={5} minLength={10} maxLength={3000} placeholder="What's broken or worrying you? e.g. users can see each other's data, a key may be exposed, payments aren't confirming." disabled={busy} /></label>

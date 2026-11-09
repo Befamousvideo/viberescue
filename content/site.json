@@ -2248,15 +2248,17 @@
     {
       "path": "/privacy",
       "title": "Privacy policy",
-      "summary": "Draft privacy policy pending review. We collect only what you submit and never sell personal information.",
-      "flag": "Draft — pending legal review before launch.",
+      "summary": "[PLACEHOLDER] Draft privacy policy pending review. We collect only what you submit and never sell personal information. Final copy arrives after legal review.",
+      "flag": "Draft — placeholder copy pending legal review before launch.",
+      "effectiveDate": "[to be provided]",
+      "mailingAddress": "Mailing address: [to be provided]",
       "blocks": [
         {
           "ul": [
-            "We collect your email when you subscribe, and the details you send in a fix request (name, email, phone, app URL, what it's built with and the problem you describe). Fix requests go to StorenTech AI to prepare your quote.",
-            "We use privacy-friendly analytics.",
-            "We never sell personal information.",
-            "Contact details will be published at launch."
+            "[PLACEHOLDER] We collect your email when you subscribe, the message you send through the contact form (name, email and message), and the details you send in a fix request (name, email, phone, app URL, what it's built with and the problem you describe). Fix requests go to StorenTech AI to prepare your quote.",
+            "[PLACEHOLDER] We use privacy-friendly analytics.",
+            "[PLACEHOLDER] We never sell personal information.",
+            "[PLACEHOLDER] To contact us, use the form on the Contact page. We do not publish an email address or phone number."
           ]
         }
       ],
@@ -2265,12 +2267,54 @@
     {
       "path": "/terms",
       "title": "Terms of use",
-      "summary": "Draft terms pending review. Content is general information, not professional advice.",
-      "flag": "Draft — pending legal review before launch.",
+      "summary": "[PLACEHOLDER] Draft terms pending review. Content is general information, not professional advice. Final copy arrives after legal review.",
+      "flag": "Draft — placeholder copy pending legal review before launch.",
+      "effectiveDate": "[to be provided]",
+      "mailingAddress": "Mailing address: [to be provided]",
       "blocks": [
         {
           "p": [
-            "Content is provided for general information and may contain errors. Verify with official vendor documentation before acting. VibeRescue doesn't test or scan anyone's app. If you ask StorenTech AI to fix something, that work is quoted and agreed separately under StorenTech AI's standard terms."
+            "[PLACEHOLDER] Content is provided for general information and may contain errors. Verify with official vendor documentation before acting. VibeRescue doesn't test or scan anyone's app. If you ask StorenTech AI to fix something, that work is quoted and agreed separately under StorenTech AI's standard terms.",
+            "[PLACEHOLDER] Questions about these terms: use the contact form. We do not publish an email address or phone number."
+          ]
+        }
+      ],
+      "cta": false
+    },
+    {
+      "path": "/contact",
+      "title": "Contact",
+      "summary": "[PLACEHOLDER] Send a message with the form on this page. We do not publish an email address or phone number. Final copy arrives after legal review.",
+      "flag": "Draft — placeholder copy pending legal review before launch.",
+      "mailingAddress": "Mailing address: [to be provided]",
+      "blocks": [
+        {
+          "p": [
+            "[PLACEHOLDER] Use the form below. We'll reply by email to the address you enter. Please don't include passwords, API keys or other secrets."
+          ]
+        }
+      ],
+      "form": {
+        "live": "contact",
+        "title": "Send a message",
+        "note": "[PLACEHOLDER] We'll reply by email. Don't include passwords or secrets."
+      },
+      "cta": false
+    },
+    {
+      "path": "/refund",
+      "title": "Refund policy",
+      "summary": "[PLACEHOLDER] Draft refund policy pending review. Use the contact form to request a refund. Final copy arrives after legal review.",
+      "flag": "Draft — placeholder copy pending legal review before launch.",
+      "effectiveDate": "[to be provided]",
+      "mailingAddress": "Mailing address: [to be provided]",
+      "blocks": [
+        {
+          "p": [
+            "[PLACEHOLDER] This refund policy is a stand-in until legal review. Do not treat it as the final policy.",
+            "[PLACEHOLDER] Paid ads: if we reject an ad before it runs you aren't charged; if we remove a running ad we refund unused time; ads cancelled after they start running aren't refunded. See the Ad Policy at https://viberescue.app/advertise/policy.",
+            "[PLACEHOLDER] Get-it-fixed work is quoted and agreed separately under StorenTech AI's standard terms before any charge.",
+            "[PLACEHOLDER] To request a refund, use the contact form. We do not publish an email address or phone number."
           ]
         }
       ],
