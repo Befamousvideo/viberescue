@@ -23,7 +23,13 @@
   "mailingAddress": "P.O. Box 372, Corona Del Mar, CA 92625",
   "newsletter": {
     "title": "Vibe Security Weekly",
-    "blurb": "One email a week with new failure patterns and how to fix them."
+    "blurb": "One email a week with new failure patterns and how to fix them.",
+    "emailFooter": [
+      "VibeRescue, a StorenTech company",
+      "P.O. Box 372, Corona Del Mar, CA 92625",
+      "You received this email because you signed up for the VibeRescue newsletter.",
+      "To stop receiving these emails, use the unsubscribe link in this message. The unsubscribe link stays available for at least 30 days after we send the message. We honor opt-out requests within 10 business days."
+    ]
   },
   "sponsorSlot": "Reach builders who ship with AI coding tools. Limited to devtools, security and hosting sponsors.",
   "mainCta": {
@@ -2262,7 +2268,7 @@
         {
           "h": "How to contact us",
           "p": [
-            "The way to reach us, including to ask about this policy or to request a review or change of personal information we have about you, is the [contact form](/contact).",
+            "The way to reach us, including to ask about this policy or to request a review or change of personal information we have about you, is the contact form.",
             "Mailing address:",
             "VibeRescue, a StorenTech company",
             "P.O. Box 372, Corona Del Mar, CA 92625"
@@ -2300,7 +2306,7 @@
         {
           "h": "Newsletter email practices",
           "p": [
-            "Newsletter emails are sent by VibeRescue, a StorenTech company. Each email includes this mailing address: P.O. Box 372, Corona Del Mar, CA 92625. Each email includes a way to unsubscribe. We honor opt-out requests within 10 business days. We do not use false sender information or misleading subject lines."
+            "Newsletter emails are sent by VibeRescue, a StorenTech company. Each email includes this mailing address: P.O. Box 372, Corona Del Mar, CA 92625. Each email includes a way to unsubscribe. The unsubscribe link stays available for at least 30 days after we send the message. We honor opt-out requests within 10 business days. We do not use false sender information or misleading subject lines."
           ]
         },
         {
@@ -2312,9 +2318,14 @@
             "StorenTech AI, which receives fix requests so it can prepare a quote. This is already stated on the current privacy page.",
             "Vercel, our website host, and Vercel Analytics and Vercel Speed Insights, which measure traffic and performance. Confirmed: the site is served by Vercel, and the site loads Vercel Analytics and Vercel Speed Insights scripts.",
             "Cloudflare Turnstile, which helps reduce spam on some forms (the fix-request form and the advertise order form). Confirmed: those forms load Cloudflare’s Turnstile script.",
-            "Stripe, if and when a payment is taken. The advertise page says approved ads are billed through a Stripe payment link. We did not find a Stripe script on the pages we checked.",
+            "Stripe, if and when a payment is taken. The advertise page says approved ads are billed through a Stripe payment link. We did not find a Stripe script on the pages we checked. When a payment is taken, Stripe processes it; we do not collect your card details on this website.",
             "An email-delivery provider, if we use one to send newsletters or form notifications. We could not confirm the vendor from the live pages or scripts. Forms post to this site’s own /api routes. Resend was not found.",
             "HubSpot was not found in the live pages or scripts, and is not listed as a current recipient."
+          ]
+        },
+        {
+          "p": [
+            "If a card-network dispute is opened, we may also share relevant order information with the payment processor and the card network."
           ]
         },
         {
@@ -2335,13 +2346,23 @@
         {
           "h": "Reviewing or changing your information",
           "p": [
-            "Use the [contact form](/contact) to ask what information we have about you, or to ask us to update it."
+            "Use the contact form to ask what information we have about you, or to ask us to update it."
+          ]
+        },
+        {
+          "h": "California privacy rights (VERIFY-1)",
+          "p": [
+            "We have not confirmed whether the California Consumer Privacy Act (CCPA), as amended, applies to us. That depends on revenue and data-volume thresholds that are not stated here. The official figures are listed separately and are not blended: Civil Code §1798.140 uses $25,000,000 as adjusted; the California Privacy Protection Agency posts the adjusted amount, effective January 1, 2025, as $26,625,000; the California Attorney General’s FAQ still says “over $25 million.”",
+            "We do not sell personal information. Based on the tools we could confirm on this site, we do not share personal information for cross-context behavioral advertising as those terms are defined under California law.",
+            "If CCPA applies, California residents may have the right to know what personal information we collect and how we use and share it; to delete it, with legal exceptions; to correct inaccurate information; to opt out of sale or sharing; to limit the use of sensitive personal information if we collect it for purposes that require that choice; and not to be discriminated against for exercising those rights.",
+            "To make a request, use the contact form. You do not need an account. An authorized agent may submit a request on your behalf.",
+            "Notice at collection, if CCPA applies: we collect the categories of information listed under “Information we collect” above, and we use them for the purposes listed under “How we use it.”"
           ]
         },
         {
           "h": "Payments and refunds",
           "p": [
-            "This site does not currently publish refund, cancellation, or dispute terms for a paid product. If VibeRescue takes payments, we will add those terms. To ask a question now, use the [contact form](/contact)."
+            "Refund and cancellation terms for $79 and $199 advertising placements appear on the advertise page and in the Ad Policy, and are summarized in the terms. If VibeRescue later sells other paid products, we will add refund terms for those products."
           ]
         }
       ]
@@ -2368,7 +2389,7 @@
         {
           "h": "Contact",
           "p": [
-            "The way to reach us is the [contact form](/contact).",
+            "The way to reach us is the contact form.",
             "Mailing address:",
             "VibeRescue, a StorenTech company",
             "P.O. Box 372, Corona Del Mar, CA 92625"
@@ -2377,19 +2398,23 @@
         {
           "h": "Fix-it work",
           "p": [
-            "If you ask StorenTech AI to fix something, that work is quoted and agreed separately under StorenTech AI’s standard terms. The live “Get it fixed” page is a request form, not a checkout."
+            "If you ask StorenTech AI to fix something, that work is quoted and agreed separately under StorenTech AI’s standard terms [LINK - BOB TO CONFIRM]. The live “Get it fixed” page is a request form, not a checkout."
           ]
         },
         {
-          "h": "Payments and refunds",
+          "h": "Payments, refunds, cancellation, and disputes",
           "p": [
-            "This site does not currently publish refund, cancellation, or dispute terms for a paid product. If VibeRescue takes payments, we will add those terms. To ask a question now, use the [contact form](/contact)."
+            "For $79 and $199 advertising placements, the refund and cancellation terms on the advertise page and in the Ad Policy apply. Those placements are a one-time payment for a 30-day run, not a subscription, and they do not renew automatically. You only pay if we approve your ad and send you a Stripe payment link. Nothing is charged before that.",
+            "In short: if we reject your ad before it runs, you aren't charged, and if you somehow already paid, you get a full refund. If we remove a running ad, we refund the unused portion of your 30 days. If you cancel after your ad starts running, that payment is not refunded. We may reject any ad, or remove a running ad, at our discretion. The version of the Ad Policy at the time you order applies to your run.",
+            "When a payment is taken, Stripe processes it through that payment link. We do not collect your card details on this website. Prices are in US dollars.",
+            "If VibeRescue later sells other paid products, we will add refund terms for those products.",
+            "To cancel, request a refund, or question a charge, use the contact form. You may also contact your card issuer about a charge. If a card-network dispute is opened, we may share order and policy records with the payment processor and the card network to respond to the dispute."
           ]
         },
         {
           "h": "Newsletter",
           "p": [
-            "If you join the VibeRescue newsletter, we send a short email with new failure patterns and how to fix them. Each newsletter identifies the sender as VibeRescue, a StorenTech company, includes the mailing address above, and includes a way to unsubscribe. We honor opt-out requests within 10 business days."
+            "If you join the VibeRescue newsletter, we send a short email with new failure patterns and how to fix them. Each newsletter identifies the sender as VibeRescue, a StorenTech company, includes the mailing address above, and includes a way to unsubscribe. The unsubscribe link stays available for at least 30 days after we send the message. We honor opt-out requests within 10 business days."
           ]
         },
         {
@@ -2401,7 +2426,7 @@
         {
           "h": "Questions",
           "p": [
-            "Use the [contact form](/contact)."
+            "Use the contact form."
           ]
         }
       ]
