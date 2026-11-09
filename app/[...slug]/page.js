@@ -36,7 +36,7 @@ export default async function Page({ params }) {
     {p.group && <p className="muted small">Last updated {pageDateLabel(p)}</p>}
     {p.steps && <section><h2>Steps</h2><ol>{p.steps.map((s, i) => <li key={i}><Linked t={s} /></li>)}</ol></section>}
     {(p.blocks || []).filter(b => !(hasKids && (b.ul || b.ol) && !b.p && (b.ul || b.ol).every(t => matchTitle(t)))).map((b, i) => <Block key={i} b={b} />)}
-    {p.mailingAddress && <p className="muted">{p.mailingAddress}</p>}
+    {p.mailingAddress && <p className="muted">Mailing address: {site.mailingAddress}</p>}
     {hasKids && <Listing path={p.path} />}
     {p.form && p.form.live === "fix-request" && <section className="card" id="request"><h2>{p.form.title}</h2><FixRequestForm /><p className="muted small">{p.form.note}</p></section>}
     {p.form && p.form.live === "contact" && <section className="card" id="contact"><h2>{p.form.title}</h2><ContactForm /><p className="muted small">{p.form.note}</p></section>}

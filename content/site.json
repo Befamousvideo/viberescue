@@ -20,6 +20,7 @@
     }
   ],
   "footer": "VibeRescue: security basics for apps built with AI coding tools. Defensive guidance only.",
+  "mailingAddress": "P.O. Box 372, Corona Del Mar, CA 92625",
   "newsletter": {
     "title": "Vibe Security Weekly",
     "blurb": "One email a week with new failure patterns and how to fix them."
@@ -2251,7 +2252,7 @@
       "summary": "[PLACEHOLDER] Draft privacy policy pending review. We collect only what you submit and never sell personal information. Final copy arrives after legal review.",
       "flag": "Draft — placeholder copy pending legal review before launch.",
       "effectiveDate": "[to be provided]",
-      "mailingAddress": "Mailing address: [to be provided]",
+      "mailingAddress": true,
       "blocks": [
         {
           "ul": [
@@ -2270,7 +2271,7 @@
       "summary": "[PLACEHOLDER] Draft terms pending review. Content is general information, not professional advice. Final copy arrives after legal review.",
       "flag": "Draft — placeholder copy pending legal review before launch.",
       "effectiveDate": "[to be provided]",
-      "mailingAddress": "Mailing address: [to be provided]",
+      "mailingAddress": true,
       "blocks": [
         {
           "p": [
@@ -2286,7 +2287,7 @@
       "title": "Contact",
       "summary": "[PLACEHOLDER] Send a message with the form on this page. We do not publish an email address or phone number. Final copy arrives after legal review.",
       "flag": "Draft — placeholder copy pending legal review before launch.",
-      "mailingAddress": "Mailing address: [to be provided]",
+      "mailingAddress": true,
       "blocks": [
         {
           "p": [
@@ -2307,7 +2308,7 @@
       "summary": "[PLACEHOLDER] Draft refund policy pending review. Use the contact form to request a refund. Final copy arrives after legal review.",
       "flag": "Draft — placeholder copy pending legal review before launch.",
       "effectiveDate": "[to be provided]",
-      "mailingAddress": "Mailing address: [to be provided]",
+      "mailingAddress": true,
       "blocks": [
         {
           "p": [
