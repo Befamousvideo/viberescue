@@ -31,15 +31,15 @@ export default async function Page({ params }) {
     <h1>{p.title}</h1>
     {p.image && <img className="hero" src={p.image.src} alt={p.image.alt} width={p.image.w} height={p.image.h} fetchPriority="high" />}
     {p.flag && <div className="flag">⚠️ {p.flag}</div>}
-    <div className="tldr"><strong>Quick answer:</strong> {p.summary}</div>
+    {p.tldr !== false && <div className="tldr"><strong>Quick answer:</strong> {p.summary}</div>}
     {p.effectiveDate && <p className="muted small">Effective date: {p.effectiveDate}</p>}
     {p.group && <p className="muted small">Last updated {pageDateLabel(p)}</p>}
     {p.steps && <section><h2>Steps</h2><ol>{p.steps.map((s, i) => <li key={i}><Linked t={s} /></li>)}</ol></section>}
     {(p.blocks || []).filter(b => !(hasKids && (b.ul || b.ol) && !b.p && (b.ul || b.ol).every(t => matchTitle(t)))).map((b, i) => <Block key={i} b={b} />)}
-    {p.mailingAddress && <p className="muted">Mailing address: {site.mailingAddress}</p>}
     {hasKids && <Listing path={p.path} />}
-    {p.form && p.form.live === "fix-request" && <section className="card" id="request"><h2>{p.form.title}</h2><FixRequestForm /><p className="muted small">{p.form.note}</p></section>}
-    {p.form && p.form.live === "contact" && <section className="card" id="contact"><h2>{p.form.title}</h2><ContactForm /><p className="muted small">{p.form.note}</p></section>}
+    {p.form && p.form.live === "fix-request" && <section className="card" id="request"><h2>{p.form.title}</h2><FixRequestForm /><p className="muted small"><Linked t={p.form.note} /></p></section>}
+    {p.form && p.form.live === "contact" && <section className="card" id="contact"><h2>{p.form.title}</h2><ContactForm /><p className="muted small"><Linked t={p.form.note} /></p></section>}
+    {p.mailingAddress && <section><p>Mailing address:</p><p>VibeRescue, a StorenTech company</p><p>{site.mailingAddress}</p></section>}
     {p.form && !p.form.live && <section className="card"><h2>{p.form.title}</h2>{p.form.fields.map(f => <label key={f}>{f}<input disabled placeholder={f} /></label>)}
       <button className="btn" type="button" disabled>{p.form.button}</button><p className="muted small">{p.form.note}</p></section>}
     {p.faq && <section><h2>FAQ</h2>{p.faq.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</section>}

@@ -2249,77 +2249,183 @@
     {
       "path": "/privacy",
       "title": "Privacy policy",
-      "summary": "[PLACEHOLDER] Draft privacy policy pending review. We collect only what you submit and never sell personal information. Final copy arrives after legal review.",
-      "flag": "Draft — placeholder copy pending legal review before launch.",
-      "effectiveDate": "[to be provided]",
-      "mailingAddress": true,
+      "summary": "How VibeRescue collects and uses personal information on this website. We do not sell personal information.",
+      "tldr": false,
+      "cta": false,
+      "effectiveDate": "[EFFECTIVE DATE - VINCENT TO CHOOSE]",
       "blocks": [
         {
+          "p": [
+            "VibeRescue is a StorenTech company. This policy describes the personal information we collect on this website and how we use it. It is written in plain language and is not a guarantee of legal compliance."
+          ]
+        },
+        {
+          "h": "How to contact us",
+          "p": [
+            "The way to reach us, including to ask about this policy or to request a review or change of personal information we have about you, is the [contact form](/contact).",
+            "Mailing address:",
+            "VibeRescue, a StorenTech company",
+            "P.O. Box 372, Corona Del Mar, CA 92625"
+          ]
+        },
+        {
+          "h": "Information we collect",
+          "p": [
+            "We collect information you submit, including:"
+          ],
           "ul": [
-            "[PLACEHOLDER] We collect your email when you subscribe, the message you send through the contact form (name, email and message), and the details you send in a fix request (name, email, phone, app URL, what it's built with and the problem you describe). Fix requests go to StorenTech AI to prepare your quote.",
-            "[PLACEHOLDER] We use privacy-friendly analytics.",
-            "[PLACEHOLDER] We never sell personal information.",
-            "[PLACEHOLDER] To contact us, use the form on the Contact page. We do not publish an email address or phone number."
+            "Newsletter sign-up: your email address, and the page you signed up from.",
+            "Fix requests: name, email, phone, app URL, what the app is built with, the problem you describe, and your consent to be contacted about the request. Fix requests go to StorenTech AI to prepare a quote.",
+            "Advertise requests: name, business details, email, phone, placement choice, ad content, and related files you upload.",
+            "Contact form: name, email, and message."
+          ]
+        },
+        {
+          "p": [
+            "We also collect technical information needed to run and protect the site, such as the fact that a page was viewed and, on some forms, a spam-prevention token.",
+            "We do not sell personal information."
+          ]
+        },
+        {
+          "h": "How we use it",
+          "ul": [
+            "To send the newsletter if you joined it.",
+            "To review a fix request and prepare a quote, including sharing the request with StorenTech AI.",
+            "To follow up on an advertise request.",
+            "To reply to a message you send through the contact form.",
+            "To operate, secure, and understand use of this website.",
+            "To process a payment when a payment is actually taken."
+          ]
+        },
+        {
+          "h": "Newsletter email practices",
+          "p": [
+            "Newsletter emails are sent by VibeRescue, a StorenTech company. Each email includes this mailing address: P.O. Box 372, Corona Del Mar, CA 92625. Each email includes a way to unsubscribe. We honor opt-out requests within 10 business days. We do not use false sender information or misleading subject lines."
+          ]
+        },
+        {
+          "h": "Categories of third parties that may receive information",
+          "p": [
+            "These are the third parties we could confirm from the live site’s hosting, scripts, and forms, plus payment handling described on the advertise page. We mark anything we could not confirm."
+          ],
+          "ul": [
+            "StorenTech AI, which receives fix requests so it can prepare a quote. This is already stated on the current privacy page.",
+            "Vercel, our website host, and Vercel Analytics and Vercel Speed Insights, which measure traffic and performance. Confirmed: the site is served by Vercel, and the site loads Vercel Analytics and Vercel Speed Insights scripts.",
+            "Cloudflare Turnstile, which helps reduce spam on some forms (the fix-request form and the advertise order form). Confirmed: those forms load Cloudflare’s Turnstile script.",
+            "Stripe, if and when a payment is taken. The advertise page says approved ads are billed through a Stripe payment link. We did not find a Stripe script on the pages we checked.",
+            "An email-delivery provider, if we use one to send newsletters or form notifications. We could not confirm the vendor from the live pages or scripts. Forms post to this site’s own /api routes. Resend was not found.",
+            "HubSpot was not found in the live pages or scripts, and is not listed as a current recipient."
+          ]
+        },
+        {
+          "h": "Cookies, analytics, Do Not Track, and other tracking",
+          "p": [
+            "We use Vercel Analytics and Vercel Speed Insights to understand how the site is used and how it performs. These scripts are served from this site.",
+            "Some forms use Cloudflare Turnstile, which loads a script from Cloudflare to help tell people from bots.",
+            "We do not respond to Do Not Track browser signals.",
+            "From the pages and scripts we checked, we did not find advertising pixels, HubSpot, or other third-party marketing trackers that collect browsing activity across other websites. We have not independently confirmed every server-side tool that may run after a form is submitted."
+          ]
+        },
+        {
+          "h": "How we announce changes",
+          "p": [
+            "We will post the updated policy on this page and update the effective date. For material changes, we will also mention the change in a newsletter issue when we send one."
+          ]
+        },
+        {
+          "h": "Reviewing or changing your information",
+          "p": [
+            "Use the [contact form](/contact) to ask what information we have about you, or to ask us to update it."
+          ]
+        },
+        {
+          "h": "Payments and refunds",
+          "p": [
+            "This site does not currently publish refund, cancellation, or dispute terms for a paid product. If VibeRescue takes payments, we will add those terms. To ask a question now, use the [contact form](/contact)."
           ]
         }
-      ],
-      "cta": false
+      ]
     },
     {
       "path": "/terms",
       "title": "Terms of use",
-      "summary": "[PLACEHOLDER] Draft terms pending review. Content is general information, not professional advice. Final copy arrives after legal review.",
-      "flag": "Draft — placeholder copy pending legal review before launch.",
-      "effectiveDate": "[to be provided]",
-      "mailingAddress": true,
+      "summary": "Terms for using the VibeRescue website. Content is general information, not professional advice.",
+      "tldr": false,
+      "cta": false,
+      "effectiveDate": "[EFFECTIVE DATE - VINCENT TO CHOOSE]",
       "blocks": [
         {
           "p": [
-            "[PLACEHOLDER] Content is provided for general information and may contain errors. Verify with official vendor documentation before acting. VibeRescue doesn't test or scan anyone's app. If you ask StorenTech AI to fix something, that work is quoted and agreed separately under StorenTech AI's standard terms.",
-            "[PLACEHOLDER] Questions about these terms: use the contact form. We do not publish an email address or phone number."
+            "VibeRescue is a StorenTech company. These terms apply to this website."
+          ]
+        },
+        {
+          "h": "The information on this site",
+          "p": [
+            "Content on this site is general information and may contain errors. It is not professional advice. Check official vendor documentation before you act. VibeRescue doesn’t test or scan anyone’s app."
+          ]
+        },
+        {
+          "h": "Contact",
+          "p": [
+            "The way to reach us is the [contact form](/contact).",
+            "Mailing address:",
+            "VibeRescue, a StorenTech company",
+            "P.O. Box 372, Corona Del Mar, CA 92625"
+          ]
+        },
+        {
+          "h": "Fix-it work",
+          "p": [
+            "If you ask StorenTech AI to fix something, that work is quoted and agreed separately under StorenTech AI’s standard terms. The live “Get it fixed” page is a request form, not a checkout."
+          ]
+        },
+        {
+          "h": "Payments and refunds",
+          "p": [
+            "This site does not currently publish refund, cancellation, or dispute terms for a paid product. If VibeRescue takes payments, we will add those terms. To ask a question now, use the [contact form](/contact)."
+          ]
+        },
+        {
+          "h": "Newsletter",
+          "p": [
+            "If you join the VibeRescue newsletter, we send a short email with new failure patterns and how to fix them. Each newsletter identifies the sender as VibeRescue, a StorenTech company, includes the mailing address above, and includes a way to unsubscribe. We honor opt-out requests within 10 business days."
+          ]
+        },
+        {
+          "h": "Changes",
+          "p": [
+            "We may update these terms. We will post the updated terms on this page and update the effective date. For material changes, we will also mention the change in a newsletter issue when we send one."
+          ]
+        },
+        {
+          "h": "Questions",
+          "p": [
+            "Use the [contact form](/contact)."
           ]
         }
-      ],
-      "cta": false
+      ]
     },
     {
       "path": "/contact",
-      "title": "Contact",
-      "summary": "[PLACEHOLDER] Send a message with the form on this page. We do not publish an email address or phone number. Final copy arrives after legal review.",
-      "flag": "Draft — placeholder copy pending legal review before launch.",
+      "title": "Send us a message",
+      "summary": "Use this form to reach VibeRescue. We use the details you send only to reply to your message.",
+      "tldr": false,
+      "cta": false,
       "mailingAddress": true,
       "blocks": [
         {
           "p": [
-            "[PLACEHOLDER] Use the form below. We'll reply by email to the address you enter. Please don't include passwords, API keys or other secrets."
+            "Use this form to reach VibeRescue. We use the details you send only to reply to your message.",
+            "If you want a StorenTech engineer to review an app and quote a fix, use the [Get it fixed](/fix-it) form instead."
           ]
         }
       ],
       "form": {
         "live": "contact",
-        "title": "Send a message",
-        "note": "[PLACEHOLDER] We'll reply by email. Don't include passwords or secrets."
-      },
-      "cta": false
-    },
-    {
-      "path": "/refund",
-      "title": "Refund policy",
-      "summary": "[PLACEHOLDER] Draft refund policy pending review. Use the contact form to request a refund. Final copy arrives after legal review.",
-      "flag": "Draft — placeholder copy pending legal review before launch.",
-      "effectiveDate": "[to be provided]",
-      "mailingAddress": true,
-      "blocks": [
-        {
-          "p": [
-            "[PLACEHOLDER] This refund policy is a stand-in until legal review. Do not treat it as the final policy.",
-            "[PLACEHOLDER] Paid ads: if we reject an ad before it runs you aren't charged; if we remove a running ad we refund unused time; ads cancelled after they start running aren't refunded. See the Ad Policy at https://viberescue.app/advertise/policy.",
-            "[PLACEHOLDER] Get-it-fixed work is quoted and agreed separately under StorenTech AI's standard terms before any charge.",
-            "[PLACEHOLDER] To request a refund, use the contact form. We do not publish an email address or phone number."
-          ]
-        }
-      ],
-      "cta": false
+        "title": "Contact form",
+        "note": "We’ll only use these details to reply to your message. We don’t sell your information. See our [Privacy policy](/privacy)."
+      }
     },
     {
       "path": "/patterns",

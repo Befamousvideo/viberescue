@@ -41,14 +41,13 @@ export async function POST(req) {
   if (!Number.isFinite(elapsed) || elapsed < MIN_FILL_MS) return Response.json({ ok: false, error: "That was fast! Please take a moment to check your details and submit again." }, { status: 400 });
   const ip = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim();
   if (!(await turnstileOk(b.turnstile, ip))) return Response.json({ ok: false, error: "Please complete the verification check and try again." }, { status: 400 });
-  const rec = { name: clean(b.name, 120), email: clean(b.email, 254).toLowerCase(), message: cleanText(b.message, 3000), consent: b.consent === true };
+  const rec = { name: clean(b.name, 120), email: clean(b.email, 254).toLowerCase(), message: cleanText(b.message, 3000) };
   if (!rec.name) return Response.json({ ok: false, error: "Please enter your name." }, { status: 400 });
   if (!EMAIL.test(rec.email)) return Response.json({ ok: false, error: "Please enter a valid email address." }, { status: 400 });
   const dom = rec.email.split("@")[1];
   if (DISPOSABLE.has(dom)) return Response.json({ ok: false, error: "Please use a permanent email address, not a temporary one." }, { status: 400 });
   if (!(await domainReceivesMail(dom))) return Response.json({ ok: false, error: "That email domain doesn't seem to accept mail. Please check the address." }, { status: 400 });
   if (rec.message.length < 10) return Response.json({ ok: false, error: "Please enter a message in a sentence or two." }, { status: 400 });
-  if (!rec.consent) return Response.json({ ok: false, error: "Please check the box to confirm we may contact you about this message." }, { status: 400 });
   const id = `${new Date().toISOString().replace(/[:.]/g, "-")}-${randomUUID().slice(0, 8)}`;
   const record = { id, ...rec, source: SOURCE, createdAt: new Date().toISOString(), ua: clean(req.headers.get("user-agent"), 200) };
   let stored = false;
