@@ -75,7 +75,7 @@ export async function POST(req) {
     const rows = [["Name", rec.name], ["Email", rec.email], ["Phone", rec.phone], ["App URL", rec.appUrl], ["Built with", rec.stack], ["Problem", rec.problem], ["ID", id]]
       .map(([k, v]) => `<tr><td valign="top"><b>${k}</b></td><td style="white-space:pre-wrap">${esc(v)}</td></tr>`).join("");
     try {
-      notified = await send(NOTIFY, `New fix request: ${rec.appUrl} (${rec.stack})`, `<p>New "Get it fixed by StorenTech" request on viberescue.app:</p><table cellpadding="4">${rows}</table><p>Reminder: quote and agree any work separately. VibeRescue makes no security guarantees.</p>`, rec.email);
+      notified = await send(NOTIFY, `New fix request: ${rec.appUrl} (${rec.stack})`, `<p>New "Get it fixed by StorenTech" request on viberescue.app:</p><table cellpadding="4">${rows}</table><p>VibeRescue makes no security guarantees.</p>`, rec.email);
       if (stored || notified) await send(rec.email, "We got your fix request", `<p>Hi ${esc(rec.name)},</p><p>Thanks for your request about ${esc(rec.appUrl)}. A StorenTech engineer will review what you sent and reply with a fixed quote. Nothing is done to your app until you've seen and agreed to that quote.</p><p>Please don't email passwords or API keys. If we need access, we'll explain how to grant it safely.</p><p>— VibeRescue, from StorenTech AI</p>`);
     } catch (e) { console.error("resend error", e && e.message); }
   }
