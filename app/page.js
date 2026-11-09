@@ -1,5 +1,6 @@
 import site from "../content/site.json";
 import { Newsletter, Cta, Sponsor } from "./components";
+import { Linked } from "./nav";
 export default function Home() {
   const h = site.home;
   const sections = h.sections.map(s => ({ ...s, items: site.pages.filter(p => p.group === s.group) }));
@@ -13,7 +14,7 @@ export default function Home() {
         {p.label && <span className="tag">{p.label}</span>}<h3>{p.title}</h3><p>{p.summary}</p></a>))}</div></section>))}
     <Sponsor />
     <Newsletter />
-    <section><h2>FAQ</h2>{h.faq.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</section>
+    <section><h2>FAQ</h2>{h.faq.map(f => <details key={f.q}><summary>{f.q}</summary><p><Linked t={f.a} /></p></details>)}</section>
     <Cta cta={site.mainCta} />
   </>);
 }

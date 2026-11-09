@@ -42,7 +42,7 @@ export default async function Page({ params }) {
     {p.mailingAddress && <section><p>Mailing address:</p><p>VibeRescue, a StorenTech company</p><p>{site.mailingAddress}</p></section>}
     {p.form && !p.form.live && <section className="card"><h2>{p.form.title}</h2>{p.form.fields.map(f => <label key={f}>{f}<input disabled placeholder={f} /></label>)}
       <button className="btn" type="button" disabled>{p.form.button}</button><p className="muted small">{p.form.note}</p></section>}
-    {p.faq && <section><h2>FAQ</h2>{p.faq.map(f => <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>)}</section>}
+    {p.faq && <section><h2>FAQ</h2>{p.faq.map(f => <details key={f.q}><summary>{f.q}</summary><p><Linked t={f.a} /></p></details>)}</section>}
     {p.group && <Sponsor />}
     {p.cta !== false && <Cta cta={p.cta || site.mainCta} />}
     {(p.group || p.showNewsletter) && <Newsletter />}

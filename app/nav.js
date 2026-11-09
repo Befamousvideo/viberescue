@@ -20,12 +20,26 @@ export function matchTitle(text) {
   const cands = [norm(head), norm(head.replace(/^[^:]{1,40}:\s*/, ""))];
   return site.pages.find(p => cands.includes(norm(p.title))) || null;
 }
-// Render markdown [label](/path) links and bare http(s) URLs (source citations).
+// Render markdown [label](/path) links, bare http(s) URLs, and StorenTech standard-terms → /terms.
 const LINK_RE = /\[([^\]]+)\]\((\/[^)\s]+|https?:\/\/[^)\s]+)\)|(https?:\/\/[^\s<>"]+[^\s<>".,;:!?)\]])/g;
+const TERMS_RE = /StorenTech(?: AI)?['’]s standard terms/g;
+function linkTerms(s, key) {
+  TERMS_RE.lastIndex = 0;
+  const out = []; let last = 0, i = 0, m;
+  while ((m = TERMS_RE.exec(s))) {
+    if (m.index > last) out.push(s.slice(last, m.index));
+    out.push(<a key={`${key}-t${i++}`} href="/terms">{m[0]}</a>);
+    last = m.index + m[0].length;
+  }
+  if (!out.length) return [s];
+  if (last < s.length) out.push(s.slice(last));
+  return out;
+}
 export function Linked({ t }) {
   const s = String(t); const out = []; let last = 0, i = 0, m;
+  LINK_RE.lastIndex = 0;
   while ((m = LINK_RE.exec(s))) {
-    if (m.index > last) out.push(s.slice(last, m.index));
+    if (m.index > last) out.push(...linkTerms(s.slice(last, m.index), i));
     if (m[1]) {
       const href = m[2], ext = /^https?:\/\//.test(href);
       out.push(<a key={i++} href={href} {...(ext ? { rel: "noopener", target: "_blank" } : null)}>{m[1]}</a>);
@@ -34,7 +48,7 @@ export function Linked({ t }) {
     }
     last = m.index + m[0].length;
   }
-  if (last < s.length) out.push(s.slice(last));
+  if (last < s.length) out.push(...linkTerms(s.slice(last), i));
   return <>{out}</>;
 }
 // Per-page dates: page.updated (ISO yyyy-mm-dd) wins, else the site-wide date.
