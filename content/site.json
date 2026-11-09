@@ -69,7 +69,7 @@
       },
       {
         "q": "Can you fix problems for me?",
-        "a": "Yes. Use 'Get it fixed by StorenTech' to describe the problem. You'll get a fixed quote first, and any work is quoted and agreed separately under StorenTech AI's standard terms."
+        "a": "Yes. Use 'Get it fixed by StorenTech' to describe the problem. You'll get a fixed quote first, and any work is quoted and agreed separately."
       }
     ]
   },
@@ -2398,7 +2398,7 @@
         {
           "h": "Fix-it work",
           "p": [
-            "If you ask StorenTech AI to fix something, that work is quoted and agreed separately under StorenTech AI’s standard terms [LINK - BOB TO CONFIRM]. The live “Get it fixed” page is a request form, not a checkout."
+            "If you ask StorenTech AI to fix something, that work is quoted and agreed separately. The live “Get it fixed” page is a request form, not a checkout."
           ]
         },
         {
@@ -2500,7 +2500,7 @@
       "form": {
         "live": "fix-request",
         "title": "Request a fixed quote",
-        "note": "Any work is quoted and agreed separately under StorenTech AI's standard terms. Only request work on apps you own or are authorized to change."
+        "note": "Any work is quoted and agreed separately. Only request work on apps you own or are authorized to change."
       }
     },
     {
