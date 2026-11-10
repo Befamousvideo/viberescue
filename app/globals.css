@@ -15,3 +15,5 @@ table{border-collapse:collapse;width:100%;background:#fff}td,th{border:1px solid
 
 .brf label textarea,.brf label select{display:block;width:100%;margin-top:4px;padding:10px;border:1px solid #ccc;border-radius:8px;font:inherit;font-weight:400;font-size:1rem;background:#fff;box-sizing:border-box}.brf label input{box-sizing:border-box;font-size:1rem;font-weight:400}.brf label textarea{resize:vertical}.brf .brf-check{display:flex;align-items:flex-start;gap:8px;font-weight:400}.brf .brf-check input{display:inline-block;width:auto;margin:3px 0 0;padding:0;flex:none}
 img.hero{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:12px;margin:0 0 1rem;padding:0}
+img.addr-img{display:inline-block;height:1.25em;width:auto;vertical-align:middle}
+.ftr img.addr-img{display:block;height:18px;margin:6px 0 0}
