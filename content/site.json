@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 9, 2026",
+  "updated": "November 10, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -186,11 +186,12 @@
             "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
             "Hard-coded credentials left in vibe-coded apps",
             "OS command injection from unsanitized shell calls",
-            "Debug or preview mode left on in production"
+            "Debug or preview mode left on in production",
+            "API responses that return whole database records (excessive data exposure)"
           ]
         }
       ],
-      "updated": "2026-10-14"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/firebase-open-rules",
@@ -390,11 +391,12 @@
             "API routes with no auth check",
             "Mass assignment: users can set fields like role or is_admin",
             "Auth checked only in Next.js middleware (proxy)",
-            "Supabase SECURITY DEFINER functions any visitor can call"
+            "Supabase SECURITY DEFINER functions any visitor can call",
+            "API responses that return whole database records (excessive data exposure)"
           ]
         }
       ],
-      "updated": "2026-10-15"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/third-party-keys-in-frontend",
@@ -502,11 +504,12 @@
             "Production source maps that publish your app's original source code",
             "Login and signup messages that reveal which accounts exist (account enumeration)",
             "Passwords, tokens and personal data written to your logs",
-            "Debug or preview mode left on in production"
+            "Debug or preview mode left on in production",
+            "API responses that return whole database records (excessive data exposure)"
           ]
         }
       ],
-      "updated": "2026-10-16"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/missing-security-headers",
@@ -746,11 +749,13 @@
             "Checkout prices, totals and discounts taken from the browser",
             "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
             "Race conditions let one coupon, gift card or credit be used twice",
-            "Prototype pollution from deep-merging user JSON into objects"
+            "Prototype pollution from deep-merging user JSON into objects",
+            "NoSQL operator injection: login and search filters built from raw JSON",
+            "API responses that return whole database records (excessive data exposure)"
           ]
         }
       ],
-      "updated": "2026-10-19"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/hallucinated-packages",
@@ -1022,11 +1027,12 @@
             "Error messages that leak stack traces, queries or keys",
             "Running AI or user output with eval, exec or new Function (code injection)",
             "OS command injection from unsanitized shell calls",
-            "Server-side template injection from unsanitized template strings"
+            "Server-side template injection from unsanitized template strings",
+            "NoSQL operator injection: login and search filters built from raw JSON"
           ]
         }
       ],
-      "updated": "2026-10-22"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/password-reset-flaws",
@@ -1240,11 +1246,12 @@
             "Exposed .env or .git on a deployed site",
             "Tokens and IDs generated with Math.random()",
             "Login and signup messages that reveal which accounts exist (account enumeration)",
-            "Hard-coded credentials left in vibe-coded apps"
+            "Hard-coded credentials left in vibe-coded apps",
+            "API responses that return whole database records (excessive data exposure)"
           ]
         }
       ],
-      "updated": "2026-10-24"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/jwt-decoded-not-verified",
@@ -1524,7 +1531,8 @@
             "Password reset flows that leak accounts or trust the Host header",
             "No rate limiting on login, signup or AI endpoints",
             "Error messages that leak stack traces, queries or keys",
-            "Passwords stored in plain text or with fast hashes"
+            "Passwords stored in plain text or with fast hashes",
+            "NoSQL operator injection: login and search filters built from raw JSON"
           ]
         }
       ],
@@ -1534,14 +1542,14 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-10-28"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/sensitive-data-in-logs",
       "group": "patterns",
       "label": "Failure pattern",
       "title": "Passwords, tokens and personal data written to your logs",
-      "seoTitle": "Sensitive data in logs (CWE-532): passwords, tokens and PII in console.log and server logs",
+      "seoTitle": "Passwords, tokens and PII in your logs (CWE-532)",
       "summary": "AI-written code loves to debug with console.log(req.body), print the whole user object, or log the full request headers. In production that sends passwords, session cookies, API keys, Stripe events and customers' personal data into your hosting provider's logs, your error tracker and anyone with dashboard access. Logs are kept for a long time and shared widely, so a leak there is quiet and lasting.",
       "steps": [
         "Search your code for console.log, console.error, print and logger calls that output whole objects: req.body, req.headers, user, session, process.env, payment or webhook events.",
@@ -1573,7 +1581,8 @@
             "API secret keys shipped in your frontend bundle",
             "Exposed .env or .git on a deployed site",
             "Production source maps that publish your app's original source code",
-            "Debug or preview mode left on in production"
+            "Debug or preview mode left on in production",
+            "API responses that return whole database records (excessive data exposure)"
           ]
         }
       ],
@@ -1583,7 +1592,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-10-29"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/sessions-not-invalidated",
@@ -1729,7 +1738,8 @@
             "OS command injection from unsanitized shell calls",
             "Server-side template injection from unsanitized template strings",
             "Prototype pollution from deep-merging user JSON into objects",
-            "Deserializing untrusted data (pickle, unserialize or Java objects)"
+            "Deserializing untrusted data (pickle, unserialize or Java objects)",
+            "NoSQL operator injection: login and search filters built from raw JSON"
           ]
         }
       ],
@@ -1739,14 +1749,14 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/regex-denial-of-service",
       "group": "patterns",
       "label": "Pattern",
       "title": "Regex denial of service (ReDoS): one crafted input that freezes your app",
-      "seoTitle": "ReDoS in vibe-coded apps: catastrophic regex backtracking and how to fix it (CWE-1333)",
+      "seoTitle": "ReDoS: catastrophic regex backtracking fix (CWE-1333)",
       "summary": "AI-generated code loves regular expressions for checking emails, URLs, phone numbers and passwords. Some of those patterns, especially ones with a repeated group inside another repeat, can take exponentially longer on a carefully crafted input. One request can pin your server's CPU, and in Node.js that blocks every other user at the same time. It's also a risk when your app builds a regex from text the user typed.",
       "steps": [
         "Search your code for regexes used on user input: new RegExp(, .test(, .match(, .replace( and validation libraries' custom patterns, on both the server and in API routes.",
@@ -1778,7 +1788,8 @@
             "No rate limiting on login, signup or AI endpoints",
             "Running AI or user output with eval, exec or new Function (code injection)",
             "Outdated packages with known vulnerabilities",
-            "XML parsers that resolve external entities (XXE)"
+            "XML parsers that resolve external entities (XXE)",
+            "NoSQL operator injection: login and search filters built from raw JSON"
           ]
         }
       ],
@@ -1788,14 +1799,14 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/idor-user-controlled-keys",
       "group": "patterns",
       "label": "Pattern",
       "title": "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
-      "seoTitle": "IDOR in vibe-coded apps: user-controlled keys and how to fix them (CWE-639)",
+      "seoTitle": "IDOR in vibe-coded apps: user-controlled keys (CWE-639)",
       "summary": "AI coding tools often generate routes like /orders/123 or /users/45 that look up a record by an ID from the URL. If the server returns that record without checking that it belongs to the signed-in user, anyone who is logged in can change the number and read or change someone else's data. That pattern is called insecure direct object reference (IDOR), and MITRE tracks the core issue as CWE-639.",
       "steps": [
         "Search your generated app for routes and API handlers that take an id, uuid, slug or filename from the URL, query string, hidden form field or JSON body.",
@@ -1828,7 +1839,8 @@
             "Mass assignment: users can set fields like role or is_admin",
             "Auth checked only in Next.js middleware (proxy)",
             "Sessions that stay valid after logout, password change or timeout",
-            "Race conditions let one coupon, gift card or credit be used twice"
+            "Race conditions let one coupon, gift card or credit be used twice",
+            "API responses that return whole database records (excessive data exposure)"
           ]
         }
       ],
@@ -1838,7 +1850,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-03"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/hardcoded-credentials",
@@ -1897,7 +1909,7 @@
       "group": "patterns",
       "label": "Pattern",
       "title": "OS command injection from unsanitized shell calls",
-      "seoTitle": "OS command injection in vibe-coded apps: stop shelling out on user input (CWE-78)",
+      "seoTitle": "OS command injection in vibe-coded apps (CWE-78)",
       "summary": "AI coding tools often “solve” file conversion, image processing or deploy hooks by calling a shell with string-built commands. If any part of that string comes from a user, upload filename or webhook body, attackers can append extra OS commands. MITRE calls that CWE-78 (Improper Neutralization of Special Elements used in an OS Command). Prefer library APIs over shells, pass arguments as arrays, and never concatenate untrusted input into a command line.",
       "steps": [
         "Search the generated project for child_process.exec, execSync, spawn with shell:true, os.system, subprocess with shell=True, Runtime.exec that builds a string, backticks in Ruby/PHP, and similar “run this command” helpers.",
@@ -1942,7 +1954,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-05"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/server-side-template-injection",
@@ -2093,7 +2105,8 @@
             "Running AI or user output with eval, exec or new Function (code injection)",
             "Server-side template injection from unsanitized template strings",
             "Outdated packages with known vulnerabilities",
-            "AI-suggested packages that don't exist (slopsquatting)"
+            "AI-suggested packages that don't exist (slopsquatting)",
+            "NoSQL operator injection: login and search filters built from raw JSON"
           ]
         }
       ],
@@ -2103,7 +2116,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-07"
+      "updated": "2026-11-10"
     },
     {
       "path": "/patterns/insecure-deserialization",
@@ -2320,6 +2333,111 @@
         "h": 720
       },
       "updated": "2026-11-09"
+    },
+    {
+      "path": "/patterns/nosql-operator-injection",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "NoSQL operator injection: login and search filters built from raw JSON",
+      "seoTitle": "NoSQL injection in vibe-coded MongoDB apps ($ne, $where, CWE-943)",
+      "summary": "AI-generated Express and Next.js routes often pass req.body or query-string values straight into a MongoDB filter, like User.findOne({ email: req.body.email, password: req.body.password }). If a request sends an object such as {\"$ne\": null} instead of a string, the database treats it as an operator, which can bypass a login or return records the user should not see. MITRE files this under CWE-943; PortSwigger calls it NoSQL operator injection. The fix is to accept only the types you expect, sanitize filters, and never put user input in $where.",
+      "steps": [
+        "Search the code for database calls that take request data directly: find, findOne, updateOne, deleteMany, aggregate and countDocuments with req.body, req.query, searchParams or JSON from a Server Action or API route inside the filter.",
+        "Validate every input’s type before it reaches a query. With a schema library such as Zod, require z.string() (or a number, enum or ObjectId check) for each field, so an object like {\"$ne\": \"\"} is rejected instead of passed through.",
+        "If you use Mongoose, turn on the sanitizeFilter option (mongoose.set('sanitizeFilter', true)) or call mongoose.sanitizeFilter() on filters built from user input. It wraps nested objects whose keys start with $ in $eq; mark known-safe operators with mongoose.trusted().",
+        "Never build $where clauses, mapReduce functions or other server-side JavaScript from user input. Remove $where entirely if a normal field query can do the job.",
+        "Allow-list the field names a client may filter or sort by. Do not let the request choose arbitrary keys, and reject keys that start with $ or contain dots.",
+        "Fix login specifically: look the user up by a validated string email only, then compare the password with your password-hashing library’s verify function in code. Never put the password itself in the database filter.",
+        "Retest on your own app: send a login request with a JSON body that uses an object instead of a string for the password and confirm it fails with a normal validation error."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "CWE-943 (Improper Neutralization of Special Elements in Data Query Logic) covers injection into query languages beyond SQL, and MITRE lists NoSQL injection as an alternate term, citing real CVEs such as a password reset processed through Mongoose’s find function. PortSwigger’s Web Security Academy explains the two forms: syntax injection, where input breaks the query string, and operator injection, where input adds operators like $ne, $in, $regex or $where. Operator injection can bypass authentication, extract data character by character, or slow the server with injected JavaScript. Because JSON bodies happily carry nested objects, AI-written handlers that skip type checks are an easy fit for this bug. This page is for checking and fixing your own app."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-943: Improper Neutralization of Special Elements in Data Query Logic — https://cwe.mitre.org/data/definitions/943.html",
+            "PortSwigger Web Security Academy: NoSQL injection — https://portswigger.net/web-security/nosql-injection",
+            "Mongoose API docs: sanitizeFilter() and trusted() — https://mongoosejs.com/docs/api/mongoose.html",
+            "Checked at the source on November 10, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "SQL built from strings in raw queries (SQL injection)",
+            "Mass assignment: users can set fields like role or is_admin",
+            "Prototype pollution from deep-merging user JSON into objects",
+            "Regex denial of service (ReDoS): one crafted input that freezes your app",
+            "Login and signup messages that reveal which accounts exist (account enumeration)",
+            "Running AI or user output with eval, exec or new Function (code injection)"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/nosql-operator-injection.webp",
+        "alt": "A young developer at a home desk at night studying blurred curly-brace JSON on an unbranded monitor, a sticky note with a crossed-out dollar sign on the bezel and a coffee mug under a desk lamp, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-10"
+    },
+    {
+      "path": "/patterns/excessive-data-exposure-api",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "API responses that return whole database records (excessive data exposure)",
+      "seoTitle": "Excessive data exposure in API responses (OWASP API3)",
+      "summary": "A common AI-generated shortcut is return Response.json(user) or res.json(await db.user.findMany()). That sends every column to the browser—password hashes, emails, internal flags, Stripe IDs, admin notes—even if the screen only shows a name. The page looks fine, but anyone can open DevTools and read the rest. OWASP calls this Broken Object Property Level Authorization (API3:2023), formerly “excessive data exposure.” The fix is to return only the fields each endpoint needs.",
+      "steps": [
+        "Open your app with DevTools → Network, click through the main screens and inspect each JSON response. Note any field the user should not see: password or passwordHash, tokens, other users’ emails or phone numbers, role or isAdmin, internal notes, payment or customer IDs.",
+        "Search the code for whole-object returns: res.json(user), Response.json(rows), return { ...record }, toJSON() on ORM models, and select * or Supabase .select('*') in queries that feed API responses or Server Components passed to client components.",
+        "Replace them with explicit field lists. In Prisma use select for the few fields you need, or omit to drop sensitive ones (omit can also be set globally on the client for fields like password). In SQL or Supabase, list columns instead of *.",
+        "Treat Next.js props the same way: anything a Server Component passes to a Client Component is sent to the browser, so map records to a small object first.",
+        "For lists and public profiles, use a separate, smaller response shape than the owner’s own account view, and check the caller is allowed to see each property, not just the record.",
+        "Add a response schema (for example a Zod object with only allowed fields, parsed before returning) so new columns added later are not leaked automatically.",
+        "Retest: reload the screens and confirm the network responses now contain only what the page displays."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP’s API Security Top 10 (2023) ranks Broken Object Property Level Authorization as API3. An endpoint is vulnerable if it exposes object properties the user should not read (previously named Excessive Data Exposure) or lets them change properties they should not touch (previously Mass Assignment). OWASP notes that inspecting API responses is enough to find sensitive properties, and that the impact can include data disclosure and, in some cases, account takeover. Its prevention advice: avoid generic serializers like to_json(), cherry-pick the properties you return, keep response data to the minimum the feature needs, and add schema-based response validation. MITRE’s CWE-200 covers the underlying exposure of sensitive information to an unauthorized actor. This page is for reviewing your own app’s responses."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP API Security Top 10 2023: API3 Broken Object Property Level Authorization — https://owasp.org/API-Security/editions/2023/en/0xa3-broken-object-property-level-authorization/",
+            "MITRE CWE-200: Exposure of Sensitive Information to an Unauthorized Actor — https://cwe.mitre.org/data/definitions/200.html",
+            "Prisma docs: Excluding fields (omit) — https://www.prisma.io/docs/orm/prisma-client/queries/excluding-fields",
+            "Checked at the source on November 10, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Mass assignment: users can set fields like role or is_admin",
+            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
+            "RLS or auth present, but no ownership check (IDOR)",
+            "Error messages that leak stack traces, queries or keys",
+            "Passwords, tokens and personal data written to your logs",
+            "Passwords stored in plain text or with fast hashes",
+            "API routes with no auth check"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/excessive-data-exposure-api.webp",
+        "alt": "A founder at a bright coworking table looking at a laptop with a blurred list of data fields, holding a black marker over a printed page with several lines redacted by black bars, a potted plant and notebook nearby, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-10"
     }
   ],
   "static": [
