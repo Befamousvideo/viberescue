@@ -4,7 +4,7 @@ import { resolveMx } from "dns/promises";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 export const runtime = "nodejs";
 const EMAIL = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/;
-const NOTIFY = "vincent@storentech.com";
+const NOTIFY = process.env.NOTIFY_TO;
 const FROM = "VibeRescue <requests@viberescue.app>";
 const STACKS = ["Lovable", "Bolt", "Cursor", "Replit", "v0", "Other"];
 const DISPOSABLE = new Set(["mailinator.com","guerrillamail.com","guerrillamail.net","sharklasers.com","10minutemail.com","10minutemail.net","tempmail.com","temp-mail.org","temp-mail.io","yopmail.com","yopmail.net","trashmail.com","getnada.com","nada.email","dispostable.com","maildrop.cc","throwawaymail.com","fakeinbox.com","mailnesia.com","mintemail.com","emailondeck.com","mohmal.com","tempail.com","tempr.email","discard.email","spamgourmet.com","getairmail.com","moakt.com","burnermail.io","mailpoof.com","inboxkitten.com","1secmail.com","tempmailo.com","minuteinbox.com","mail.tm","emailfake.com","grr.la","guerrillamailblock.com","spam4.me","mytemp.email"]);
@@ -32,6 +32,10 @@ function normUrl(v) {
   try { const u = new URL(s); if (!["http:", "https:"].includes(u.protocol) || !u.hostname.includes(".")) return ""; return u.toString(); } catch { return ""; }
 }
 async function send(to, subject, html, replyTo) {
+  if (!to) {
+    console.warn("NOTIFY_TO is not set; skipping notify email");
+    return false;
+  }
   const r = await fetch("https://api.resend.com/emails", { method: "POST",
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({ from: FROM, to: [to], subject, html, ...(replyTo ? { reply_to: replyTo } : {}) }) });
