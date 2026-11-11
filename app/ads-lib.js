@@ -2,7 +2,7 @@ import { put, list, del, get } from "@vercel/blob";
 import { createHmac, timingSafeEqual } from "crypto";
 import site from "../content/site.json";
 import { SELF } from "./network";
-export const NOTIFY = "vincent@storentech.com";
+export const NOTIFY = process.env.NOTIFY_TO;
 export const FROM = `${site.name} Ads <ads@agentsformainstreet.com>`;
 export const BASE = `https://${site.domain}`;
 export const PLANS = {
@@ -40,6 +40,10 @@ export const adminLink = (id, action) => `${BASE}/api/n/admin?id=${encodeURIComp
 export const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 export const clean = (v, n) => String(v || "").replace(/[\r\n\t]+/g, " ").trim().slice(0, n);
 export async function send(to, subject, html, replyTo) {
+  if (!to) {
+    console.warn("NOTIFY_TO is not set; skipping notify email");
+    return false;
+  }
   if (!process.env.RESEND_API_KEY) return false;
   const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({ from: FROM, to: [to], subject, html, ...(replyTo ? { reply_to: replyTo } : {}) }) });
