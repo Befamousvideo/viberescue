@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 10, 2026",
+  "updated": "November 11, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -149,11 +149,12 @@
           "h": "Related patterns",
           "ul": [
             "Checkout prices, totals and discounts taken from the browser",
-            "Race conditions let one coupon, gift card or credit be used twice"
+            "Race conditions let one coupon, gift card or credit be used twice",
+            "Secrets compared with === (timing-unsafe token and signature checks)"
           ]
         }
       ],
-      "updated": "2026-11-07",
+      "updated": "2026-11-11",
       "seoTitle": "Unverified Stripe webhooks: check the Stripe-Signature header"
     },
     {
@@ -267,11 +268,13 @@
             "Cron and webhook-style job endpoints anyone can trigger",
             "Login and signup messages that reveal which accounts exist (account enumeration)",
             "Regex denial of service (ReDoS): one crafted input that freezes your app",
-            "Race conditions let one coupon, gift card or credit be used twice"
+            "Race conditions let one coupon, gift card or credit be used twice",
+            "Secrets compared with === (timing-unsafe token and signature checks)",
+            "GraphQL APIs with introspection on and no depth or cost limits"
           ]
         }
       ],
-      "updated": "2026-10-14"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/exposed-env-and-git",
@@ -505,11 +508,12 @@
             "Login and signup messages that reveal which accounts exist (account enumeration)",
             "Passwords, tokens and personal data written to your logs",
             "Debug or preview mode left on in production",
-            "API responses that return whole database records (excessive data exposure)"
+            "API responses that return whole database records (excessive data exposure)",
+            "GraphQL APIs with introspection on and no depth or cost limits"
           ]
         }
       ],
-      "updated": "2026-11-10"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/missing-security-headers",
@@ -1075,11 +1079,12 @@
             "Tokens and IDs generated with Math.random()",
             "Login and signup messages that reveal which accounts exist (account enumeration)",
             "Sessions that stay valid after logout, password change or timeout",
-            "Race conditions let one coupon, gift card or credit be used twice"
+            "Race conditions let one coupon, gift card or credit be used twice",
+            "Secrets compared with === (timing-unsafe token and signature checks)"
           ]
         }
       ],
-      "updated": "2026-10-22"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/unprotected-cron-endpoints",
@@ -1115,11 +1120,12 @@
           "ul": [
             "API routes with no auth check",
             "No rate limiting on login, signup or AI endpoints",
-            "Auth checked only in Next.js middleware (proxy)"
+            "Auth checked only in Next.js middleware (proxy)",
+            "Secrets compared with === (timing-unsafe token and signature checks)"
           ]
         }
       ],
-      "updated": "2026-10-23"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/server-actions-without-auth",
@@ -1247,11 +1253,12 @@
             "Tokens and IDs generated with Math.random()",
             "Login and signup messages that reveal which accounts exist (account enumeration)",
             "Hard-coded credentials left in vibe-coded apps",
-            "API responses that return whole database records (excessive data exposure)"
+            "API responses that return whole database records (excessive data exposure)",
+            "Secrets compared with === (timing-unsafe token and signature checks)"
           ]
         }
       ],
-      "updated": "2026-11-10"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/jwt-decoded-not-verified",
@@ -1292,11 +1299,12 @@
           "ul": [
             "JWTs or session tokens stored in localStorage",
             "Auth checked only in Next.js middleware (proxy)",
-            "API routes with no auth check"
+            "API routes with no auth check",
+            "Secrets compared with === (timing-unsafe token and signature checks)"
           ]
         }
       ],
-      "updated": "2026-10-25"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/insecure-random-tokens",
@@ -1334,11 +1342,12 @@
             "Password reset flows that leak accounts or trust the Host header",
             "Passwords stored in plain text or with fast hashes",
             "API secret keys shipped in your frontend bundle",
-            "Sessions that stay valid after logout, password change or timeout"
+            "Sessions that stay valid after logout, password change or timeout",
+            "Secrets compared with === (timing-unsafe token and signature checks)"
           ]
         }
       ],
-      "updated": "2026-10-25"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/production-source-maps",
@@ -1447,7 +1456,7 @@
       "group": "patterns",
       "label": "Failure pattern",
       "title": "Cookie-based login with no CSRF protection on state-changing requests",
-      "seoTitle": "CSRF in Next.js and Express apps: GET handlers, SameSite and Origin checks",
+      "seoTitle": "CSRF in Next.js and Express: GET handlers, SameSite and Origin",
       "summary": "If your app logs users in with a cookie, the browser sends that cookie with every request to your site, including ones triggered by someone else's page. Without a CSRF defense, a malicious site can make a logged-in user's browser change their email, delete data or make a purchase. AI-built apps often miss this on custom API routes, especially ones that change data on a GET request.",
       "steps": [
         "List every route that changes something: updates, deletes, payments, settings, invites. Make sure none of them run on GET. Move them to POST, PUT, PATCH or DELETE.",
@@ -1492,14 +1501,14 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/account-enumeration",
       "group": "patterns",
       "label": "Failure pattern",
       "title": "Login and signup messages that reveal which accounts exist (account enumeration)",
-      "seoTitle": "Account enumeration in login and signup: messages, status codes and timing",
+      "seoTitle": "Account enumeration in login and signup: messages and timing",
       "summary": "AI-generated auth code often gives helpful but leaky answers: \"No account with that email\" on login, \"Email already registered\" on signup, a 404 for unknown users and a 401 for a wrong password, or a login that answers instantly for unknown emails and slowly for real ones. Each lets anyone check which emails have accounts in your app, which feeds phishing and password-guessing attacks.",
       "steps": [
         "Test it yourself: try logging in with a real account and a wrong password, then with an email that doesn't exist. Compare the message, the HTTP status code and the response body in your browser's network tab.",
@@ -1532,7 +1541,8 @@
             "No rate limiting on login, signup or AI endpoints",
             "Error messages that leak stack traces, queries or keys",
             "Passwords stored in plain text or with fast hashes",
-            "NoSQL operator injection: login and search filters built from raw JSON"
+            "NoSQL operator injection: login and search filters built from raw JSON",
+            "GraphQL APIs with introspection on and no depth or cost limits"
           ]
         }
       ],
@@ -1542,7 +1552,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-10"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/sensitive-data-in-logs",
@@ -1789,7 +1799,8 @@
             "Running AI or user output with eval, exec or new Function (code injection)",
             "Outdated packages with known vulnerabilities",
             "XML parsers that resolve external entities (XXE)",
-            "NoSQL operator injection: login and search filters built from raw JSON"
+            "NoSQL operator injection: login and search filters built from raw JSON",
+            "GraphQL APIs with introspection on and no depth or cost limits"
           ]
         }
       ],
@@ -1799,7 +1810,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-10"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/idor-user-controlled-keys",
@@ -1840,7 +1851,8 @@
             "Auth checked only in Next.js middleware (proxy)",
             "Sessions that stay valid after logout, password change or timeout",
             "Race conditions let one coupon, gift card or credit be used twice",
-            "API responses that return whole database records (excessive data exposure)"
+            "API responses that return whole database records (excessive data exposure)",
+            "GraphQL APIs with introspection on and no depth or cost limits"
           ]
         }
       ],
@@ -1850,14 +1862,14 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-10"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/hardcoded-credentials",
       "group": "patterns",
       "label": "Pattern",
       "title": "Hard-coded credentials left in vibe-coded apps",
-      "seoTitle": "Hard-coded credentials in vibe-coded apps: find and fix them (CWE-798)",
+      "seoTitle": "Hard-coded credentials in vibe-coded apps: find and fix (CWE-798)",
       "summary": "AI coding tools often paste a default admin password, API key or database password straight into source files so the demo “just works.” MITRE calls that CWE-798 (Use of Hard-coded Credentials). Anyone who can read the repo, a client bundle or a leaked .env can reuse the same secret across every install. Move secrets out of code, rotate anything that was committed, and require a unique password on first login.",
       "steps": [
         "Search the generated project for password, apiKey, api_key, secret, token, Bearer, PRIVATE_KEY, connectionString and similar names in source, config, Dockerfiles and CI files.",
@@ -1902,7 +1914,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-04"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/os-command-injection",
@@ -2068,7 +2080,7 @@
       "group": "patterns",
       "label": "Pattern",
       "title": "Prototype pollution from deep-merging user JSON into objects",
-      "seoTitle": "Prototype pollution from unsafe deep merge in JavaScript (CWE-1321)",
+      "seoTitle": "Prototype pollution from unsafe deep merge in JS (CWE-1321)",
       "summary": "AI coding tools love a quick deepMerge(), setByPath() or recursive “apply settings” helper that copies a user’s JSON into an options or config object. If keys like __proto__, constructor or prototype aren’t blocked, an attacker can add properties to every object in the Node.js process—an isAdmin flag that suddenly reads true, a crashed server, or worse when a library trusts those properties. MITRE tracks this as CWE-1321.",
       "steps": [
         "Search the project for hand-written merge, clone, extend, defaultsDeep, set-by-path and “apply patch” helpers, plus any loop that does target[key] = source[key] over request JSON, query strings or form data.",
@@ -2116,7 +2128,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-10"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/insecure-deserialization",
@@ -2177,7 +2189,7 @@
       "group": "patterns",
       "label": "Pattern",
       "title": "Debug or preview mode left on in production",
-      "seoTitle": "Debug mode left on in production: Django, Flask and more (CWE-489)",
+      "seoTitle": "Debug mode left on in production: Django, Flask, more (CWE-489)",
       "summary": "AI-generated apps often ship with Django DEBUG = True, Flask’s debugger, a development server, or an open preview playground still turned on. That leftover debug code is CWE-489. Django’s deployment checklist says you must never enable debug in production because error pages leak source excerpts, local variables, settings and installed libraries. Flask’s docs say not to run the development server or built-in debugger in production—the debugger can execute Python from the browser. Turn debug off, serve the production build, and keep verbose diagnostics in server-side logs.",
       "steps": [
         "Search configuration and startup code for debug flags: DEBUG = True, app.run(debug=True), flask run --debug, NODE_ENV=development, Next.js next dev used as the production command, Express error handlers that dump stacks, an open GraphQL or API playground, profiler or __debug__ routes, and preview or staging middleware that is reachable on the live hostname.",
@@ -2214,7 +2226,8 @@
             "API routes with no auth check",
             "API secret keys shipped in your frontend bundle",
             "Passwords, tokens and personal data written to your logs",
-            "Hard-coded credentials left in vibe-coded apps"
+            "Hard-coded credentials left in vibe-coded apps",
+            "GraphQL APIs with introspection on and no depth or cost limits"
           ]
         }
       ],
@@ -2224,7 +2237,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-08"
+      "updated": "2026-11-11"
     },
     {
       "path": "/patterns/insecure-cookie-flags",
@@ -2427,7 +2440,8 @@
             "Error messages that leak stack traces, queries or keys",
             "Passwords, tokens and personal data written to your logs",
             "Passwords stored in plain text or with fast hashes",
-            "API routes with no auth check"
+            "API routes with no auth check",
+            "GraphQL APIs with introspection on and no depth or cost limits"
           ]
         }
       ],
@@ -2437,7 +2451,115 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-10"
+      "updated": "2026-11-11"
+    },
+    {
+      "path": "/patterns/timing-unsafe-secret-comparison",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Secrets compared with === (timing-unsafe token and signature checks)",
+      "seoTitle": "Timing-safe comparison for API keys and webhooks (CWE-208)",
+      "summary": "AI-generated route handlers often check a secret with a plain string comparison: if (req.headers['x-api-key'] === process.env.API_KEY), or signature === expected in a hand-rolled webhook check. A normal comparison stops at the first wrong character, so the response time can leak how much of a guess was right. MITRE files this as CWE-208 (Observable Timing Discrepancy) and lists a real CVE where HMAC signatures were compared with String.equals(). The fix is a constant-time comparison such as Node’s crypto.timingSafeEqual or Python’s hmac.compare_digest, plus rate limiting.",
+      "steps": [
+        "Search the code for secret checks that use ===, ==, !==, .equals() or startsWith(): API keys, webhook signatures, cron secrets, invite or magic-link tokens, password-reset tokens, admin passcodes and HMAC digests.",
+        "In Node.js, compare with crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b)). It throws if the two buffers have different byte lengths, so first hash both values to a fixed length (for example SHA-256 of each) or check lengths and return the same generic failure.",
+        "In Python, use hmac.compare_digest(a, b) instead of ==. In other languages, use the constant-time compare from your crypto library.",
+        "Prefer the provider’s official verification helper where one exists (for example a payment or messaging SDK’s webhook-signature function) instead of building and comparing the signature yourself.",
+        "For passwords, never compare raw strings at all: store a slow hash (bcrypt, scrypt or Argon2) and use the library’s verify function.",
+        "Return the same error and status code for every failed check, and add rate limiting to the endpoint so an attacker cannot make thousands of timed guesses.",
+        "Retest: confirm valid secrets still pass, wrong ones fail with the same generic error, and wrong-length inputs do not crash the route."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE’s CWE-208 describes operations that take different amounts of time in a way an attacker can observe, revealing security-relevant information such as whether part of a check succeeded. Its observed examples include CVE-2019-10071, a Java framework that compared HMAC signatures with String.equals() instead of a constant-time algorithm. Node.js documents crypto.timingSafeEqual as a constant-time comparison suitable for HMAC digests and secret values like authentication cookies, and Python’s hmac docs recommend compare_digest() instead of == to reduce timing-attack risk. Network noise makes these attacks harder over the internet, but the fix is one line, and rate limiting closes the remaining gap. This page is for checking and fixing your own app."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MITRE CWE-208: Observable Timing Discrepancy — https://cwe.mitre.org/data/definitions/208.html",
+            "Node.js docs: crypto.timingSafeEqual(a, b) — https://nodejs.org/api/crypto.html",
+            "Python docs: hmac.compare_digest — https://docs.python.org/3/library/hmac.html",
+            "Checked at the source on November 11, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Stripe webhooks not verified",
+            "Cron and webhook-style job endpoints anyone can trigger",
+            "JWTs decoded but never verified",
+            "Tokens and IDs generated with Math.random()",
+            "Password reset flows that leak accounts or trust the Host header",
+            "Passwords stored in plain text or with fast hashes",
+            "No rate limiting on login, signup or AI endpoints"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/timing-unsafe-secret-comparison.webp",
+        "alt": "Close-up of a developer's hands typing on a laptop showing blurred code at a kitchen table at night, a small analog stopwatch beside the laptop and a cup of tea under warm lamp light, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-11"
+    },
+    {
+      "path": "/patterns/graphql-introspection-unbounded-queries",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "GraphQL APIs with introspection on and no depth or cost limits",
+      "seoTitle": "GraphQL security: introspection, depth and cost limits",
+      "summary": "When an AI assistant scaffolds a GraphQL API, it usually gets the schema and resolvers working and stops there. Left as is, anyone can ask the server to describe its whole schema (introspection), open a GraphiQL or Sandbox explorer, send deeply nested or huge queries that tie up the database, or batch hundreds of login or lookup attempts in one request. OWASP’s GraphQL Cheat Sheet lists these insecure defaults and the fixes: turn off introspection and explorers in production, add depth, amount and cost limits, rate-limit per operation, and check authorization in every resolver.",
+      "steps": [
+        "Find your GraphQL server setup (Apollo Server, GraphQL Yoga, a Next.js route handler or a hosted GraphQL backend) and check whether introspection and GraphiQL or Sandbox are enabled in production.",
+        "Turn introspection off in production unless the API is meant for outside developers. In Apollo Server, introspection is on by default unless NODE_ENV is production, so check for an explicit introspection: true left over from development.",
+        "Turn off stack traces in error responses (in Apollo Server, includeStacktraceInErrorResponses: false) and mask internal error messages.",
+        "Add a query depth limit and limits on list sizes (for example a maximum for first or limit arguments), and paginate every list field.",
+        "Add query cost or complexity limits and a server timeout so one expensive query cannot hog the database.",
+        "Limit batching: cap how many operations or aliases one request may contain, and block batching on sensitive fields like login, password reset or one-time codes.",
+        "Check authorization inside each resolver (and on node or nodes lookups by ID), not only at the gateway, so a nested field cannot return another user’s data.",
+        "Retest with a deliberately deep nested query and an aliased batch of the same field; both should be rejected with a generic error."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP’s GraphQL Cheat Sheet says expensive queries can cause denial of service and that depth and amount are unlimited by default unless you add limits. It recommends disabling introspection and GraphiQL in production or public environments, avoiding stack traces and debug mode, and applying access-control checks on both edges and nodes. It also describes batching attacks, where many queries or aliased lookups in a single request are used to enumerate objects or brute-force passwords and one-time codes, often slipping past rate limits that only count HTTP requests. OWASP’s API Security Top 10 ranks Unrestricted Resource Consumption as API4:2023. Apollo’s docs confirm introspection defaults to on unless NODE_ENV is production. This page is for reviewing your own API."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Cheat Sheet Series: GraphQL Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html",
+            "OWASP API Security Top 10 2023: API4 Unrestricted Resource Consumption — https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/",
+            "GraphQL.org: Security — https://graphql.org/learn/security/",
+            "Apollo Server docs: ApolloServer options (introspection, includeStacktraceInErrorResponses) — https://www.apollographql.com/docs/apollo-server/api/apollo-server",
+            "Checked at the source on November 11, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "No rate limiting on login, signup or AI endpoints",
+            "Error messages that leak stack traces, queries or keys",
+            "Debug or preview mode left on in production",
+            "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
+            "API responses that return whole database records (excessive data exposure)",
+            "Login and signup messages that reveal which accounts exist (account enumeration)",
+            "Regex denial of service (ReDoS): one crafted input that freezes your app"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/graphql-introspection-unbounded-queries.webp",
+        "alt": "A developer standing at a desk in a loft office in the evening studying an unbranded monitor with a blurred nested tree diagram and code, a whiteboard of boxes and arrows behind him, a mug and notebook on the desk, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-11"
     }
   ],
   "static": [
