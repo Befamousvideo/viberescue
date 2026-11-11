@@ -2,6 +2,7 @@ import site from "../content/site.json";
 import NewsletterForm from "./NewsletterForm";
 import HouseAd from "./HouseAd";
 import { Li, Linked } from "./nav";
+import { AddressImg } from "./AddressImg";
 export function Newsletter() {
   return (
     <section className="card nl" id="newsletter">
@@ -19,9 +20,11 @@ export function Sponsor() {
   return <HouseAd />;
 }
 export function Block({ b }) {
+  const mailing = Array.isArray(b.p) && b.p.includes("Mailing address:");
   return (<section>
     {b.h && <h2>{b.h}</h2>}
     {b.p && b.p.map((t, i) => <p key={i}><Linked t={t} /></p>)}
+    {mailing && <p><AddressImg variant="support" /></p>}
     {b.ol && <ol>{b.ol.map((t, i) => <Li key={i} t={t} />)}</ol>}
     {b.ul && <ul>{b.ul.map((t, i) => <Li key={i} t={t} />)}</ul>}
     {b.pre && <pre>{b.pre}</pre>}

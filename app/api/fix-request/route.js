@@ -2,9 +2,9 @@ import { put } from "@vercel/blob";
 import { randomUUID } from "crypto";
 import { resolveMx } from "dns/promises";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { NOTIFY } from "../../notify-to";
 export const runtime = "nodejs";
 const EMAIL = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/;
-const NOTIFY = "vincent@storentech.com";
 const FROM = "VibeRescue <requests@viberescue.app>";
 const STACKS = ["Lovable", "Bolt", "Cursor", "Replit", "v0", "Other"];
 const DISPOSABLE = new Set(["mailinator.com","guerrillamail.com","guerrillamail.net","sharklasers.com","10minutemail.com","10minutemail.net","tempmail.com","temp-mail.org","temp-mail.io","yopmail.com","yopmail.net","trashmail.com","getnada.com","nada.email","dispostable.com","maildrop.cc","throwawaymail.com","fakeinbox.com","mailnesia.com","mintemail.com","emailondeck.com","mohmal.com","tempail.com","tempr.email","discard.email","spamgourmet.com","getairmail.com","moakt.com","burnermail.io","mailpoof.com","inboxkitten.com","1secmail.com","tempmailo.com","minuteinbox.com","mail.tm","emailfake.com","grr.la","guerrillamailblock.com","spam4.me","mytemp.email"]);
@@ -75,7 +75,7 @@ export async function POST(req) {
     const rows = [["Name", rec.name], ["Email", rec.email], ["Phone", rec.phone], ["App URL", rec.appUrl], ["Built with", rec.stack], ["Problem", rec.problem], ["ID", id]]
       .map(([k, v]) => `<tr><td valign="top"><b>${k}</b></td><td style="white-space:pre-wrap">${esc(v)}</td></tr>`).join("");
     try {
-      notified = await send(NOTIFY, `New fix request: ${rec.appUrl} (${rec.stack})`, `<p>New "Get it fixed by StorenTech" request on viberescue.app:</p><table cellpadding="4">${rows}</table><p>Reminder: quote and agree any work separately under StorenTech's standard terms. VibeRescue makes no security guarantees.</p>`, rec.email);
+      notified = await send(NOTIFY, `New fix request: ${rec.appUrl} (${rec.stack})`, `<p>New "Get it fixed by StorenTech" request on viberescue.app:</p><table cellpadding="4">${rows}</table><p>VibeRescue makes no security guarantees.</p>`, rec.email);
       if (stored || notified) await send(rec.email, "We got your fix request", `<p>Hi ${esc(rec.name)},</p><p>Thanks for your request about ${esc(rec.appUrl)}. A StorenTech engineer will review what you sent and reply with a fixed quote. Nothing is done to your app until you've seen and agreed to that quote.</p><p>Please don't email passwords or API keys. If we need access, we'll explain how to grant it safely.</p><p>— VibeRescue, from StorenTech AI</p>`);
     } catch (e) { console.error("resend error", e && e.message); }
   }

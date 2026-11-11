@@ -20,9 +20,16 @@
     }
   ],
   "footer": "VibeRescue: security basics for apps built with AI coding tools. Defensive guidance only.",
+  "mailingAddress": "P.O. Box 372, Corona Del Mar, CA 92625",
   "newsletter": {
     "title": "Vibe Security Weekly",
-    "blurb": "One email a week with new failure patterns and how to fix them."
+    "blurb": "One email a week with new failure patterns and how to fix them.",
+    "emailFooter": [
+      "VibeRescue, a StorenTech company",
+      "P.O. Box 372, Corona Del Mar, CA 92625",
+      "You received this email because you signed up for the VibeRescue newsletter.",
+      "To stop receiving these emails, use the unsubscribe link in this message. The unsubscribe link stays available for at least 30 days after we send the message. We honor opt-out requests within 10 business days."
+    ]
   },
   "sponsorSlot": "Reach builders who ship with AI coding tools. Limited to devtools, security and hosting sponsors.",
   "mainCta": {
@@ -62,7 +69,7 @@
       },
       {
         "q": "Can you fix problems for me?",
-        "a": "Yes. Use 'Get it fixed by StorenTech' to describe the problem. You'll get a fixed quote first, and any work is quoted and agreed separately under StorenTech AI's standard terms."
+        "a": "Yes. Use 'Get it fixed by StorenTech' to describe the problem. You'll get a fixed quote first."
       }
     ]
   },
@@ -2608,33 +2615,221 @@
     {
       "path": "/privacy",
       "title": "Privacy policy",
-      "summary": "Draft privacy policy pending review. We collect only what you submit and never sell personal information.",
-      "flag": "Draft — pending legal review before launch.",
+      "summary": "How VibeRescue collects and uses personal information on this website. We do not sell personal information.",
+      "tldr": false,
+      "cta": false,
+      "effectiveDate": "November 11, 2026",
       "blocks": [
         {
+          "p": [
+            "VibeRescue is a StorenTech company. This policy describes the personal information we collect on this website and how we use it. It is written in plain language and is not a guarantee of legal compliance."
+          ]
+        },
+        {
+          "h": "How to contact us",
+          "p": [
+            "The way to reach us, including to ask about this policy or to request a review or change of personal information we have about you, is the [contact form](/contact).",
+            "Mailing address:",
+            "VibeRescue, a StorenTech company",
+            "P.O. Box 372, Corona Del Mar, CA 92625"
+          ]
+        },
+        {
+          "h": "Information we collect",
+          "p": [
+            "We collect information you submit, including:"
+          ],
           "ul": [
-            "We collect your email when you subscribe, and the details you send in a fix request (name, email, phone, app URL, what it's built with and the problem you describe). Fix requests go to StorenTech AI to prepare your quote.",
-            "We use privacy-friendly analytics.",
-            "We never sell personal information.",
-            "Contact details will be published at launch."
+            "Newsletter sign-up: your email address, and the page you signed up from.",
+            "Fix requests: name, email, phone, app URL, what the app is built with, the problem you describe, and your consent to be contacted about the request. Fix requests go to StorenTech AI to prepare a quote.",
+            "Advertise requests: name, business details, email, phone, placement choice, ad content, and related files you upload.",
+            "Contact form: name, email, and message."
+          ]
+        },
+        {
+          "p": [
+            "We also collect technical information needed to run and protect the site, such as the fact that a page was viewed and, on some forms, a spam-prevention token.",
+            "We do not sell personal information."
+          ]
+        },
+        {
+          "h": "How we use it",
+          "ul": [
+            "To send the newsletter if you joined it.",
+            "To review a fix request and prepare a quote, including sharing the request with StorenTech AI.",
+            "To follow up on an advertise request.",
+            "To reply to a message you send through the [contact form](/contact).",
+            "To operate, secure, and understand use of this website.",
+            "To process a payment when a payment is actually taken."
+          ]
+        },
+        {
+          "h": "Newsletter email practices",
+          "p": [
+            "Newsletter emails are sent by VibeRescue, a StorenTech company. Each email includes this mailing address: P.O. Box 372, Corona Del Mar, CA 92625. Each email includes a way to unsubscribe. The unsubscribe link stays available for at least 30 days after we send the message. We honor opt-out requests within 10 business days. We do not use false sender information or misleading subject lines."
+          ]
+        },
+        {
+          "h": "Categories of third parties that may receive information",
+          "p": [
+            "These are the third parties we could confirm from the live site’s hosting, scripts, and forms, plus payment handling described on the advertise page. We mark anything we could not confirm."
+          ],
+          "ul": [
+            "StorenTech AI, which receives fix requests so it can prepare a quote. This is already stated on the current privacy page.",
+            "Vercel, our website host, and Vercel Analytics and Vercel Speed Insights, which measure traffic and performance. Confirmed: the site is served by Vercel, and the site loads Vercel Analytics and Vercel Speed Insights scripts.",
+            "Cloudflare Turnstile, which helps reduce spam on some forms (the fix-request form and the advertise order form). Confirmed: those forms load Cloudflare’s Turnstile script.",
+            "Stripe, if and when a payment is taken. The advertise page says approved ads are billed through a Stripe payment link. We did not find a Stripe script on the pages we checked. When a payment is taken, Stripe processes it; we do not collect your card details on this website.",
+            "Contact-form messages are delivered by our email provider, Resend.",
+            "HubSpot was not found in the live pages or scripts, and is not listed as a current recipient."
+          ]
+        },
+        {
+          "p": [
+            "If a card-network dispute is opened, we may also share relevant order information with the payment processor and the card network."
+          ]
+        },
+        {
+          "h": "Cookies, analytics, Do Not Track, and other tracking",
+          "p": [
+            "We use Vercel Analytics and Vercel Speed Insights to understand how the site is used and how it performs. These scripts are served from this site.",
+            "Some forms use Cloudflare Turnstile, which loads a script from Cloudflare to help tell people from bots.",
+            "We do not respond to Do Not Track browser signals.",
+            "From the pages and scripts we checked, we did not find advertising pixels, HubSpot, or other third-party marketing trackers that collect browsing activity across other websites. We have not independently confirmed every server-side tool that may run after a form is submitted."
+          ]
+        },
+        {
+          "h": "How we announce changes",
+          "p": [
+            "We will post the updated policy on this page and update the effective date. For material changes, we will also mention the change in a newsletter issue when we send one."
+          ]
+        },
+        {
+          "h": "Reviewing or changing your information",
+          "p": [
+            "Use the [contact form](/contact) to ask what information we have about you, or to ask us to update it."
+          ]
+        },
+        {
+          "h": "California privacy rights",
+          "p": [
+            "We have not confirmed whether the California Consumer Privacy Act (CCPA), as amended, applies to us. That depends on revenue and data-volume thresholds that are not stated here. The official figures are listed separately and are not blended: Civil Code §1798.140 uses $25,000,000 as adjusted; the California Privacy Protection Agency posts the adjusted amount, effective January 1, 2025, as $26,625,000; the California Attorney General’s FAQ still says “over $25 million.”",
+            "We do not sell personal information. Based on the tools we could confirm on this site, we do not share personal information for cross-context behavioral advertising as those terms are defined under California law.",
+            "If CCPA applies, California residents may have the right to know what personal information we collect and how we use and share it; to delete it, with legal exceptions; to correct inaccurate information; to opt out of sale or sharing; to limit the use of sensitive personal information if we collect it for purposes that require that choice; and not to be discriminated against for exercising those rights.",
+            "To make a request, use the [contact form](/contact). You do not need an account. An authorized agent may submit a request on your behalf.",
+            "Notice at collection, if CCPA applies: we collect the categories of information listed under “Information we collect” above, and we use them for the purposes listed under “How we use it.”"
+          ]
+        },
+        {
+          "h": "Payments and refunds",
+          "p": [
+            "Refund and cancellation terms for $79 and $199 advertising placements appear in the [Ad Policy](/advertise/policy), and are summarized in the [terms](/terms). If VibeRescue later sells other paid products, we will add refund terms for those products."
           ]
         }
-      ],
-      "cta": false
+      ]
     },
     {
       "path": "/terms",
       "title": "Terms of use",
-      "summary": "Draft terms pending review. Content is general information, not professional advice.",
-      "flag": "Draft — pending legal review before launch.",
+      "summary": "Terms for using the VibeRescue website. Content is general information, not professional advice.",
+      "tldr": false,
+      "cta": false,
+      "effectiveDate": "November 11, 2026",
       "blocks": [
         {
           "p": [
-            "Content is provided for general information and may contain errors. Verify with official vendor documentation before acting. VibeRescue doesn't test or scan anyone's app. If you ask StorenTech AI to fix something, that work is quoted and agreed separately under StorenTech AI's standard terms."
+            "VibeRescue is a StorenTech company. These terms apply to this website."
+          ]
+        },
+        {
+          "h": "The information on this site",
+          "p": [
+            "Content on this site is general information and may contain errors. It is not professional advice. Check official vendor documentation before you act. VibeRescue doesn’t test or scan anyone’s app."
+          ]
+        },
+        {
+          "h": "Contact",
+          "p": [
+            "The way to reach us is the [contact form](/contact).",
+            "Mailing address:",
+            "VibeRescue, a StorenTech company",
+            "P.O. Box 372, Corona Del Mar, CA 92625"
+          ]
+        },
+        {
+          "h": "Fix-it work",
+          "p": [
+            "The live “Get it fixed” page is a request form, not a checkout."
+          ]
+        },
+        {
+          "h": "Payments, refunds, cancellation, and disputes",
+          "p": [
+            "For $79 and $199 advertising placements, the refund and cancellation terms in the [Ad Policy](/advertise/policy) apply. Those placements are a one-time payment for a 30-day run, not a subscription, and they do not renew automatically. You only pay if we approve your ad and send you a Stripe payment link. Nothing is charged before that.",
+            "In short: if we reject your ad before it runs, you aren't charged, and if you somehow already paid, you get a full refund. If we remove a running ad, we refund the unused portion of your 30 days. If you cancel after your ad starts running, that payment is not refunded. We may reject any ad, or remove a running ad, at our discretion. The version of the [Ad Policy](/advertise/policy) at the time you order applies to your run.",
+            "When a payment is taken, Stripe processes it through that payment link. We do not collect your card details on this website. Prices are in US dollars.",
+            "If VibeRescue later sells other paid products, we will add refund terms for those products.",
+            "To cancel, request a refund, or question a charge, use the [contact form](/contact). You may also contact your card issuer about a charge. If a card-network dispute is opened, we may share order and policy records with the payment processor and the card network to respond to the dispute."
+          ]
+        },
+        {
+          "h": "Newsletter",
+          "p": [
+            "If you join the VibeRescue newsletter, we send a short email with new failure patterns and how to fix them. Each newsletter identifies the sender as VibeRescue, a StorenTech company, includes the mailing address above, and includes a way to unsubscribe. The unsubscribe link stays available for at least 30 days after we send the message. We honor opt-out requests within 10 business days."
+          ]
+        },
+        {
+          "h": "Changes",
+          "p": [
+            "We may update these terms. We will post the updated terms on this page and update the effective date. For material changes, we will also mention the change in a newsletter issue when we send one."
+          ]
+        },
+        {
+          "h": "Questions",
+          "p": [
+            "Use the [contact form](/contact)."
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/contact",
+      "title": "Send us a message",
+      "summary": "Use this form to reach VibeRescue. We use the details you send only to reply to your message.",
+      "tldr": false,
+      "cta": false,
+      "mailingAddress": true,
+      "blocks": [
+        {
+          "p": [
+            "Use this form to reach VibeRescue. We use the details you send only to reply to your message.",
+            "If you want a StorenTech engineer to review an app and quote a fix, use the [Get it fixed](/fix-it) form instead."
           ]
         }
       ],
-      "cta": false
+      "form": {
+        "live": "contact",
+        "title": "Contact form",
+        "note": "We’ll only use these details to reply to your message. We don’t sell your information. See our [Privacy policy](/privacy)."
+      }
+    },
+    {
+      "path": "/refund",
+      "title": "Refunds",
+      "summary": "Refund and cancellation terms for $79 and $199 advertising placements.",
+      "tldr": false,
+      "cta": false,
+      "effectiveDate": "November 11, 2026",
+      "blocks": [
+        {
+          "p": [
+            "Refund and cancellation terms for $79 and $199 advertising placements appear in the [Ad Policy](/advertise/policy), and are summarized in the [terms](/terms).",
+            "Those placements are a one-time payment for a 30-day run, not a subscription, and they do not renew automatically. You only pay if we approve your ad and send you a Stripe payment link. Nothing is charged before that.",
+            "In short: if we reject your ad before it runs, you aren't charged, and if you somehow already paid, you get a full refund. If we remove a running ad, we refund the unused portion of your 30 days. If you cancel after your ad starts running, that payment is not refunded. We may reject any ad, or remove a running ad, at our discretion. The version of the [Ad Policy](/advertise/policy) at the time you order applies to your run.",
+            "If VibeRescue later sells other paid products, we will add refund terms for those products.",
+            "Questions? Use the [contact form](/contact)."
+          ]
+        }
+      ]
     },
     {
       "path": "/patterns",
@@ -2684,7 +2879,7 @@
       "form": {
         "live": "fix-request",
         "title": "Request a fixed quote",
-        "note": "Any work is quoted and agreed separately under StorenTech AI's standard terms. Only request work on apps you own or are authorized to change."
+        "note": "Only request work on apps you own or are authorized to change."
       }
     },
     {

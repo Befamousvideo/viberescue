@@ -1,6 +1,7 @@
 import site from "../../content/site.json";
 import AdOrderForm from "../AdOrderForm";
 import { PLANS, CATEGORIES } from "../ads-lib";
+import { AddressImg } from "../AddressImg";
 export const metadata = { title: "Advertise", description: `Advertise on ${site.name}: labeled, reviewed ads with simple founding pricing.`, alternates: { canonical: "/advertise" } };
 export default function Advertise() {
   const plans = Object.values(PLANS);
@@ -33,6 +34,7 @@ export default function Advertise() {
       <p>We may reject any ad, or remove a running ad, at our discretion.</p>
       <p>These terms also appear in our <a href="/advertise/policy">Ad Policy</a>. The version at the time you order applies to your run.</p>
       <p>Questions? Use the contact form.</p>
+      <p><AddressImg variant="ads" /></p>
     </section>
     <section className="card"><h2>Order an ad</h2><AdOrderForm plans={plans} categories={CATEGORIES} /></section>
   </article>);
