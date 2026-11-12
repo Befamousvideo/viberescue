@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 11, 2026",
+  "updated": "November 12, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -101,7 +101,8 @@
           ]
         }
       ],
-      "updated": "2026-10-14"
+      "updated": "2026-11-12",
+      "seoTitle": "Supabase RLS disabled: find and fix open tables"
     },
     {
       "path": "/patterns/secret-keys-in-frontend",
@@ -199,7 +200,8 @@
           ]
         }
       ],
-      "updated": "2026-11-10"
+      "updated": "2026-11-12",
+      "seoTitle": "Unprotected API routes in vibe-coded apps: add auth checks"
     },
     {
       "path": "/patterns/firebase-open-rules",
@@ -221,7 +223,8 @@
           ]
         }
       ],
-      "updated": "2026-10-14"
+      "updated": "2026-11-12",
+      "seoTitle": "Firebase rules left in test mode: lock down Firestore"
     },
     {
       "path": "/patterns/public-storage-buckets",
@@ -244,11 +247,13 @@
         {
           "h": "Related patterns",
           "ul": [
-            "File uploads with no type, size or name checks"
+            "File uploads with no type, size or name checks",
+            "Dangling DNS records that let someone take over your subdomain"
           ]
         }
       ],
-      "updated": "2026-10-14"
+      "updated": "2026-11-12",
+      "seoTitle": "Public storage buckets for user uploads: how to fix"
     },
     {
       "path": "/patterns/no-rate-limiting",
@@ -308,11 +313,12 @@
             "File paths built from user input (path traversal)",
             "Passwords, tokens and personal data written to your logs",
             "Hard-coded credentials left in vibe-coded apps",
-            "Debug or preview mode left on in production"
+            "Debug or preview mode left on in production",
+            "Dangling DNS records that let someone take over your subdomain"
           ]
         }
       ],
-      "updated": "2026-10-14"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/vulnerable-dependencies",
@@ -547,11 +553,12 @@
           "h": "Related patterns",
           "ul": [
             "Rendering user or AI output as raw HTML (XSS)",
-            "Session cookies missing Secure, HttpOnly or SameSite"
+            "Session cookies missing Secure, HttpOnly or SameSite",
+            "Dangling DNS records that let someone take over your subdomain"
           ]
         }
       ],
-      "updated": "2026-11-09"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/prompt-injection-ai-features",
@@ -632,11 +639,12 @@
             "API routes with no auth check",
             "JWTs or session tokens stored in localStorage",
             "Cookie-based login with no CSRF protection on state-changing requests",
-            "Session cookies missing Secure, HttpOnly or SameSite"
+            "Session cookies missing Secure, HttpOnly or SameSite",
+            "Dangling DNS records that let someone take over your subdomain"
           ]
         }
       ],
-      "updated": "2026-11-09"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/jwt-in-localstorage",
@@ -716,11 +724,12 @@
             "CORS that trusts any origin (and sends cookies)",
             "API routes with no auth check",
             "Server-side URL fetching that can reach internal services (SSRF)",
-            "Password reset flows that leak accounts or trust the Host header"
+            "Password reset flows that leak accounts or trust the Host header",
+            "Dangling DNS records that let someone take over your subdomain"
           ]
         }
       ],
-      "updated": "2026-10-18"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/mass-assignment",
@@ -762,11 +771,12 @@
             "Race conditions let one coupon, gift card or credit be used twice",
             "Prototype pollution from deep-merging user JSON into objects",
             "NoSQL operator injection: login and search filters built from raw JSON",
-            "API responses that return whole database records (excessive data exposure)"
+            "API responses that return whole database records (excessive data exposure)",
+            "CSV exports that run formulas when opened in a spreadsheet (CSV injection)"
           ]
         }
       ],
-      "updated": "2026-11-10"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/hallucinated-packages",
@@ -945,11 +955,12 @@
             "Running AI or user output with eval, exec or new Function (code injection)",
             "Server-side template injection from unsanitized template strings",
             "Deserializing untrusted data (pickle, unserialize or Java objects)",
-            "Session cookies missing Secure, HttpOnly or SameSite"
+            "Session cookies missing Secure, HttpOnly or SameSite",
+            "CSV exports that run formulas when opened in a spreadsheet (CSV injection)"
           ]
         }
       ],
-      "updated": "2026-11-09"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/unrestricted-file-uploads",
@@ -1039,11 +1050,12 @@
             "Running AI or user output with eval, exec or new Function (code injection)",
             "OS command injection from unsanitized shell calls",
             "Server-side template injection from unsanitized template strings",
-            "NoSQL operator injection: login and search filters built from raw JSON"
+            "NoSQL operator injection: login and search filters built from raw JSON",
+            "CSV exports that run formulas when opened in a spreadsheet (CSV injection)"
           ]
         }
       ],
-      "updated": "2026-11-10"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/password-reset-flaws",
@@ -1599,7 +1611,8 @@
             "Exposed .env or .git on a deployed site",
             "Production source maps that publish your app's original source code",
             "Debug or preview mode left on in production",
-            "API responses that return whole database records (excessive data exposure)"
+            "API responses that return whole database records (excessive data exposure)",
+            "CSV exports that run formulas when opened in a spreadsheet (CSV injection)"
           ]
         }
       ],
@@ -1609,7 +1622,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-10"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/sessions-not-invalidated",
@@ -1876,7 +1889,7 @@
       "group": "patterns",
       "label": "Pattern",
       "title": "Hard-coded credentials left in vibe-coded apps",
-      "seoTitle": "Hard-coded credentials in vibe-coded apps: find and fix (CWE-798)",
+      "seoTitle": "Hard-coded credentials in AI-built apps (CWE-798)",
       "summary": "AI coding tools often paste a default admin password, API key or database password straight into source files so the demo “just works.” MITRE calls that CWE-798 (Use of Hard-coded Credentials). Anyone who can read the repo, a client bundle or a leaked .env can reuse the same secret across every install. Move secrets out of code, rotate anything that was committed, and require a unique password on first login.",
       "steps": [
         "Search the generated project for password, apiKey, api_key, secret, token, Bearer, PRIVATE_KEY, connectionString and similar names in source, config, Dockerfiles and CI files.",
@@ -1921,7 +1934,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-11"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/os-command-injection",
@@ -1963,7 +1976,8 @@
             "Prompt injection in your app's AI chatbot or AI features",
             "API routes with no auth check",
             "Hard-coded credentials left in vibe-coded apps",
-            "Server-side template injection from unsanitized template strings"
+            "Server-side template injection from unsanitized template strings",
+            "CSV exports that run formulas when opened in a spreadsheet (CSV injection)"
           ]
         }
       ],
@@ -1973,7 +1987,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-10"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/server-side-template-injection",
@@ -2288,7 +2302,8 @@
             "Sessions that stay valid after logout, password change or timeout",
             "CORS that trusts any origin (and sends cookies)",
             "Missing security headers on a vibe-coded site",
-            "Rendering user or AI output as raw HTML (XSS)"
+            "Rendering user or AI output as raw HTML (XSS)",
+            "Dangling DNS records that let someone take over your subdomain"
           ]
         }
       ],
@@ -2298,7 +2313,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/xml-external-entities-xxe",
@@ -2359,7 +2374,7 @@
       "group": "patterns",
       "label": "Pattern",
       "title": "NoSQL operator injection: login and search filters built from raw JSON",
-      "seoTitle": "NoSQL injection in vibe-coded MongoDB apps ($ne, $where, CWE-943)",
+      "seoTitle": "NoSQL injection in MongoDB apps ($ne, $where, CWE-943)",
       "summary": "AI-generated Express and Next.js routes often pass req.body or query-string values straight into a MongoDB filter, like User.findOne({ email: req.body.email, password: req.body.password }). If a request sends an object such as {\"$ne\": null} instead of a string, the database treats it as an operator, which can bypass a login or return records the user should not see. MITRE files this under CWE-943; PortSwigger calls it NoSQL operator injection. The fix is to accept only the types you expect, sanitize filters, and never put user input in $where.",
       "steps": [
         "Search the code for database calls that take request data directly: find, findOne, updateOne, deleteMany, aggregate and countDocuments with req.body, req.query, searchParams or JSON from a Server Action or API route inside the filter.",
@@ -2404,7 +2419,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-10"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/excessive-data-exposure-api",
@@ -2448,7 +2463,8 @@
             "Passwords, tokens and personal data written to your logs",
             "Passwords stored in plain text or with fast hashes",
             "API routes with no auth check",
-            "GraphQL APIs with introspection on and no depth or cost limits"
+            "GraphQL APIs with introspection on and no depth or cost limits",
+            "CSV exports that run formulas when opened in a spreadsheet (CSV injection)"
           ]
         }
       ],
@@ -2458,7 +2474,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-11"
+      "updated": "2026-11-12"
     },
     {
       "path": "/patterns/timing-unsafe-secret-comparison",
@@ -2567,6 +2583,109 @@
         "h": 720
       },
       "updated": "2026-11-11"
+    },
+    {
+      "path": "/patterns/subdomain-takeover-dangling-dns",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Dangling DNS records that let someone take over your subdomain",
+      "seoTitle": "Subdomain takeover from dangling DNS: find and fix it",
+      "summary": "Vibe-coded projects pile up subdomains fast: a demo.yourapp.com on one host, a docs or status page on a SaaS tool, a preview app you deleted last month. If the DNS record (usually a CNAME) still points at a hosting service after the app or account behind it is gone, someone else may be able to claim that same name on the provider and serve their own content on your subdomain. MDN calls this a subdomain takeover. From there an attacker can host a convincing phishing page, read cookies scoped to your parent domain, or slip past a content security policy that trusts *.yourapp.com. The fix is mostly housekeeping: inventory your DNS, delete records first when you take something down, and claim the host before you add DNS.",
+      "steps": [
+        "Export every DNS record for your domain from your registrar or DNS host (Cloudflare, your registrar, Vercel DNS and so on) into a sheet.",
+        "For each CNAME, A/AAAA and MX record, write down what it points to and whether that app, bucket, page or account still exists and belongs to you. Pay extra attention to records pointing at hosting, storage, CDN, docs, status-page, help-desk and email services.",
+        "Visit each subdomain in a browser. A provider error page such as “no such app,” “project not found” or “bucket does not exist” is a red flag that the name is dangling.",
+        "Delete DNS records for anything you no longer run. MDN’s rule: when taking something down, remove the DNS record first; when setting something up, claim the virtual host first and create the DNS record last.",
+        "Where your hosting provider offers domain verification (a TXT record proving you own the domain), use it, so another account can’t attach your subdomain.",
+        "Scope session cookies to the exact host that needs them instead of the whole parent domain, and keep CSP and CORS allow-lists to the specific subdomains you actually use instead of *.yourdomain.com.",
+        "If a subdomain has already been taken over, remove its DNS record immediately, then check every layer (CDN, hosting) to find where the attacker claimed it.",
+        "Add a DNS check to your launch and shutdown checklist, and repeat the inventory every few months."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MDN explains that a takeover typically happens when a subdomain has a CNAME in DNS but no host is serving content for it, either because the host was never set up or was removed, so an attacker can create their own virtual host for that name. It lists the risks as reading cookies set from the main domain, cross-site scripting and getting around content security policies, which can expose logins. Microsoft’s guidance on dangling DNS adds that attackers can get a valid TLS certificate for a hijacked subdomain, so the padlock in the browser doesn’t prove the page is yours, and that MX records left pointing at removed services can let someone receive email meant for your subdomain. This page is for checking and fixing domains you own."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "MDN Web Docs: Subdomain takeover — https://developer.mozilla.org/en-US/docs/Web/Security/Subdomain_takeovers",
+            "Microsoft Learn: Prevent dangling DNS entries and avoid subdomain takeover — https://learn.microsoft.com/en-us/azure/security/fundamentals/subdomain-takeover",
+            "Checked at the source on November 12, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Session cookies missing Secure, HttpOnly or SameSite",
+            "Missing security headers on a vibe-coded site",
+            "CORS that trusts any origin (and sends cookies)",
+            "Open redirects after login or OAuth callbacks",
+            "Exposed .env or .git on a deployed site",
+            "User uploads in a public bucket"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/subdomain-takeover-dangling-dns.webp",
+        "alt": "A young developer at a standing desk in a small apartment at night studying a monitor with a blurred table of DNS records and one row highlighted, sticky notes on the monitor edge, a desk lamp and plant, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-12"
+    },
+    {
+      "path": "/patterns/csv-formula-injection",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "CSV exports that run formulas when opened in a spreadsheet (CSV injection)",
+      "seoTitle": "CSV injection in admin exports: how to fix it (CWE-1236)",
+      "summary": "Almost every AI-built dashboard gets an “Export to CSV” button: orders, signups, contact-form messages, waitlists. The generated code usually joins user-entered fields straight into the file. If a customer types a name or message that starts with =, +, - or @, a spreadsheet program like Excel or LibreOffice Calc may treat it as a formula when your teammate opens the export. OWASP calls this CSV or formula injection, and MITRE lists it as CWE-1236, with real CVEs from contact-form fields and first or last names. Crafted formulas can try to pull data out of the sheet or push the person opening it to approve dangerous prompts. The fix is to neutralize risky leading characters and quote every field when you build the file.",
+      "steps": [
+        "Find every place your app creates CSV or spreadsheet files: admin export buttons, scheduled report emails, “download my data” features and any code that uses a CSV library or joins values with commas.",
+        "Use a real CSV library (for example csv-stringify or Papa Parse in Node, Python’s csv module) instead of joining strings, and quote every field, doubling any double quotes inside it.",
+        "For fields that came from users, if the value starts with =, +, -, @, a tab, a carriage return or a line feed, prefix it so the spreadsheet reads it as text. OWASP and MITRE describe prepending a single quote; OWASP also describes a tab-character prefix inside the quoted field as more resistant in Excel.",
+        "Remember that attackers can use separators and quotes to start a new cell, so apply the check to every cell after proper quoting, not just to the start of the raw input.",
+        "Watch for full-width look-alike characters (＝ ＋ － ＠), which OWASP notes some locales treat as formula starters.",
+        "Don’t trust that a numeric-looking field is safe: phone numbers starting with + and negative amounts are common, so handle them deliberately (for example, store phone numbers as text and decide how amounts should appear).",
+        "Retest: put =1+2 and @SUM(1,1) in a name or message field, export, open the file in your spreadsheet app, and confirm they show as plain text."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "MITRE’s CWE-1236 describes a product that saves user-provided information into a CSV file without neutralizing elements a spreadsheet could interpret as a command. Its observed examples include CVE-2019-12134 (CSV injection through a contact-form field) and CVE-2019-17661 (formula code in a first or last name). OWASP says malicious formulas can be used to exploit spreadsheet software, to exploit people’s habit of clicking through warnings in files from their own website, or to exfiltrate contents of the spreadsheet. Both note there is no perfect fix because spreadsheet programs behave differently, and OWASP warns that some escaping can be undone when Excel saves and reopens a file. Escaping at export time still removes most of the risk. This page is for checking and fixing your own app."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP: CSV Injection — https://owasp.org/www-community/attacks/CSV_Injection",
+            "MITRE CWE-1236: Improper Neutralization of Formula Elements in a CSV File — https://cwe.mitre.org/data/definitions/1236.html",
+            "Checked at the source on November 12, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Rendering user or AI output as raw HTML (XSS)",
+            "SQL built from strings in raw queries (SQL injection)",
+            "OS command injection from unsanitized shell calls",
+            "Passwords, tokens and personal data written to your logs",
+            "API responses that return whole database records (excessive data exposure)",
+            "Mass assignment: users can set fields like role or is_admin"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/csv-formula-injection.webp",
+        "alt": "An office manager opening a spreadsheet on a laptop as a plain warning dialog appears over a blurred grid of cells, a developer colleague leaning in to look, coffee mug and printed reports on the desk, daylight office, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-12"
     }
   ],
   "static": [
