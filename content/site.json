@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 12, 2026",
+  "updated": "November 13, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -158,11 +158,12 @@
           "ul": [
             "Checkout prices, totals and discounts taken from the browser",
             "Race conditions let one coupon, gift card or credit be used twice",
-            "Secrets compared with === (timing-unsafe token and signature checks)"
+            "Secrets compared with === (timing-unsafe token and signature checks)",
+            "Webhooks processed twice: duplicate payments, emails and orders"
           ]
         }
       ],
-      "updated": "2026-11-11",
+      "updated": "2026-11-13",
       "seoTitle": "Unverified Stripe webhooks: check the Stripe-Signature header"
     },
     {
@@ -599,11 +600,12 @@
             "Running AI or user output with eval, exec or new Function (code injection)",
             "OS command injection from unsanitized shell calls",
             "Server-side template injection from unsanitized template strings",
-            "Deserializing untrusted data (pickle, unserialize or Java objects)"
+            "Deserializing untrusted data (pickle, unserialize or Java objects)",
+            "AI features that can take actions you never meant to allow (excessive agency)"
           ]
         }
       ],
-      "updated": "2026-10-17"
+      "updated": "2026-11-13"
     },
     {
       "path": "/patterns/cors-misconfiguration",
@@ -1186,11 +1188,12 @@
             "Mass assignment: users can set fields like role or is_admin",
             "No rate limiting on login, signup or AI endpoints",
             "Cookie-based login with no CSRF protection on state-changing requests",
-            "Checkout prices, totals and discounts taken from the browser"
+            "Checkout prices, totals and discounts taken from the browser",
+            "AI features that can take actions you never meant to allow (excessive agency)"
           ]
         }
       ],
-      "updated": "2026-10-23"
+      "updated": "2026-11-13"
     },
     {
       "path": "/patterns/security-definer-functions-open-to-anon",
@@ -1373,7 +1376,7 @@
       "group": "patterns",
       "label": "Failure pattern",
       "title": "Production source maps that publish your app's original source code",
-      "seoTitle": "Public source maps in production: how to check and turn them off",
+      "seoTitle": "Public source maps in production: check and turn them off",
       "summary": "Source maps translate minified JavaScript back into your original files. Next.js and Vite both leave them off for production builds by default, but AI-generated configs often switch them on (productionBrowserSourceMaps: true or build.sourcemap: true) to make errors easier to debug. Then anyone can open your site's original client-side source, comments and all, in their browser.",
       "steps": [
         "Open your live site, open the browser's developer tools, and look in the Sources panel for your original folder names (src/, app/, components/). If you can read your own unminified code, maps are public.",
@@ -1417,7 +1420,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-10-26"
+      "updated": "2026-11-13"
     },
     {
       "path": "/patterns/path-traversal-file-access",
@@ -1715,7 +1718,8 @@
             "Mass assignment: users can set fields like role or is_admin",
             "API routes with no auth check",
             "Server Actions with no auth check inside them",
-            "Race conditions let one coupon, gift card or credit be used twice"
+            "Race conditions let one coupon, gift card or credit be used twice",
+            "Webhooks processed twice: duplicate payments, emails and orders"
           ]
         }
       ],
@@ -1725,7 +1729,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-09"
+      "updated": "2026-11-13"
     },
     {
       "path": "/patterns/eval-ai-output",
@@ -1769,7 +1773,8 @@
             "Server-side template injection from unsanitized template strings",
             "Prototype pollution from deep-merging user JSON into objects",
             "Deserializing untrusted data (pickle, unserialize or Java objects)",
-            "NoSQL operator injection: login and search filters built from raw JSON"
+            "NoSQL operator injection: login and search filters built from raw JSON",
+            "AI features that can take actions you never meant to allow (excessive agency)"
           ]
         }
       ],
@@ -1779,7 +1784,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-10"
+      "updated": "2026-11-13"
     },
     {
       "path": "/patterns/regex-denial-of-service",
@@ -2084,7 +2089,8 @@
             "Stripe webhooks not verified",
             "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
             "Mass assignment: users can set fields like role or is_admin",
-            "Password reset flows that leak accounts or trust the Host header"
+            "Password reset flows that leak accounts or trust the Host header",
+            "Webhooks processed twice: duplicate payments, emails and orders"
           ]
         }
       ],
@@ -2094,7 +2100,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-07"
+      "updated": "2026-11-13"
     },
     {
       "path": "/patterns/prototype-pollution",
@@ -2210,7 +2216,7 @@
       "group": "patterns",
       "label": "Pattern",
       "title": "Debug or preview mode left on in production",
-      "seoTitle": "Debug mode left on in production: Django, Flask, more (CWE-489)",
+      "seoTitle": "Debug mode left on in production: Django, Flask (CWE-489)",
       "summary": "AI-generated apps often ship with Django DEBUG = True, Flask’s debugger, a development server, or an open preview playground still turned on. That leftover debug code is CWE-489. Django’s deployment checklist says you must never enable debug in production because error pages leak source excerpts, local variables, settings and installed libraries. Flask’s docs say not to run the development server or built-in debugger in production—the debugger can execute Python from the browser. Turn debug off, serve the production build, and keep verbose diagnostics in server-side logs.",
       "steps": [
         "Search configuration and startup code for debug flags: DEBUG = True, app.run(debug=True), flask run --debug, NODE_ENV=development, Next.js next dev used as the production command, Express error handlers that dump stacks, an open GraphQL or API playground, profiler or __debug__ routes, and preview or staging middleware that is reachable on the live hostname.",
@@ -2258,14 +2264,14 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-11"
+      "updated": "2026-11-13"
     },
     {
       "path": "/patterns/insecure-cookie-flags",
       "group": "patterns",
       "label": "Pattern",
       "title": "Session cookies missing Secure, HttpOnly or SameSite",
-      "seoTitle": "Session cookie flags: Secure, HttpOnly, SameSite (CWE-614, 1004)",
+      "seoTitle": "Session cookie flags: Secure, HttpOnly, SameSite (CWE-614)",
       "summary": "AI-generated login code often sets a session cookie with a bare res.cookie() or Set-Cookie call and no security attributes. Without Secure the browser can send it over plain HTTP (CWE-614); without HttpOnly any script on the page can read it (CWE-1004); without an explicit SameSite it may ride along on cross-site requests (CWE-1275). OWASP’s Session Management Cheat Sheet treats Secure and HttpOnly as mandatory for session IDs and says to set SameSite=Strict or Lax explicitly.",
       "steps": [
         "Log in to your own app, open DevTools → Application (or Storage) → Cookies, and look at every cookie that identifies a user: session IDs, auth tokens, refresh tokens. Check the Secure, HttpOnly and SameSite columns, plus Domain and Path.",
@@ -2313,7 +2319,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-13"
     },
     {
       "path": "/patterns/xml-external-entities-xxe",
@@ -2686,6 +2692,110 @@
         "h": 720
       },
       "updated": "2026-11-12"
+    },
+    {
+      "path": "/patterns/excessive-agency-ai-tools",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "AI features that can take actions you never meant to allow (excessive agency)",
+      "seoTitle": "Excessive agency in AI features: limit tools (OWASP LLM06)",
+      "summary": "Vibe-coded apps increasingly give an AI model “tools”: send an email, update a record, run a query, fetch a URL. The quick way to wire this up hands the model a broad tool and a powerful key, such as a database connection with full write access or a mail integration that can send as well as read. OWASP’s Top 10 for LLM applications calls this Excessive Agency (LLM06:2025): damaging actions triggered by a model output that was wrong, ambiguous or manipulated, including by prompt injection hidden in an email, web page or document the model reads. The root causes are too many functions, too many permissions and too little human approval. The fix is to shrink what the AI can do, run it with the user’s own permissions, and make a person approve anything with real consequences.",
+      "steps": [
+        "List every tool, function or integration your AI feature can call, and what each one can actually do (read, create, update, delete, send, pay).",
+        "Remove tools the feature doesn’t need, including ones left over from testing, and replace open-ended tools (run any shell command, fetch any URL, run any SQL) with narrow ones that do one job.",
+        "Give each tool the smallest permission it needs: a read-only database role for lookups, a read-only mail scope for summaries, a single table instead of the whole database.",
+        "Run tools as the signed-in user, with their access, not with an admin or service key that can see every user’s data.",
+        "Enforce authorization in your server code or database (for example row-level security), never by asking the model to decide whether an action is allowed.",
+        "Require a human to confirm high-impact actions before they run: sending messages, deleting data, refunds, payments, publishing.",
+        "Log every tool call with the user, inputs and result, and add rate limits so a runaway or manipulated agent can only do limited damage before you notice.",
+        "Retest: paste instructions into content your AI reads (an email, a document, a product review) telling it to delete, send or export something, and confirm nothing happens without approval."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP describes an assistant given a mail plugin to summarize email that could also send messages; a crafted incoming email tricked it into searching the inbox and forwarding sensitive information to an attacker. OWASP’s fixes for that case are a read-only mail extension, a read-only OAuth scope, and requiring the user to review and send every drafted email. OWASP also notes that logging and rate limiting don’t prevent excessive agency but limit the damage. This page is for checking and fixing your own app."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Gen AI Security Project: LLM06:2025 Excessive Agency — https://genai.owasp.org/llmrisk/llm062025-excessive-agency/",
+            "OWASP Cheat Sheet Series: AI Agent Security — https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html",
+            "MITRE CWE-250: Execution with Unnecessary Privileges — https://cwe.mitre.org/data/definitions/250.html",
+            "Checked at the source on November 13, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Prompt injection in your app's AI chatbot or AI features",
+            "Running AI or user output with eval, exec or new Function (code injection)",
+            "Server Actions with no auth check inside them",
+            "No rate limiting on login, signup or AI endpoints",
+            "Passwords, tokens and personal data written to your logs"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/excessive-agency-ai-tools.webp",
+        "alt": "A developer at a home-office desk at night studying a monitor of blurred code next to a sticky-note permissions checklist, a second monitor showing a blurred chat window, desk lamp and coffee mug, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-13"
+    },
+    {
+      "path": "/patterns/webhook-duplicate-events",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Webhooks processed twice: duplicate payments, emails and orders",
+      "seoTitle": "Duplicate webhook events: make handlers idempotent",
+      "summary": "AI-generated webhook handlers usually assume each event arrives exactly once. Payment, store and code-hosting platforms say otherwise: Stripe notes your endpoint might occasionally receive the same event more than once and doesn’t guarantee event order; Shopify says your app might get the same webhook more than once after a timeout or retry. If your handler emails a receipt, adds credits, creates an order or ships a product every time it runs, a retry can do it twice. Attackers can also replay a captured delivery. The fix is to record each event ID you’ve processed and skip repeats, verify the signature and timestamp, and return a 2xx quickly.",
+      "steps": [
+        "Find every webhook endpoint in your app (payments, store, auth, Git hosting, email provider) and write down what side effects each one causes.",
+        "Verify the signature on every request with the provider’s library and the raw request body, and keep the timestamp check on; Stripe’s libraries use a 5-minute default tolerance and warn not to set it to 0.",
+        "Store the unique delivery or event ID (Stripe event id, Shopify X-Shopify-Webhook-Id, GitHub X-GitHub-Delivery) in a table with a unique constraint, and skip any event you’ve already recorded.",
+        "Insert the event ID and do the work in one database transaction, or use the unique constraint as a lock, so two copies arriving at the same moment can’t both run.",
+        "Don’t rely on event order: Stripe says not to use the created timestamp to decide order or whether you’ve already processed an event. Fetch the current object from the API when order matters.",
+        "Return a 2xx quickly and move slow work (emails, fulfillment) to a background job keyed by the same event ID.",
+        "Make the side effects themselves safe to repeat where you can, for example “set status to paid” instead of “add 100 credits.”",
+        "Retest: resend the same event from the provider’s dashboard or CLI and confirm only one email, credit or order results."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "Stripe retries live-mode deliveries for up to three days when your endpoint doesn’t return 2xx, and a manual resend doesn’t cancel the automatic retries, so duplicates are normal, not rare. Stripe also says two separate Event objects can be sent for the same change; to catch those, combine the ID of the object in data.object with the event type. GitHub’s webhook guidance suggests using the X-GitHub-Delivery header to protect against replay attacks, and notes that a redelivery keeps the same delivery ID. This page is for checking and fixing your own app."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "Stripe Docs: Receive Stripe events in your webhook endpoint (handle duplicate events, event ordering, retries, replay protection) — https://docs.stripe.com/webhooks",
+            "Shopify Dev Docs: Verify webhook deliveries (ignoring duplicates) — https://shopify.dev/docs/apps/build/webhooks/ignore-duplicates",
+            "GitHub Docs: Best practices for using webhooks — https://docs.github.com/en/webhooks/using-webhooks/best-practices-for-using-webhooks",
+            "Checked at the source on November 13, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Stripe webhooks not verified",
+            "Race conditions let one coupon, gift card or credit be used twice",
+            "Checkout prices, totals and discounts taken from the browser",
+            "Cron and webhook-style job endpoints anyone can trigger",
+            "No rate limiting on login, signup or AI endpoints"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/webhook-duplicate-events.webp",
+        "alt": "A worker's hands pausing over two identical brown shipping boxes with identical blank packing slips on a packing table, a tablet beside them showing a blurred order list with two matching rows highlighted, a tape gun nearby, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-13"
     }
   ],
   "static": [
