@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 13, 2026",
+  "updated": "November 14, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -283,11 +283,12 @@
             "Regex denial of service (ReDoS): one crafted input that freezes your app",
             "Race conditions let one coupon, gift card or credit be used twice",
             "Secrets compared with === (timing-unsafe token and signature checks)",
-            "GraphQL APIs with introspection on and no depth or cost limits"
+            "GraphQL APIs with introspection on and no depth or cost limits",
+            "AI features anyone can use to run up your bill (unbounded consumption)"
           ]
         }
       ],
-      "updated": "2026-11-11"
+      "updated": "2026-11-14"
     },
     {
       "path": "/patterns/exposed-env-and-git",
@@ -442,11 +443,12 @@
           "ul": [
             "API secret keys shipped in your frontend bundle",
             "Exposed .env or .git on a deployed site",
-            "Hard-coded credentials left in vibe-coded apps"
+            "Hard-coded credentials left in vibe-coded apps",
+            "Secrets and access rules hidden in your AI system prompt (system prompt leakage)"
           ]
         }
       ],
-      "updated": "2026-10-15",
+      "updated": "2026-11-14",
       "seoTitle": "OpenAI, Stripe or Resend secret keys in client JavaScript"
     },
     {
@@ -601,11 +603,12 @@
             "OS command injection from unsanitized shell calls",
             "Server-side template injection from unsanitized template strings",
             "Deserializing untrusted data (pickle, unserialize or Java objects)",
-            "AI features that can take actions you never meant to allow (excessive agency)"
+            "AI features that can take actions you never meant to allow (excessive agency)",
+            "Secrets and access rules hidden in your AI system prompt (system prompt leakage)"
           ]
         }
       ],
-      "updated": "2026-11-13"
+      "updated": "2026-11-14"
     },
     {
       "path": "/patterns/cors-misconfiguration",
@@ -1929,7 +1932,8 @@
             "Passwords stored in plain text or with fast hashes",
             "API routes with no auth check",
             "OS command injection from unsanitized shell calls",
-            "Debug or preview mode left on in production"
+            "Debug or preview mode left on in production",
+            "Secrets and access rules hidden in your AI system prompt (system prompt leakage)"
           ]
         }
       ],
@@ -1939,7 +1943,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-12"
+      "updated": "2026-11-14"
     },
     {
       "path": "/patterns/os-command-injection",
@@ -2578,7 +2582,8 @@
             "IDOR in vibe-coded apps: changing an ID in the URL to see someone else's data",
             "API responses that return whole database records (excessive data exposure)",
             "Login and signup messages that reveal which accounts exist (account enumeration)",
-            "Regex denial of service (ReDoS): one crafted input that freezes your app"
+            "Regex denial of service (ReDoS): one crafted input that freezes your app",
+            "AI features anyone can use to run up your bill (unbounded consumption)"
           ]
         }
       ],
@@ -2588,7 +2593,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-11"
+      "updated": "2026-11-14"
     },
     {
       "path": "/patterns/subdomain-takeover-dangling-dns",
@@ -2733,7 +2738,9 @@
             "Running AI or user output with eval, exec or new Function (code injection)",
             "Server Actions with no auth check inside them",
             "No rate limiting on login, signup or AI endpoints",
-            "Passwords, tokens and personal data written to your logs"
+            "Passwords, tokens and personal data written to your logs",
+            "Secrets and access rules hidden in your AI system prompt (system prompt leakage)",
+            "AI features anyone can use to run up your bill (unbounded consumption)"
           ]
         }
       ],
@@ -2743,7 +2750,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-13"
+      "updated": "2026-11-14"
     },
     {
       "path": "/patterns/webhook-duplicate-events",
@@ -2796,6 +2803,107 @@
         "h": 720
       },
       "updated": "2026-11-13"
+    },
+    {
+      "path": "/patterns/system-prompt-leakage",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "Secrets and access rules hidden in your AI system prompt (system prompt leakage)",
+      "seoTitle": "System prompt leakage: keep secrets out of AI prompts (LLM07)",
+      "summary": "A common shortcut in vibe-coded AI features is to put everything into the system prompt: an API key for a tool, a database name, the discount codes, “only admins may see salaries,” “never reveal other users’ orders.” OWASP’s Top 10 for LLM applications lists this as System Prompt Leakage (LLM07:2025) and is blunt about it: the system prompt should not be treated as a secret or used as a security control. Users can often get a model to repeat its instructions, and even when they can’t, they can work out the rules by testing. The real risk is what the prompt holds and the checks it replaces, so move secrets out and enforce access in your code.",
+      "steps": [
+        "Find every system prompt in your app (code, environment variables, your AI provider’s dashboard, agent or assistant settings) and read each one as if a stranger will see it.",
+        "Remove credentials and connection details: API keys, tokens, passwords, database names and internal URLs. Keep them in server-side environment variables used by your code, never in text the model sees.",
+        "Rotate any key or password that has ever been in a prompt, since you can’t know who already got the model to print it.",
+        "Remove security rules from the prompt as the only line of defense: “only show the user their own orders,” “admins can edit records,” spending or transaction limits. Enforce these in your server code or database (for example row-level security) before data ever reaches the model.",
+        "Keep business-sensitive details (unreleased prices, internal discount codes, staff-only notes) out of the prompt unless you’re fine with every user reading them.",
+        "If certain content must never appear in answers, check the model’s output with separate code before showing it, rather than relying on “don’t reveal this” in the prompt.",
+        "Retest: ask your own app to repeat, summarize or translate its instructions, and confirm nothing in the reply would hurt you if posted publicly."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP’s examples include a system prompt containing credentials for a tool, which an attacker extracts and reuses, and a prompt listing rules like daily transaction limits that tells an attacker exactly what to try to bypass. OWASP’s guidance is that disclosure of the prompt isn’t the core problem; storing secrets there and handing authorization to the model are. Its fixes: keep sensitive data out of system prompts, enforce guardrails outside the model, and keep privilege separation and authorization checks in deterministic code. This page is for checking and fixing your own app."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Gen AI Security Project: LLM07:2025 System Prompt Leakage — https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/",
+            "OWASP Cheat Sheet Series: LLM Prompt Injection Prevention (system prompt leakage as an impact; least privilege) — https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+            "Checked at the source on November 14, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "Prompt injection in your app's AI chatbot or AI features",
+            "AI features that can take actions you never meant to allow (excessive agency)",
+            "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
+            "Hard-coded credentials left in vibe-coded apps",
+            "RLS or auth present, but no ownership check (IDOR)"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/system-prompt-leakage.webp",
+        "alt": "A developer at a home-office desk in the evening holding a small brass padlock beside a laptop that shows a blurred chat window, a second monitor with a blurred long text document, desk lamp, mug and potted plant, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-14"
+    },
+    {
+      "path": "/patterns/ai-unbounded-consumption",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "AI features anyone can use to run up your bill (unbounded consumption)",
+      "seoTitle": "AI bill spikes: cap LLM usage, input size and spend (LLM10)",
+      "summary": "Every message to an AI feature costs you money, and many vibe-coded apps let anyone send as many requests, as long as they like, to the most expensive model, with no spending cap at the provider. OWASP’s Top 10 for LLM applications calls this Unbounded Consumption (LLM10:2025), including “denial of wallet”: someone floods your AI endpoint and the bill lands on you. OWASP’s API Security Top 10 adds the same lesson for paid third-party calls such as SMS and email. The fix is layered limits: who can call it, how often, how big each request can be, how long it can run and how much you can spend.",
+      "steps": [
+        "List every endpoint that calls a paid AI model or paid service (chat, summarize, image generation, embeddings, SMS or email sends), including ones used by your own frontend.",
+        "Require sign-in for AI features where you can, and keep public demos on a cheaper model with tight limits.",
+        "Add per-user and per-IP rate limits and daily quotas on each of those endpoints, enforced on the server.",
+        "Cap request size: maximum characters or tokens in the input, maximum file size, maximum number of items per batch, and a maximum output length on every model call.",
+        "Set timeouts on model calls and stop runaway loops in agents (a maximum number of tool calls or steps per request).",
+        "Turn on spending limits and budget alerts in each provider’s billing settings; where a hard limit isn’t available, set alerts at a level you’d want to hear about.",
+        "Log usage per user and watch for spikes, so you can block an abusive account quickly.",
+        "Retest: as a signed-out user and as a normal user, send repeated and oversized requests to your own app and confirm the limits kick in."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP describes attackers sending high volumes of requests, oversized inputs or deliberately expensive queries to exhaust resources or run up costs on pay-per-use AI services. In OWASP’s API Security Top 10, one scenario is a forgot-password flow that sends a paid SMS on each request; a script calls it tens of thousands of times and the company is billed for every message. OWASP’s fixes include input size limits, rate limiting and user quotas, timeouts and throttling, monitoring, and spending limits or billing alerts for every provider. This page is for checking and fixing your own app."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Gen AI Security Project: LLM10:2025 Unbounded Consumption — https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/",
+            "OWASP API Security Top 10: API4:2023 Unrestricted Resource Consumption — https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/",
+            "Checked at the source on November 14, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "No rate limiting on login, signup or AI endpoints",
+            "AI features that can take actions you never meant to allow (excessive agency)",
+            "GraphQL APIs with introspection on and no depth or cost limits",
+            "File uploads with no type, size or name checks",
+            "Cron and webhook-style job endpoints anyone can trigger"
+          ]
+        }
+      ],
+      "image": {
+        "src": "/images/ai-unbounded-consumption.webp",
+        "alt": "A stressed young founder at a kitchen table at night holding his head while looking at a laptop showing a blurred line chart rising steeply, a phone with a blurred notification, a paper bill and a mug of tea beside him, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-14"
     }
   ],
   "static": [
