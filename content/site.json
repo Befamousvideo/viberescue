@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 14, 2026",
+  "updated": "November 15, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -410,11 +410,12 @@
             "Mass assignment: users can set fields like role or is_admin",
             "Auth checked only in Next.js middleware (proxy)",
             "Supabase SECURITY DEFINER functions any visitor can call",
-            "API responses that return whole database records (excessive data exposure)"
+            "API responses that return whole database records (excessive data exposure)",
+            "AI document search that shows one customer’s files to another (RAG and vector store leaks)"
           ]
         }
       ],
-      "updated": "2026-11-10"
+      "updated": "2026-11-15"
     },
     {
       "path": "/patterns/third-party-keys-in-frontend",
@@ -604,11 +605,12 @@
             "Server-side template injection from unsanitized template strings",
             "Deserializing untrusted data (pickle, unserialize or Java objects)",
             "AI features that can take actions you never meant to allow (excessive agency)",
-            "Secrets and access rules hidden in your AI system prompt (system prompt leakage)"
+            "Secrets and access rules hidden in your AI system prompt (system prompt leakage)",
+            "AI document search that shows one customer’s files to another (RAG and vector store leaks)"
           ]
         }
       ],
-      "updated": "2026-11-14"
+      "updated": "2026-11-15"
     },
     {
       "path": "/patterns/cors-misconfiguration",
@@ -2842,7 +2844,8 @@
             "AI features that can take actions you never meant to allow (excessive agency)",
             "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
             "Hard-coded credentials left in vibe-coded apps",
-            "RLS or auth present, but no ownership check (IDOR)"
+            "RLS or auth present, but no ownership check (IDOR)",
+            "AI document search that shows one customer’s files to another (RAG and vector store leaks)"
           ]
         }
       ],
@@ -2852,7 +2855,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-15"
     },
     {
       "path": "/patterns/ai-unbounded-consumption",
@@ -2904,6 +2907,69 @@
         "h": 720
       },
       "updated": "2026-11-14"
+    },
+    {
+      "path": "/patterns/rag-vector-store-data-leakage",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "AI document search that shows one customer’s files to another (RAG and vector store leaks)",
+      "seoTitle": "RAG data leaks: vector store access control (OWASP LLM08)",
+      "summary": "“Chat with your documents” features in vibe-coded apps usually split every uploaded file into chunks, turn them into embeddings, and store them all in one vector table or index. The app then retrieves whatever chunks are most similar to the question. If that search doesn’t also filter by the signed-in user or company, the AI can quote another customer’s contract, invoice or notes. OWASP’s Top 10 for LLM applications lists this under Vector and Embedding Weaknesses (LLM08:2025), along with poisoned documents and embeddings that can be inverted to recover the original text. The fix is ordinary access control, applied to retrieval.",
+      "steps": [
+        "Find where your embeddings live (for example a pgvector table in Supabase or Postgres, or a hosted vector database) and confirm every row or vector carries the owner or tenant ID of the document it came from.",
+        "Read the retrieval code. The similarity search must filter by the owner or tenant taken from the server-side session, not from a value the browser sends. A plain “top 5 most similar chunks” query across everyone’s data is the leak.",
+        "If you use Postgres, enable row-level security on the embeddings table with an ownership policy. Check that the similarity-search function runs with the caller’s permissions: a SECURITY DEFINER function, or a connection as the table owner or a role that bypasses RLS, skips those policies.",
+        "With a hosted vector database, keep each customer in a separate namespace or index, or add a mandatory metadata filter in your server code on every query. Never let the client choose the namespace.",
+        "Treat embeddings as being as sensitive as the documents: keep vector database keys on the server, and don’t return raw vectors to the browser.",
+        "When a user deletes a document or closes their account, delete its chunks and vectors too.",
+        "Before indexing uploads, extract plain text and look for hidden content (white-on-white text, tiny fonts) that could steer the AI, and treat retrieved text as untrusted input.",
+        "Retest with two test accounts: upload a document with a unique made-up phrase as account A, then ask about that phrase as account B. Account B should get nothing.",
+        "Log which chunks each query retrieved, for which user, so you can spot and investigate cross-account hits."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "OWASP describes a multi-tenant scenario where groups share one vector database and embeddings from one group are retrieved for another group’s questions, leaking sensitive business information; its mitigation is a permission-aware vector store with strict logical partitioning. It also describes a résumé with hidden white-on-white instructions that a RAG screening system followed, and recommends validating documents before they enter the knowledge base and keeping retrieval logs. PostgreSQL’s documentation notes that superusers, roles with BYPASSRLS and, normally, table owners bypass row security, which is why the connection and function your search runs under matter. This page is for checking and fixing your own app."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OWASP Gen AI Security Project: LLM08:2025 Vector and Embedding Weaknesses — https://genai.owasp.org/llmrisk/llm082025-vector-and-embedding-weaknesses/",
+            "PostgreSQL Documentation: Row Security Policies — https://www.postgresql.org/docs/current/ddl-rowsecurity.html",
+            "Checked at the source on November 15, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "RLS or auth present, but no ownership check (IDOR)",
+            "Supabase SECURITY DEFINER functions any visitor can call",
+            "Prompt injection in your app's AI chatbot or AI features",
+            "Secrets and access rules hidden in your AI system prompt (system prompt leakage)",
+            "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
+            "File uploads with no type, size or name checks"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "I only have one customer’s data per user. Am I safe?",
+          "a": "Only if the search itself is filtered. If every user’s chunks sit in one table and the query doesn’t filter by owner, the most similar chunk can belong to anyone."
+        },
+        {
+          "q": "Is filtering the AI’s answer enough?",
+          "a": "No. Filter what gets retrieved, before it reaches the model. Once another customer’s text is in the prompt, you’re relying on the model not to repeat it."
+        }
+      ],
+      "image": {
+        "src": "/images/rag-vector-store-data-leakage.webp",
+        "alt": "A young developer at a home-office desk at night studying two monitors, one with a blurred chat-style app and one with a list of document rows with several flagged in red, a coffee mug and desk lamp nearby, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-15"
     }
   ],
   "static": [
