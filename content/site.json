@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 15, 2026",
+  "updated": "November 16, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -295,11 +295,14 @@
       "group": "patterns",
       "label": "Pattern",
       "title": "Exposed .env or .git on a deployed site",
-      "summary": "Misconfigured hosting can serve /.env or /.git/config to anyone.",
+      "summary": "If your hosting or build setup copies everything in your project folder to the live site, anyone may be able to download /.env (your API keys, database URL and other secrets) or /.git/config and the rest of the .git folder (your code and its history). Request both paths on your own domain: each should return 404. If either loads, remove it from the deployed files and treat every secret in it as leaked.",
       "steps": [
-        "Request /.env and /.git/config on your own domain.",
-        "Both should return 404.",
-        "If either loads, remove it from the deploy output and rotate every exposed secret."
+        "Request /.env and /.git/config on your own domain (and any staging or preview domains you own).",
+        "Both should return 404 (not found) or 403, never the file’s contents.",
+        "If either loads, remove it from the deploy output: deploy only your build folder, and keep .env and .git out of it.",
+        "Rotate every secret that was in the exposed file (API keys, database passwords, webhook secrets), not just the ones you think matter.",
+        "If .git was exposed, assume your source code and any secrets ever committed to its history are public, and rotate those too.",
+        "Re-check both paths after each hosting or build-setting change."
       ],
       "blocks": [
         {
@@ -320,7 +323,8 @@
           ]
         }
       ],
-      "updated": "2026-11-12"
+      "updated": "2026-11-16",
+      "seoTitle": "Exposed .env or .git folder on your live site: check and fix"
     },
     {
       "path": "/patterns/vulnerable-dependencies",
@@ -606,11 +610,12 @@
             "Deserializing untrusted data (pickle, unserialize or Java objects)",
             "AI features that can take actions you never meant to allow (excessive agency)",
             "Secrets and access rules hidden in your AI system prompt (system prompt leakage)",
-            "AI document search that shows one customer’s files to another (RAG and vector store leaks)"
+            "AI document search that shows one customer’s files to another (RAG and vector store leaks)",
+            "MCP servers in vibe-coded apps: no auth, token passthrough and tools you never vetted"
           ]
         }
       ],
-      "updated": "2026-11-15"
+      "updated": "2026-11-16"
     },
     {
       "path": "/patterns/cors-misconfiguration",
@@ -2742,7 +2747,8 @@
             "No rate limiting on login, signup or AI endpoints",
             "Passwords, tokens and personal data written to your logs",
             "Secrets and access rules hidden in your AI system prompt (system prompt leakage)",
-            "AI features anyone can use to run up your bill (unbounded consumption)"
+            "AI features anyone can use to run up your bill (unbounded consumption)",
+            "MCP servers in vibe-coded apps: no auth, token passthrough and tools you never vetted"
           ]
         }
       ],
@@ -2752,7 +2758,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-14"
+      "updated": "2026-11-16"
     },
     {
       "path": "/patterns/webhook-duplicate-events",
@@ -2845,7 +2851,8 @@
             "Third-party secret keys (OpenAI, Stripe, Resend) in client JS",
             "Hard-coded credentials left in vibe-coded apps",
             "RLS or auth present, but no ownership check (IDOR)",
-            "AI document search that shows one customer’s files to another (RAG and vector store leaks)"
+            "AI document search that shows one customer’s files to another (RAG and vector store leaks)",
+            "MCP servers in vibe-coded apps: no auth, token passthrough and tools you never vetted"
           ]
         }
       ],
@@ -2855,7 +2862,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-15"
+      "updated": "2026-11-16"
     },
     {
       "path": "/patterns/ai-unbounded-consumption",
@@ -2970,6 +2977,70 @@
         "h": 720
       },
       "updated": "2026-11-15"
+    },
+    {
+      "path": "/patterns/mcp-server-security",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "MCP servers in vibe-coded apps: no auth, token passthrough and tools you never vetted",
+      "seoTitle": "MCP server security: auth, token passthrough, tool poisoning",
+      "summary": "Lots of vibe-coded apps now ship a Model Context Protocol (MCP) server so ChatGPT, Claude or a coding agent can use the app’s data and actions, and lots of builders plug third-party MCP servers into their own AI features and editors. The common mistakes: an HTTP MCP endpoint anyone can call, a server that accepts whatever token the client sends and forwards it to your API (“token passthrough”, which the MCP authorization spec forbids), one all-powerful access token behind every tool, and third-party servers whose tool descriptions or responses carry hidden instructions (“tool poisoning”). The fix is the same discipline as any API: authenticate every request, check permissions in code, and treat everything a tool says as untrusted.",
+      "steps": [
+        "List every MCP server you run and every one your app or editor connects to, with what each can read and change.",
+        "For your own server over HTTP: require authorization on every request and verify the token on the server. The MCP security guidance says servers that implement authorization must verify all inbound requests and must not use sessions for authentication. A guessable or reused session ID is not a login.",
+        "Only accept tokens that were issued for your MCP server (check the audience). Don’t take a user’s token from the client and pass it straight through to your database or a downstream API; the MCP guidance calls this token passthrough and says servers must not accept tokens not explicitly issued for them.",
+        "Give each tool the narrowest permission it needs. Read tools get read-only credentials; anything that deletes, pays, emails or changes accounts checks the signed-in user’s rights in your code, not in the model’s instructions.",
+        "If your server runs locally, prefer the stdio transport. If it listens over HTTP on localhost, require a token anyway; the MCP guidance warns that local servers left running can be reached by other processes and via DNS rebinding.",
+        "Before connecting a third-party MCP server, read its full tool list, descriptions and parameter schemas, keep an allowlist of approved servers, and re-review when a tool definition changes. OWASP recommends pinning reviewed tool definitions and requiring review on change.",
+        "Treat tool descriptions and tool responses as untrusted input. Don’t let a response from an outside server trigger your privileged tools without a check, and require a human confirmation, showing the full arguments, for destructive or data-sharing actions.",
+        "Don’t install MCP servers with one-click commands you haven’t read. A local server runs with your user’s privileges and can read files, keys and SSH credentials on your machine.",
+        "Log every tool call (who, which tool, which arguments) so you can spot abuse, and rate-limit tools that cost money."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "The MCP specification says tools represent arbitrary code execution and must be treated with caution, that tool descriptions such as annotations should be considered untrusted unless they come from a trusted server, and that hosts must get explicit user consent before invoking any tool. The project’s security best-practices page covers confused-deputy problems in proxy servers, token passthrough, session hijacking, local server compromise and over-broad scopes. OWASP’s MCP Security Cheat Sheet describes tool poisoning (malicious instructions hidden in tool descriptions, parameter schemas or return values), tool shadowing across servers, and the confused deputy problem where a server acts with its own broad privileges instead of the user’s. This page is for checking and fixing your own app and setup."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "Model Context Protocol: Specification (2025-11-25), Security and Trust & Safety — https://modelcontextprotocol.io/specification/2025-11-25",
+            "Model Context Protocol: Security Best Practices — https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices",
+            "OWASP Cheat Sheet Series: MCP Security Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html",
+            "Checked at the source on November 16, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "AI features that can take actions you never meant to allow (excessive agency)",
+            "Prompt injection in your app's AI chatbot or AI features",
+            "Secrets and access rules hidden in your AI system prompt (system prompt leakage)",
+            "API routes with no auth check",
+            "JWTs decoded but never verified",
+            "Server-side URL fetching that can reach internal services (SSRF)"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "My MCP server is only for me. Does auth matter?",
+          "a": "Yes, if it listens over HTTP. Anything else on your machine or network that can reach the port can call it. Use stdio for local-only servers, or require a token."
+        },
+        {
+          "q": "Can I tell the model “never call the delete tool without asking”?",
+          "a": "Use that as a hint, not a control. Put the permission check and the confirmation step in your code, where an injected instruction can’t talk its way past it."
+        }
+      ],
+      "image": {
+        "src": "/images/mcp-server-security.webp",
+        "alt": "A developer typing on a laptop at a home-office desk at night, the screen showing a blurred code editor with one line highlighted in red, two monitors with blurred tool and settings panels behind, sticky notes and a mug nearby, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-16"
     }
   ],
   "static": [
