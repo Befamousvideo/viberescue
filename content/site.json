@@ -3,7 +3,7 @@
   "domain": "viberescue.app",
   "tagline": "Is your vibe-coded app safe to launch?",
   "color": "#6b3fd4",
-  "updated": "November 16, 2026",
+  "updated": "November 17, 2026",
   "description": "Plain-English security and launch-readiness guidance for apps built with AI coding tools (Lovable, Bolt, Cursor, v0, Replit), with a free failure-pattern library and a way to get problems fixed by StorenTech AI.",
   "nav": [
     {
@@ -737,11 +737,12 @@
             "API routes with no auth check",
             "Server-side URL fetching that can reach internal services (SSRF)",
             "Password reset flows that leak accounts or trust the Host header",
-            "Dangling DNS records that let someone take over your subdomain"
+            "Dangling DNS records that let someone take over your subdomain",
+            "“Sign in with Google” that logs people into any account with the same email (unsafe account linking)"
           ]
         }
       ],
-      "updated": "2026-11-12"
+      "updated": "2026-11-17"
     },
     {
       "path": "/patterns/mass-assignment",
@@ -1111,11 +1112,12 @@
             "Login and signup messages that reveal which accounts exist (account enumeration)",
             "Sessions that stay valid after logout, password change or timeout",
             "Race conditions let one coupon, gift card or credit be used twice",
-            "Secrets compared with === (timing-unsafe token and signature checks)"
+            "Secrets compared with === (timing-unsafe token and signature checks)",
+            "“Sign in with Google” that logs people into any account with the same email (unsafe account linking)"
           ]
         }
       ],
-      "updated": "2026-11-11"
+      "updated": "2026-11-17"
     },
     {
       "path": "/patterns/unprotected-cron-endpoints",
@@ -1332,11 +1334,12 @@
             "JWTs or session tokens stored in localStorage",
             "Auth checked only in Next.js middleware (proxy)",
             "API routes with no auth check",
-            "Secrets compared with === (timing-unsafe token and signature checks)"
+            "Secrets compared with === (timing-unsafe token and signature checks)",
+            "“Sign in with Google” that logs people into any account with the same email (unsafe account linking)"
           ]
         }
       ],
-      "updated": "2026-11-11"
+      "updated": "2026-11-17"
     },
     {
       "path": "/patterns/insecure-random-tokens",
@@ -1574,7 +1577,8 @@
             "Error messages that leak stack traces, queries or keys",
             "Passwords stored in plain text or with fast hashes",
             "NoSQL operator injection: login and search filters built from raw JSON",
-            "GraphQL APIs with introspection on and no depth or cost limits"
+            "GraphQL APIs with introspection on and no depth or cost limits",
+            "“Sign in with Google” that logs people into any account with the same email (unsafe account linking)"
           ]
         }
       ],
@@ -1584,7 +1588,7 @@
         "w": 1280,
         "h": 720
       },
-      "updated": "2026-11-11"
+      "updated": "2026-11-17"
     },
     {
       "path": "/patterns/sensitive-data-in-logs",
@@ -3041,6 +3045,71 @@
         "h": 720
       },
       "updated": "2026-11-16"
+    },
+    {
+      "path": "/patterns/oauth-account-linking-by-email",
+      "group": "patterns",
+      "label": "Pattern",
+      "title": "“Sign in with Google” that logs people into any account with the same email (unsafe account linking)",
+      "seoTitle": "OAuth account linking by email: pre-account takeover risk",
+      "summary": "Vibe-coded apps often offer “Sign in with Google, GitHub or Microsoft” next to email-and-password signup, and the generated login code looks the user up by email: if the address from the provider matches an existing account, it signs the person straight into it. Email is not a stable identity. The OpenID Connect standard says only the issuer plus the subject ID (iss + sub) reliably identify a user, Google and Microsoft both warn against keying accounts on email, and an unverified address lets an attacker set up a trap (“pre-account takeover”). Key accounts on the provider’s user ID, and only link by email when both sides are verified.",
+      "steps": [
+        "Find your sign-in callback (for example an Auth.js signIn or jwt callback, a Supabase auth hook, or your own /auth/callback route) and look for code that finds the user by email: getUserByEmail, findUnique({ where: { email } }) or a .eq(\"email\", …) query.",
+        "Store each external login in its own table keyed by provider plus the provider’s user ID (the sub claim; for Microsoft work accounts, tid plus oid), and look users up by that, not by email.",
+        "Only link a new sign-in method to an existing account automatically when the provider says the email is verified (for Google, the email_verified claim) and the existing account’s email was verified in your app. Otherwise, ask the person to sign in with their original method first and add the new one from account settings.",
+        "Auth.js (NextAuth): automatic linking between providers is off by default. Leave allowDangerousEmailAccountLinking off unless you trust that provider to have verified the email address.",
+        "Supabase Auth links identities with the same email automatically and documents that linking to an unverified email would allow pre-account takeover. Keep email confirmation on for password signups, and use linkIdentity() for linking while signed in.",
+        "Never grant roles from email alone, such as “anyone with an @ourcompany.com address is an admin.” Microsoft says the email claim isn’t guaranteed to be correct, can change, and should never be used for authorization.",
+        "Test on your own app: in one browser, sign up with a password using an email you own but don’t verify it. In another, sign in with Google using that same email. You should not end up in the first account while its unverified password still works.",
+        "Email the account owner whenever a new sign-in method is added, with a way to remove it."
+      ],
+      "blocks": [
+        {
+          "h": "Why it matters",
+          "p": [
+            "Two things go wrong. First, if an attacker can get a provider to hand your app an email address they don’t own (some providers and setups return addresses that were never verified, and emails can be reassigned), email matching logs them into the real owner’s account. Second, in a pre-account takeover, the attacker signs up first with the victim’s email and a password, without verifying it; when the real owner later uses “Sign in with Google,” the app links the two and the attacker’s password still works. OpenID Connect Core says the email claim can be reused for different people over time and can change, which is why iss plus sub is the only guaranteed unique identifier. This page is for checking and fixing your own app."
+          ]
+        },
+        {
+          "h": "Sources",
+          "p": [
+            "OpenID Connect Core 1.0, section 5.7: Claim Stability and Uniqueness — https://openid.net/specs/openid-connect-core-1_0.html#ClaimStability",
+            "Google for Developers: OpenID Connect (Sign in with Google), ID token warning on email vs. sub — https://developers.google.com/identity/openid-connect/openid-connect",
+            "Microsoft identity platform: ID token claims reference (email claim) — https://learn.microsoft.com/en-us/entra/identity-platform/id-token-claims-reference",
+            "Supabase Docs: Identity Linking — https://supabase.com/docs/guides/auth/auth-identity-linking",
+            "Auth.js reference: providers, allowDangerousEmailAccountLinking — https://authjs.dev/reference/core/providers",
+            "Checked at the source on November 17, 2026."
+          ]
+        },
+        {
+          "h": "Related patterns",
+          "ul": [
+            "JWTs decoded but never verified",
+            "Open redirects after login or OAuth callbacks",
+            "Password reset flows that leak accounts or trust the Host header",
+            "Login and signup messages that reveal which accounts exist (account enumeration)",
+            "Sessions that stay valid after logout, password change or timeout",
+            "Mass assignment: users can set fields like role or is_admin"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "My app only has Google sign-in. Does this matter?",
+          "a": "Yes, in a smaller way. Store and look up users by Google’s sub ID, not by email. Google says sub stays the same even if the person changes their email address, so email-keyed accounts can break or get mixed up."
+        },
+        {
+          "q": "Is linking accounts by email ever OK?",
+          "a": "It can be, when the provider has verified the address and your existing account’s email was verified too. The safest pattern is to let a signed-in user add a new sign-in method from their settings."
+        }
+      ],
+      "image": {
+        "src": "/images/oauth-account-linking-by-email.webp",
+        "alt": "A developer at a home desk in the evening typing on a laptop that shows a generic sign-in screen with a single user icon, two monitors with blurred code behind, a notebook sketch of arrows merging into one account, a desk lamp and a mug, no brand logos",
+        "w": 1280,
+        "h": 720
+      },
+      "updated": "2026-11-17"
     }
   ],
   "static": [
